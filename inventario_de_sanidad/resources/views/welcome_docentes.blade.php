@@ -11,12 +11,12 @@
         <h1 class="text-center">Portal del departamento de Sanidad</h1> 
 
         <div class="card ">
-            <div class="header">Menú de Docentes - OPERACIONES</div><br>
+            <div class="header">Menú de Docentes - GESTIÓN DE USUARIOS </div><br>
                 <b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}<br><br>
                 <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
 
                 <!-- Botones del menú -->
-                <button onclick="window.location.href=''" class="btn btn-warning">Modificación de usuarios</button>
+                <button onclick="window.location.href='{{ route('gestionUsuarios') }}'" class="btn btn-warning">Gestión de usuarios</button>
                 <button onclick="window.location.href=''" class="btn btn-warning">Modificación de materiales</button>
                 <button onclick="window.location.href=''" class="btn btn-warning">Historial de materiales</button>
                 <button onclick="window.location.href=''" class="btn btn-warning">Historial de pedidos</button>
