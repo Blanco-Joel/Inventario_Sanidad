@@ -10,50 +10,36 @@ body {
 }
 
 /* Contenedor del formulario */
-.login-container {
+.card {
     background: white;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     width: 350px;
     text-align: center;
+    border: 1px solid #b0d4ff;
 }
 
 /* Título */
-.login-container h2 {
+h1 {
     color: #007bff;
     margin-bottom: 20px;
 }
 
-/* Campos de entrada */
-.input-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.input-group label {
-    display: block;
+.header {
     font-weight: bold;
     color: #0056b3;
-}
-
-.input-group input {
-    width: 95%;
+    background-color: #e2f3ff;
     padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #b0d4ff;
-    border-radius: 8px;
-    background: #f8fbff;
-    outline: none;
-    transition: 0.3s;
+    border-radius: 10px;
 }
 
-.input-group input:focus {
-    border-color: #007bff;
+.card-body {
+    margin-top: 20px;
 }
 
-/* Botón de login */
-.login-button {
+/* Estilo de los botones */
+.btn {
     background: #007bff;
     color: white;
     padding: 10px;
@@ -63,26 +49,34 @@ body {
     width: 95%;
     font-size: 16px;
     transition: 0.3s;
+    margin-bottom: 10px;
 }
 
-.login-button:hover {
+.btn:hover {
     background: #0056b3;
 }
 
-.alert-error-login {
+
+.btn-danger {
     background: #a02d07;
-    color: white;
-    padding: 10px;
-    margin: 5px 0 5px 0;
-    border-radius: 8px;
-    width: 95%;
-    font-size: 18px;
-    font-weight: bold;
+    margin-top: 20px;
 }
 
-.alert-error-uspas {
-    color: #a02d07;
-    padding: 10px;
-    border: none;
-    font-size: 16px;
+.btn-danger:hover {
+    background: #8c2406;
+}
+
+/* Enlaces */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos adicionales */
+.text-center {
+    text-align: center;
 }
