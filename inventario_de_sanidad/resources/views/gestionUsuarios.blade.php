@@ -15,27 +15,36 @@
             </div>
             
             <div class="tab-content active" id="tab1">
-                <form action="" method="POST">
+                <form action="{{ route('altaUsers.process') }}" method="POST">
                     @csrf
                     
                     <div class="input-group">
                         <label for="id_usuario">ID Usuario</label>
-                        <input type="text" id="id_usuario" name="id_usuario" required>
+                        <input type="text" id="id_usuario" name="id_usuario" >
+                        @error('id_usuario')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" required>
+                        <input type="text" id="nombre" name="nombre" >
+                        @error('nombre')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" id="apellidos" name="apellidos" required>
+                        <input type="text" id="apellidos" name="apellidos" >
+                        @error('apellidos')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="tipo_usuario">Tipo de Usuario</label>
-                        <select id="tipo_usuario" name="tipo_usuario" required>
+                        <select id="tipo_usuario" name="tipo_usuario" >
                             <option value="docente">Docente</option>
                             <option value="alumno">Alumno</option>
                         </select>

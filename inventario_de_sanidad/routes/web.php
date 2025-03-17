@@ -22,3 +22,4 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/welcome_docentes', [WelcomeDocentesController::class, 'showWelcome_docentes'])->name('welcome_docentes');
 Route::get('/gestionUsuarios', [GestionUsuariosController::class, 'showGestionUsuarios'])->name('gestionUsuarios');
+Route::post('/gestionUsuarios', [GestionUsuariosController::class, 'altaUsers'])->name('altaUsers.process');
