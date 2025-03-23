@@ -21,6 +21,17 @@ services:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
-    
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: db  # Nombre del servicio MySQL (el contenedor "db")
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"  # Accederás a phpMyAdmin en http://localhost:8080
+    depends_on:
+      - db
+
 volumes:
   dbdata:
