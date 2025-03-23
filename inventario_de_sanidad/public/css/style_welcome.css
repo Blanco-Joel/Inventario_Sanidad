@@ -1,0 +1,82 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #d0eaff, #f0f8ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Contenedor del formulario */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+    border: 1px solid #b0d4ff;
+}
+
+/* Título */
+h1 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.header {
+    font-weight: bold;
+    color: #0056b3;
+    background-color: #e2f3ff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card-body {
+    margin-top: 20px;
+}
+
+/* Estilo de los botones */
+.btn {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 95%;
+    font-size: 16px;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+
+.btn-danger {
+    background: #a02d07;
+    margin-top: 20px;
+}
+
+.btn-danger:hover {
+    background: #8c2406;
+}
+
+/* Enlaces */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos adicionales */
+.text-center {
+    text-align: center;
+}
