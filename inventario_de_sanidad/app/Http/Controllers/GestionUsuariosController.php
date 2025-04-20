@@ -11,6 +11,13 @@ class GestionUsuariosController extends Controller
     {
         return view('gestionUsuarios');
     }
+    public function gestionUsuarios(Request $request) {
+        if ($request->input('action') == 'alta') {
+            altaUsers($request);
+        } elseif ($request->input('action') == 'baja') {
+            bajaUsers($request);
+        }
+    }
     public function altaUsers(Request $request)
     {
         $credentials = $request->validate([
@@ -29,6 +36,17 @@ class GestionUsuariosController extends Controller
         $usuario->fecha_alta = date("Y-m-d") ;
         $usuario->tipo_usuario = $request->input('tipo_usuario');
         $usuario->save(); 
-        return back();
+        
+        return back()->with([
+            'mensaje' => ' Usuario '.  $credentials["nombre"]. ' ' .  $credentials["apellidos"]. ' creado con exito.',
+            'tab' => 'tab1'
+        ]);
+    }
+    public function bajaUsers(Request $request)
+    {
+        return back()->with([
+            'mensaje' => 'Usuario dado de baja con éxito.',
+            'tab' => 'tab2'
+        ]);
     }
 }
