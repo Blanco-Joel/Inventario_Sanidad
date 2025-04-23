@@ -24,7 +24,11 @@ CREATE TABLE usuarios (
 CREATE TABLE materiales (
     id_material     VARCHAR(40)     NOT NULL COMMENT 'Identificador del material',
     nombre          VARCHAR(100)    NOT NULL COMMENT 'Nombre del material',
+<<<<<<< HEAD
     descripcion     VARCHAR(255)    NOT NULL COMMENT 'Descripción del material',
+=======
+    descripcion     VARCHAR(150)    NOT NULL COMMENT 'Descripción del material',
+>>>>>>> 7e26924e0143c84eb5a3258a89828d6c14c2ab3c
     PRIMARY KEY (id_material)
 );
 
