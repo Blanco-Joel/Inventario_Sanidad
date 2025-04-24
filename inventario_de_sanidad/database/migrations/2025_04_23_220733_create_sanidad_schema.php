@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
 
 class CreateSanidadSchema extends Migration
 {
@@ -12,7 +14,7 @@ class CreateSanidadSchema extends Migration
             $table->string('id_usuario', 40)->primary();
             $table->string('nombre', 40);
             $table->string('apellidos', 60);
-            $table->date('fecha_alta')->default(DB::raw('CURRENT_DATE'));
+            $table->timestamp('fecha_alta')->useCurrent();
             $table->date('fecha_ultima_modificacion');
             $table->string('email', 100)->unique();
             $table->string('clave');
@@ -43,7 +45,7 @@ class CreateSanidadSchema extends Migration
             $table->enum('tipo_almacen', ['uso', 'reserva']);
             $table->dateTime('fecha_hora_accion');
             $table->integer('unidades');
-            $table->primary(['id_usuario', 'id_material', 'tipo_almacen', 'fecha_hora_accion']);
+            $table->primary(['id_usuario', 'id_material', 'tipo_almacen', 'fecha_hora_accion'],'pk_modificaciones');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign(['id_material', 'tipo_almacen'])->references(['id_material', 'tipo_almacen'])->on('almacenamiento')->onDelete('cascade')->onUpdate('cascade');
         });
@@ -52,7 +54,7 @@ class CreateSanidadSchema extends Migration
             $table->string('id_actividad', 40);
             $table->string('id_usuario', 40);
             $table->string('descripcion', 100);
-            $table->date('fecha_alta')->default(DB::raw('CURRENT_DATE'));
+            $table->timestamp('fecha_alta')->useCurrent();
             $table->primary(['id_actividad', 'id_usuario']);
             $table->foreign('id_usuario')->references('id_usuario')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
         });
