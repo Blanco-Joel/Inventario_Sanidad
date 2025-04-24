@@ -11,4 +11,3 @@ class WelcomeDocentesController extends Controller
         return view('welcome_docentes');
     }
 }
-
