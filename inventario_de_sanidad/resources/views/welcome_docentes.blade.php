@@ -21,7 +21,14 @@
                 <button onclick="window.location.href='{{ route('materiales.reserva') }}'" class="btn btn-warning">Materiales en reserva</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+                @if($data->isNotEmpty())
+                    <h4>WARNING</h4>
+                    @foreach ($data as $warning)
+                        <p>{{$warning->nombre}} tiene solo {{$warning->unidades}} unidad/es en {{$warning->tipo_almacen}}.</p>
+                    @endforeach
+                @endif
         </div>
+        
     </div>
 </body>
 </html>

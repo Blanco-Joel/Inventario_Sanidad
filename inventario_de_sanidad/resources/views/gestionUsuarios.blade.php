@@ -9,21 +9,17 @@
 <body>
     <div>
         <div class="tabs">
-            <button class="tab {{ session('tab', 'tab1') == 'tab1' ? 'active' : '' }}" data-tab="tab1">Alta de usuarios</button>
-            <button class="tab {{ session('tab') == 'tab2' ? 'active' : '' }}" data-tab="tab2">Baja de usuarios</button>
+            <button class="tab {{ session('tab', 'tab1') == 'tab1' ? 'active' : '' }}" data-tab="tab1">Alta de users</button>
+            <button class="tab {{ session('tab') == 'tab2' ? 'active' : '' }}" data-tab="tab2">Baja de users</button>
         </div>
         
         <div class="tab-content {{ session('tab', 'tab1') == 'tab1' ? 'active' : '' }}" id="tab1">
             <form action="{{ route('altaUsers.process') }}" method="POST">
                 @csrf
-                
-                <div class="input-group">
-                    <label for="id_usuario">ID Usuario</label>
-                    <input type="text" id="id_usuario" name="id_usuario" >
-                    @error('id_usuario')
-                        <div class="alert-error-uspas">{{ $message }}</div>
-                    @enderror
-                </div>
+                @if (session('mensaje') && session('tab') == 'tab1')
+                    <p>{{ session('mensaje') }}</p>
+                @endif
+
 
                 <div class="input-group">
                     <label for="nombre">Nombre</label>
@@ -40,20 +36,26 @@
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="input-group">
+                    <label for="email">email</label>
+                    <input type="text" id="email" name="email" >
+                    @error('email')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
 
                 <div class="input-group">
-                    <label for="tipo_usuario">Tipo de Usuario</label>
-                    <select id="tipo_usuario" name="tipo_usuario" >
+                    <label for="tipo_user">Tipo de user</label>
+                    <select id="tipo_user" name="tipo_user" >
                         <option value="docente">Docente</option>
                         <option value="alumno">Alumno</option>
+                        <option value="admin">Administrador</option>
                     </select>
                 </div>
 
-                @if (session('mensaje') && session('tab') == 'tab1')
-                    <p>{{ session('mensaje') }}</p>
-                @endif
 
-                <button type="submit" class="submit-button">Registrar</button>
+
+                <input type="submit" value="Registrar">
             </form>
         </div>
 
@@ -69,14 +71,20 @@
                 @if (session('mensaje') && session('tab') == 'tab2')
                     <p>{{ session('mensaje') }}</p>
                 @endif
-
-                <input type="submit" value="Registrarme">
+                <select name="bajaUsersSelect">
+                    <option >--Seleccione un usuario--</option>
+                        @foreach ($users as $user)
+                            <option value="{{$user->id_usuario}}">{{ $user->nombre }} {{ $user->apellidos }} ({{$user->tipo_usuario}})</option>
+                        @endforeach      
+                </select>
+                <input type="submit" value="Dar de baja">
             </form>
         </div>
     </div>
 
     <div>
         <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+        <a href="{{ route('welcome_docentes') }}" class="btn ">Volver</a>
     </div>
 
     <script src="{{ asset('js/tabs.js') }}" type="text/javascript"></script>

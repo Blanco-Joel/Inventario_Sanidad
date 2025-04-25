@@ -9,7 +9,8 @@ class GestionUsuariosController extends Controller
 {
     public function showGestionUsuarios()
     {
-        return view('gestionUsuarios');
+        $users = Usuario::select('id_usuario', 'nombre', 'apellidos','tipo_usuario')->get();
+        return view('gestionUsuarios',['users' => $users]);
     }
     public function gestionUsuarios(Request $request) {
         if ($request->input('action') == 'alta') {
@@ -21,20 +22,19 @@ class GestionUsuariosController extends Controller
     public function altaUsers(Request $request)
     {
         $credentials = $request->validate([
-            'id_usuario' => 'required',
             'nombre' => 'required',
-            'apellidos' => 'required'
+            'apellidos' => 'required',
+            'email' => 'required'
         ], [
-            'id_usuario.required' => 'Debe introducir un número de usuario.',
             'nombre.required' => 'Debe introducir el nombre.',
             'apellidos.required' => 'Debe introducir los apellidos.',
+            'email.required' => 'Debe introducir el email.'
         ]);
         $usuario = new Usuario();
-        $usuario->id_usuario =  $credentials["id_usuario"];
-        $usuario->nombre =  $credentials["nombre"];
-        $usuario->apellidos =  $credentials["apellidos"];
-        $usuario->fecha_alta = date("Y-m-d") ;
-        $usuario->tipo_usuario = $request->input('tipo_usuario');
+        $usuario->nombre        =  $credentials["nombre"];
+        $usuario->apellidos     =  $credentials["apellidos"];
+        $usuario->email         =  $credentials["email"];
+        $usuario->tipo_usuario  = $request->input('tipo_usuario');
         $usuario->save(); 
         
         return back()->with([
@@ -44,6 +44,9 @@ class GestionUsuariosController extends Controller
     }
     public function bajaUsers(Request $request)
     {
+        $user = $request->input('bajaUsersSelect');
+        Usuario::where('id_usuario', $user)->delete();
+
         return back()->with([
             'mensaje' => 'Usuario dado de baja con éxito.',
             'tab' => 'tab2'
