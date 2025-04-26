@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use App\Models\User;
 
 class GestionUsuariosController extends Controller
 {
     public function showGestionUsuarios()
     {
-        $users = Usuario::select('id_usuario', 'nombre', 'apellidos','tipo_usuario')->get();
+        $users = User::select('user_id', 'first_name', 'last_name','user_type')->get();
         return view('gestionUsuarios',['users' => $users]);
     }
     public function gestionUsuarios(Request $request) {
@@ -30,11 +30,11 @@ class GestionUsuariosController extends Controller
             'apellidos.required' => 'Debe introducir los apellidos.',
             'email.required' => 'Debe introducir el email.'
         ]);
-        $usuario = new Usuario();
-        $usuario->nombre        =  $credentials["nombre"];
-        $usuario->apellidos     =  $credentials["apellidos"];
-        $usuario->email         =  $credentials["email"];
-        $usuario->tipo_usuario  = $request->input('tipo_usuario');
+        $usuario = new User();
+        $usuario->first_name        =  $credentials["nombre"];
+        $usuario->last_name         =  $credentials["apellidos"];
+        $usuario->email             =  $credentials["email"];
+        $usuario->user_type         =  $request->input('user_type');
         $usuario->save(); 
         
         return back()->with([
@@ -45,7 +45,7 @@ class GestionUsuariosController extends Controller
     public function bajaUsers(Request $request)
     {
         $user = $request->input('bajaUsersSelect');
-        Usuario::where('id_usuario', $user)->delete();
+        User::where('user_id', $user)->delete();
 
         return back()->with([
             'mensaje' => 'Usuario dado de baja con éxito.',

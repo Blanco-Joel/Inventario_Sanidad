@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,21 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class Material extends Model
 {
     use HasFactory;
-    protected $table = 'materiales';
+    protected $table = 'materials';
     public $timestamps = false;
-    protected $primaryKey = 'id_material';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $primaryKey = 'material_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
-        'id_material', 'nombre', 'descripcion'
+        'name', 'description', 'image_path',
     ];
-    public function almacenamiento()
+
+    public function storage()
     {
-        return $this->hasMany(Almacenamiento::class, 'id_material', 'id_material');
+        return $this->hasMany(Storage::class, 'material_id', 'material_id');
     }
 
-    public function modificaciones()
+    public function modifications()
     {
-        return $this->hasMany(Modificacion::class, 'id_material', 'id_material');
+        return $this->hasMany(Modification::class, 'material_id', 'material_id');
+    }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'material_activity', 'material_id', 'activity_id')
+                    ->withPivot('quantity');
     }
 }

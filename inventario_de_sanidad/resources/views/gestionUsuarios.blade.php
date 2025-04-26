@@ -45,10 +45,10 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="tipo_user">Tipo de user</label>
-                    <select id="tipo_user" name="tipo_user" >
-                        <option value="docente">Docente</option>
-                        <option value="alumno">Alumno</option>
+                    <label for="user_type">Tipo de user</label>
+                    <select id="user_type" name="user_type" >
+                        <option value="teacher">Docente</option>
+                        <option value="student">Alumno</option>
                         <option value="admin">Administrador</option>
                     </select>
                 </div>

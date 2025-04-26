@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\WelcomeDocentesController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\GestionUsuariosController;
 use App\Http\Controllers\GestionMaterialesController;
 use App\Http\Controllers\MaterialReservaController;
@@ -25,7 +25,9 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 /* HOME */
-Route::get('/welcome_docentes', [WelcomeDocentesController::class, 'showWelcome_docentes'])->name('welcome_docentes');
+Route::get('/welcome_docentes', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_docentes');
+Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
+Route::get('/welcome_alumnos', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_alumnos');
 
 
 /* GESTION DE USUARIOS */

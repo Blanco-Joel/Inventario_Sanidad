@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-use App\Models\Usuario;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -22,19 +22,20 @@ class LoginController extends Controller
             'password.required' => 'Debe introducir su contraseña.',
         ]);
 
-        $user = Usuario::where('id_usuario', $credentials['user'])->first();
-        if ($user && $user->nombre === $credentials['password']) {
-            $type = $user->tipo_usuario;
+        $user = User::where('user_id', $credentials['user'])->first();
+        if ($user && $user->first_name === $credentials['password']) {
+            $type = $user->user_type;
 
-            Cookie::queue('USERPASS', $user->id_usuario, 60);
-            Cookie::queue('NAME', $user->nombre . " " . $user->apellidos, 60);
+            Cookie::queue('USERPASS', $user->user_id, 60);
+            Cookie::queue('NAME', $user->first_name . " " . $user->last_name, 60);
             Cookie::queue('TYPE', $type, 60);
-            
-            if ($type === 'docente') {
+            if ($type === 'teacher') {
                 return redirect()->route('welcome_docentes');
-            } else {
+            } else if ($type === 'admin') {
+                return redirect()->route('welcome_admin');
+            } else{
                 return redirect()->route('welcome_alumnos');
-            }
+            }   
         } else {
             return back()->withErrors(['login' => 'ERROR DE INICIO SESIÓN']);
         }

@@ -16,7 +16,6 @@
                 <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
 
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('gestionMateriales') }}'" class="btn btn-warning">Gestión de materiales</button>
                 <button onclick="window.location.href='{{ route('materiales.reserva') }}'" class="btn btn-warning">Materiales en reserva</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>

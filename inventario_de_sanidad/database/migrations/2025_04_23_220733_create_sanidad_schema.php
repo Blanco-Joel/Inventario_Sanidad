@@ -3,79 +3,76 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
-
 
 class CreateSanidadSchema extends Migration
 {
     public function up()
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->string('id_usuario', 40)->primary();
-            $table->string('nombre', 40);
-            $table->string('apellidos', 60);
-            $table->timestamp('fecha_alta')->useCurrent();
-            $table->date('fecha_ultima_modificacion');
+        Schema::create('users', function (Blueprint $table) {
+            $table->increments('user_id');
+            $table->string('first_name', 40);
+            $table->string('last_name', 60);
+            $table->timestamp('created_at')->useCurrent();
+            $table->date('last_modified')->nullable();
             $table->string('email', 100)->unique();
-            $table->string('clave');
-            $table->enum('tipo_usuario', ['alumno', 'docente', 'admin']);
+            $table->string('password');
+            $table->enum('user_type', ['student', 'teacher', 'admin']);
         });
 
-        Schema::create('materiales', function (Blueprint $table) {
-            $table->string('id_material', 40)->primary();
-            $table->string('nombre', 60);
-            $table->string('descripcion', 100);
-            $table->string('ruta_imagen', 100);
+        Schema::create('materials', function (Blueprint $table) {
+            $table->increments('material_id');
+            $table->string('name', 60);
+            $table->string('description', 100);
+            $table->string('image_path', 100);
         });
 
-        Schema::create('almacenamiento', function (Blueprint $table) {
-            $table->string('id_material', 40);
-            $table->enum('tipo_almacen', ['uso', 'reserva']);
-            $table->unsignedInteger('armario');
-            $table->unsignedInteger('balda');
-            $table->unsignedInteger('unidades');
-            $table->unsignedInteger('min_unidades');
-            $table->primary(['id_material', 'tipo_almacen']);
-            $table->foreign('id_material')->references('id_material')->on('materiales')->onDelete('cascade')->onUpdate('cascade');
+        Schema::create('storage', function (Blueprint $table) {
+            $table->unsignedInteger('material_id');
+            $table->enum('storage_type', ['use', 'reserve']);
+            $table->unsignedInteger('cabinet');
+            $table->unsignedInteger('shelf');
+            $table->unsignedInteger('units');
+            $table->unsignedInteger('min_units');
+            $table->primary(['material_id', 'storage_type']);
+            $table->foreign('material_id')->references('material_id')->on('materials')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::create('modificaciones', function (Blueprint $table) {
-            $table->string('id_usuario', 40);
-            $table->string('id_material', 40);
-            $table->enum('tipo_almacen', ['uso', 'reserva']);
-            $table->dateTime('fecha_hora_accion');
-            $table->integer('unidades');
-            $table->primary(['id_usuario', 'id_material', 'tipo_almacen', 'fecha_hora_accion'],'pk_modificaciones');
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign(['id_material', 'tipo_almacen'])->references(['id_material', 'tipo_almacen'])->on('almacenamiento')->onDelete('cascade')->onUpdate('cascade');
+        Schema::create('modifications', function (Blueprint $table) {
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('material_id');
+            $table->enum('storage_type', ['use', 'reserve']);
+            $table->dateTime('action_datetime');
+            $table->integer('units');
+            $table->primary(['user_id', 'material_id', 'storage_type', 'action_datetime'], 'pk_modifications');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign(['material_id', 'storage_type'])->references(['material_id', 'storage_type'])->on('storage')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::create('actividades', function (Blueprint $table) {
-            $table->string('id_actividad', 40);
-            $table->string('id_usuario', 40);
-            $table->string('descripcion', 100);
-            $table->timestamp('fecha_alta')->useCurrent();
-            $table->primary(['id_actividad', 'id_usuario']);
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
+        Schema::create('activities', function (Blueprint $table) {
+            $table->increments('activity_id');
+            $table->unsignedInteger('user_id');
+            $table->string('description', 100);
+            $table->timestamp('created_at')->useCurrent();
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::create('material_actividad', function (Blueprint $table) {
-            $table->string('id_actividad', 40);
-            $table->string('id_material', 40);
-            $table->unsignedInteger('cantidad');
-            $table->primary(['id_actividad', 'id_material']);
-            $table->foreign('id_actividad')->references('id_actividad')->on('actividades')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('id_material')->references('id_material')->on('materiales')->onDelete('cascade')->onUpdate('cascade');
+        Schema::create('material_activity', function (Blueprint $table) {
+            $table->unsignedInteger('activity_id');
+            $table->unsignedInteger('material_id');
+            $table->unsignedInteger('quantity');
+            $table->primary(['activity_id', 'material_id']);
+            $table->foreign('activity_id')->references('activity_id')->on('activities')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('material_id')->references('material_id')->on('materials')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('material_actividad');
-        Schema::dropIfExists('actividades');
-        Schema::dropIfExists('modificaciones');
-        Schema::dropIfExists('almacenamiento');
-        Schema::dropIfExists('materiales');
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('material_activity');
+        Schema::dropIfExists('activities');
+        Schema::dropIfExists('modifications');
+        Schema::dropIfExists('storage');
+        Schema::dropIfExists('materials');
+        Schema::dropIfExists('users');
     }
 }

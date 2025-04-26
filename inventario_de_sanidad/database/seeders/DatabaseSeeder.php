@@ -4,39 +4,104 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('usuarios')->insert([
-            ['id_usuario' => 'U001', 'nombre' => 'Ana', 'apellidos' => 'Martínez López', 'fecha_alta' => '2023-01-10', 'fecha_ultima_modificacion' => '2025-04-01', 'email' => 'ana.martinez@email.com', 'clave' => bcrypt('clave1'), 'tipo_usuario' => 'docente'],
-            ['id_usuario' => 'U002', 'nombre' => 'Carlos', 'apellidos' => 'Pérez Ruiz', 'fecha_alta' => '2024-03-15', 'fecha_ultima_modificacion' => '2025-04-01', 'email' => 'carlos.perez@email.com', 'clave' => bcrypt('clave2'), 'tipo_usuario' => 'alumno'],
-            ['id_usuario' => 'U003', 'nombre' => 'Lucía', 'apellidos' => 'Fernández Soto', 'fecha_alta' => '2023-07-20', 'fecha_ultima_modificacion' => '2025-04-01', 'email' => 'lucia.fernandez@email.com', 'clave' => bcrypt('clave3'), 'tipo_usuario' => 'admin'],
+        // Insert Users
+        DB::table('users')->insert([
+            [
+                'first_name' => 'Ana',
+                'last_name' => 'Martínez López',
+                'created_at' => '2023-01-10 00:00:00',
+                'last_modified' => '2025-04-01',
+                'email' => 'ana.martinez@email.com',
+                'password' => Hash::make('clave1'),
+                'user_type' => 'teacher',
+            ],
+            [
+                'first_name' => 'Carlos',
+                'last_name' => 'Pérez Ruiz',
+                'created_at' => '2024-03-15 00:00:00',
+                'last_modified' => '2025-04-01',
+                'email' => 'carlos.perez@email.com',
+                'password' => Hash::make('clave2'),
+                'user_type' => 'student',
+            ],
+            [
+                'first_name' => 'Lucía',
+                'last_name' => 'Fernández Soto',
+                'created_at' => '2023-07-20 00:00:00',
+                'last_modified' => '2025-04-01',
+                'email' => 'lucia.fernandez@email.com',
+                'password' => Hash::make('clave3'),
+                'user_type' => 'admin',
+            ],
         ]);
 
-        DB::table('materiales')->insert([
-            ['id_material' => 'MAT001', 'nombre' => 'Guantes de látex', 'descripcion' => 'Guantes desechables', 'ruta_imagen' => 'img/guantes.jpg'],
-            ['id_material' => 'MAT002', 'nombre' => 'Mascarilla quirúrgica', 'descripcion' => 'Protección facial', 'ruta_imagen' => 'img/mascarilla.jpg'],
-            // ... (agrega los demás 13 materiales como en el SQL anterior)
+        // Insert Materials
+        DB::table('materials')->insert([
+            [
+                'name' => 'Latex Gloves',
+                'description' => 'Disposable gloves',
+                'image_path' => 'img/gloves.jpg',
+            ],
+            [
+                'name' => 'Surgical Mask',
+                'description' => 'Face protection',
+                'image_path' => 'img/mask.jpg',
+            ],
         ]);
 
-        DB::table('almacenamiento')->insert([
-            ['id_material' => 'MAT001', 'tipo_almacen' => 'reserva', 'armario' => 1, 'balda' => 1, 'unidades' => 120, 'min_unidades' => 30],
-            ['id_material' => 'MAT002', 'tipo_almacen' => 'reserva', 'armario' => 1, 'balda' => 2, 'unidades' => 100, 'min_unidades' => 25],
-            // ...
+        // Insert Storage
+        DB::table('storage')->insert([
+            [
+                'material_id' => 1,
+                'storage_type' => 'reserve',
+                'cabinet' => 1,
+                'shelf' => 1,
+                'units' => 120,
+                'min_units' => 30,
+            ],
+            [
+                'material_id' => 2, 
+                'storage_type' => 'reserve',
+                'cabinet' => 1,
+                'shelf' => 2,
+                'units' => 100,
+                'min_units' => 25,
+            ],
         ]);
 
-        DB::table('modificaciones')->insert([
-            ['id_usuario' => 'U001', 'id_material' => 'MAT001', 'tipo_almacen' => 'reserva', 'fecha_hora_accion' => now(), 'unidades' => 10],
+        // Insert Modifications
+        DB::table('modifications')->insert([
+            [
+                'user_id' => 1, // Ana (primer usuario)
+                'material_id' => 1, // Latex Gloves
+                'storage_type' => 'reserve',
+                'action_datetime' => now(),
+                'units' => 10,
+            ],
         ]);
 
-        DB::table('actividades')->insert([
-            ['id_actividad' => 'A001', 'id_usuario' => 'U001', 'descripcion' => 'Clase de primeros auxilios', 'fecha_alta' => '2025-04-05'],
+        // Insert Activities
+        DB::table('activities')->insert([
+            [
+                'user_id' => 1, // Ana
+                'description' => 'First aid class',
+                'created_at' => '2025-04-05 00:00:00',
+            ],
         ]);
 
-        DB::table('material_actividad')->insert([
-            ['id_actividad' => 'A001', 'id_material' => 'MAT001', 'cantidad' => 10],
+        // Insert Material-Activity
+        DB::table('material_activity')->insert([
+            [
+                'activity_id' => 1, // First activity
+                'material_id' => 1, // Latex Gloves
+                'quantity' => 10,
+            ],
         ]);
     }
 }
