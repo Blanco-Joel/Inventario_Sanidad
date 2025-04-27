@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
                 'created_at' => '2023-01-10 00:00:00',
                 'last_modified' => '2025-04-01',
                 'email' => 'ana.martinez@email.com',
-                'password' => Hash::make('clave1'),
+                'password' => 'clave1',
+                'hashed_password' => Hash::make('clave1'),
                 'user_type' => 'teacher',
             ],
             [
@@ -27,7 +28,8 @@ class DatabaseSeeder extends Seeder
                 'created_at' => '2024-03-15 00:00:00',
                 'last_modified' => '2025-04-01',
                 'email' => 'carlos.perez@email.com',
-                'password' => Hash::make('clave2'),
+                'password' => 'clave2',
+                'hashed_password' => Hash::make('clave2'),
                 'user_type' => 'student',
             ],
             [
@@ -36,7 +38,8 @@ class DatabaseSeeder extends Seeder
                 'created_at' => '2023-07-20 00:00:00',
                 'last_modified' => '2025-04-01',
                 'email' => 'lucia.fernandez@email.com',
-                'password' => Hash::make('clave3'),
+                'password' => 'clave3',
+                'hashed_password' => Hash::make('clave3'),
                 'user_type' => 'admin',
             ],
         ]);

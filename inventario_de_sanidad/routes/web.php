@@ -26,15 +26,19 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 /* HOME */
 Route::get('/welcome_docentes', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_docentes');
+Route::post('/welcome_docentes', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
+
 Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
+Route::post('/welcome_admin', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
+
 Route::get('/welcome_alumnos', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_alumnos');
+Route::post('/welcome_alumnos', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
 
 /* GESTION DE USUARIOS */
 Route::get('/gestionUsuarios', [GestionUsuariosController::class, 'showGestionUsuarios'])->name('gestionUsuarios');
 Route::post('/gestionUsuarios/alta', [GestionUsuariosController::class, 'altaUsers'])->name('altaUsers.process');
 Route::post('/gestionUsuarios/baja', [GestionUsuariosController::class, 'bajaUsers'])->name('bajaUsers.process');
-
 
 /* GESTION DE MATERIALES */
 Route::get('/gestionMateriales', [GestionMaterialesController::class, 'showGestionMateriales'])->name('gestionMateriales');

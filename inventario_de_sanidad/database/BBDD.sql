@@ -18,7 +18,8 @@ CREATE TABLE users (
     created_at                 DATE         NOT NULL DEFAULT CURRENT_DATE COMMENT 'Fecha de alta del usuario',
     last_modified              DATE         COMMENT 'Fecha de la última modificación de datos',
     email                      VARCHAR(100)  NOT NULL COMMENT 'Email del usuario',
-    password                   VARCHAR(255)  NOT NULL COMMENT 'Contraseña del usuario (hasheada)',
+    password                   VARCHAR(255)  NOT NULL COMMENT 'Contraseña del usuario',
+    hashed_password                   VARCHAR(255)  NOT NULL COMMENT 'Contraseña del usuario (hasheada)',
     user_type                  ENUM('alumno', 'docente', 'admin') NOT NULL COMMENT 'Tipo de usuario',
     PRIMARY KEY (user_id),
     UNIQUE KEY (email)

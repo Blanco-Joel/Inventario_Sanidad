@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class GestionUsuariosController extends Controller
 {
     public function showGestionUsuarios()
     {
-        $users = User::select('user_id', 'first_name', 'last_name','user_type')->get();
+        $users = User::select('first_name', 'last_name', 'email', 'password', 'user_type','last_modified','created_at')->get();
         return view('gestionUsuarios',['users' => $users]);
     }
     public function gestionUsuarios(Request $request) {
@@ -21,6 +22,12 @@ class GestionUsuariosController extends Controller
     }
     public function altaUsers(Request $request)
     {
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{}|;:,.<>?';
+        $password = '';
+        
+        for ($i = 0; $i < 8; $i++) {
+            $password .= $caracteres[rand(0, strlen($caracteres) - 1)];
+        }
         $credentials = $request->validate([
             'nombre' => 'required',
             'apellidos' => 'required',
@@ -30,11 +37,14 @@ class GestionUsuariosController extends Controller
             'apellidos.required' => 'Debe introducir los apellidos.',
             'email.required' => 'Debe introducir el email.'
         ]);
+
         $usuario = new User();
-        $usuario->first_name        =  $credentials["nombre"];
-        $usuario->last_name         =  $credentials["apellidos"];
-        $usuario->email             =  $credentials["email"];
-        $usuario->user_type         =  $request->input('user_type');
+        $usuario->first_name           =  $credentials["nombre"];
+        $usuario->last_name            =  $credentials["apellidos"];
+        $usuario->email                =  $credentials["email"];
+        $usuario->password             =  $password;
+        $usuario->hashed_password      =  Hash::make($password);
+        $usuario->user_type            =  $request->input('user_type');
         $usuario->save(); 
         
         return back()->with([
