@@ -6,20 +6,44 @@ else if (document.attachEvent)
 
 function inicio(){
     
-    let formBaja = document.getElementById("registrar");
+    userDataRetrieve();
+    // let formBaja = document.getElementById("registrar");
+    let buscar = document.getElementById("buscarId");
+    let radiosFiltro = document.getElementsByName("filtro"); // Obtén todos los radio buttons
+    let botonesVer = document.querySelectorAll("[id^='btn-ver-']") 
+    let botonesBaja = document.querySelectorAll("[id^='btn-delete-']") 
 
-    
     if (document.addEventListener){
-        formBaja.addEventListener("submit", mostrarDialogConfirmacion);
+        buscar.addEventListener("keyup",filtrarTabla);
     }else if (document.attachEvent){
-        formBaja.attachEvent("onsubmit", mostrarDialogConfirmacion);
+        buscar.attachEvent("onkeyup", filtrarTabla);
+    }
+    for (let radio of radiosFiltro) {
+        if (document.addEventListener){
+            radio.addEventListener("change", filtrarTabla);
+        }else if (document.attachEvent){
+            radio.attachEvent("onchange", filtrarTabla);
+        }
+    }
+    for (let btn of botonesVer) {
+        if (document.addEventListener){
+            btn.addEventListener("submit", showPassword);
+        }else if (document.attachEvent){
+            btn.attachEvent("onsubmit", showPassword);
+        }
+    }
+    for (let btn of botonesBaja) {
+        if (document.addEventListener){
+            btn.addEventListener("submit", mostrarDialogConfirmacion);
+        }else if (document.attachEvent){
+            btn.attachEvent("onsubmit", mostrarDialogConfirmacion);
+        }
     }
 }
 
-function mostrarDialogConfirmacion(e) 
+function mostrarDialogConfirmacion(event) 
 {
-    e.preventDefault(); // Evita que el formulario se envíe inmediatamente
-
+    event.preventDefault();
     let botonConfirmar  = document.getElementById("aceptar");
     let botonCancelar = document.getElementById("cancelar");
 
@@ -29,7 +53,7 @@ function mostrarDialogConfirmacion(e)
 
     // Esperamos a que el usuario confirme o cancele
     botonConfirmar.onclick = () => {
-        e.target.submit(); // Envía el formulario manualmente
+        event.target.submit(); // Envía el formulario manualmente
         cerrarDialog("confirmacion");
     };
 
@@ -37,11 +61,27 @@ function mostrarDialogConfirmacion(e)
         cerrarDialog("confirmacion");
     };
 }
+async function userDataRetrieve() {
+    const response = await fetch('/gestionUsuariosData');
+    window.USERDATA = await response.json();
 
+}
+function showPassword(event) {
+    event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+    let user = event.target.id.split("-")[2]-1;
+    let password = USERDATA[user]["password"];
+    let campo = event.target.querySelector("b");
+    if (campo.textContent == password) 
+        campo.textContent = "************";
+    else
+    campo.textContent = password;
+    
+}
 function cerrarDialog(mensaje) 
 {
     let dialog = document.getElementById(mensaje);
     dialog.removeAttribute("open");
+    
 }
 
 function sortTable(columnIndex) {
@@ -49,6 +89,7 @@ function sortTable(columnIndex) {
     let switching = true;
     let dir = "asc"; 
     let switchcount = 0;
+    let shouldSwitch = true;
     
     while (switching) {
         switching = false;
@@ -86,25 +127,22 @@ function sortTable(columnIndex) {
     }
 }
 function filtrarTabla(event) {
-    if (event.key.length === 1 || event.key === "Backspace" || event.key === "Delete") {
+
+    console.log(event.target.type);
+    if (event.target.type == "radio" || event.target.type == "text" && (event.key.length === 1 || event.key === "Backspace" || event.key === "Delete")) {
         let input = document.getElementById("buscarId").value.toLowerCase();
         let filas = document.querySelectorAll("#tabla-usuarios tbody tr");
+        let index = document.querySelector('input[name="filtro"]:checked').value;
 
         filas.forEach(fila => {
-            let id = fila.querySelector("td").textContent.toLowerCase();
+            let id = fila.querySelector("td:nth-child("+index+")").textContent.toLowerCase();
             if (id.includes(input)) {
                 fila.style.display = "";
             } else {
                 fila.style.display = "none";
             }
         });
-    }else
-    {
-        filas.forEach(fila => {
-            let id = fila.querySelector("td").textContent.toLowerCase();
-            if (id.includes(input)) {
-                fila.style.display = "";
-            }
-        });
+
     }
+
 }

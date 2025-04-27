@@ -39,6 +39,7 @@ Route::post('/welcome_alumnos', [WelcomeController::class, 'changePasswordFirstL
 Route::get('/gestionUsuarios', [GestionUsuariosController::class, 'showGestionUsuarios'])->name('gestionUsuarios');
 Route::post('/gestionUsuarios/alta', [GestionUsuariosController::class, 'altaUsers'])->name('altaUsers.process');
 Route::post('/gestionUsuarios/baja', [GestionUsuariosController::class, 'bajaUsers'])->name('bajaUsers.process');
+Route::get('/gestionUsuariosData', function () {return response()->json(\App\Models\User::all());});
 
 /* GESTION DE MATERIALES */
 Route::get('/gestionMateriales', [GestionMaterialesController::class, 'showGestionMateriales'])->name('gestionMateriales');

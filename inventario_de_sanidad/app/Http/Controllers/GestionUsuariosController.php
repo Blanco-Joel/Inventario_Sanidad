@@ -10,7 +10,7 @@ class GestionUsuariosController extends Controller
 {
     public function showGestionUsuarios()
     {
-        $users = User::select('first_name', 'last_name', 'email', 'password', 'user_type','last_modified','created_at')->get();
+        $users = User::select('user_id','first_name', 'last_name', 'email', 'password', 'user_type','last_modified','created_at')->get();
         return view('gestionUsuarios',['users' => $users]);
     }
     public function gestionUsuarios(Request $request) {
@@ -54,7 +54,8 @@ class GestionUsuariosController extends Controller
     }
     public function bajaUsers(Request $request)
     {
-        $user = $request->input('bajaUsersSelect');
+
+        $user = $request["user_id"];
         User::where('user_id', $user)->delete();
 
         return back()->with([
