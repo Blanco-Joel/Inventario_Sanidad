@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\WelcomeDocentesController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\GestionUsuariosController;
 use App\Http\Controllers\GestionMaterialesController;
 
@@ -21,7 +21,9 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post('/', [LoginController::class, 'login'])->name('login.process');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/welcome_docentes', [WelcomeDocentesController::class, 'showWelcome_docentes'])->name('welcome_docentes');
+Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
+Route::get('/welcome_teacher', [WelcomeController::class, 'showWelcome_teacher'])->name('welcome_teacher');
+Route::get('/welcome_student', [WelcomeController::class, 'showWelcome_student'])->name('welcome_student');
 
 Route::get('/gestionUsuarios', [GestionUsuariosController::class, 'showGestionUsuarios'])->name('gestionUsuarios');
 Route::post('/gestionUsuarios', [GestionUsuariosController::class, 'altaUsers'])->name('altaUsers.process');
