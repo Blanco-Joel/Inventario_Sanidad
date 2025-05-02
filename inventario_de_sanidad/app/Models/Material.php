@@ -4,25 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Material extends Model
 {
     use HasFactory;
-    protected $table = 'materiales';
+
+    protected $primaryKey = 'material_id';
     public $timestamps = false;
-    protected $primaryKey = 'id_material';
-    public $incrementing = false;
-    protected $keyType = 'string';
+
     protected $fillable = [
-        'id_material', 'nombre', 'descripcion'
+        'name', 'description', 'image_path'
     ];
-    public function almacenamiento()
+
+    public function storage(): HasMany
     {
-        return $this->hasMany(Almacenamiento::class, 'id_material', 'id_material');
+        return $this->hasMany(Storage::class, 'material_id', 'material_id');
     }
 
-    public function modificaciones()
+    public function activities(): BelongsToMany
     {
-        return $this->hasMany(Modificacion::class, 'id_material', 'id_material');
+        return $this->belongsToMany(Activity::class, 'activity_material', 'material_id', 'activity_id')
+                    ->withPivot('quantity');
     }
 }
