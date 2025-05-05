@@ -28,27 +28,20 @@
     </dialog>
     <div class="container">
         <h1 class="text-center">Portal del departamento de Sanidad</h1> 
-        
+
         <div class="card ">
-            <div class="header">Menú de administradores </div><br>
-                <div id="name"><b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}</div><br><br>
-                <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
-                @if (session('mensaje'))
+            <div class="header">Menú de Docentes </div><br>
+            <div id="name"><b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}</div><br><br>
+            <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
+            @if (session('mensaje'))
                     <p>{{ session('mensaje') }}</p>
                 @endif
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('gestionUsuarios') }}'" class="btn btn-warning">Gestión de usuarios</button>
                 <button onclick="window.location.href='{{ route('gestionMateriales') }}'" class="btn btn-warning">Gestión de materiales</button>
-                <button onclick="window.location.href='{{ route('materiales.submenuHistorial') }}'" class="btn btn-warning">Reservas de Materiales</button>
+                <button onclick="window.location.href='{{ route('materiales.reserva') }}'" class="btn btn-warning">Materiales en reserva</button>
                 <br><br>
-
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
-                @if($data->isNotEmpty())
-                    <h4>WARNING</h4>
-                    @foreach ($data as $warning)
-                        <p>{{$warning->nombre}} tiene solo {{$warning->unidades}} unidad/es en {{$warning->tipo_almacen}}.</p>
-                    @endforeach
-                @endif
+
         </div>
         
     </div>

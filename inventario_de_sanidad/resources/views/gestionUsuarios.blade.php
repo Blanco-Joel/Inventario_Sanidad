@@ -60,17 +60,10 @@
         </div>
 
         <div class="tab-content {{ session('tab') == 'tab2' ? 'active' : '' }}" id="tab2">
-
-            <dialog id="confirmacionAdmin">
-                <p>Introduzca sus credenciales<br> de administrador.</p>
-                <p id="errorAdmin"></p>
-                <form id="confirmacion">
-                    <input type="text" id="adminUser" name="adminUser" ><br>
-                    <input type="password" id="adminPass" name="adminPass" ><br>
-
-                    <input type="submit" value="Aceptar" name="aceptar" id="aceptar">
-                    <input type="submit" value="Cancelar" name="cancelar" id="cancelar">
-                </form>
+            <dialog id="confirmacion">
+                <p>¿Estás seguro de que deseas continuar?</p>
+                <input type="button" value="Aceptar" name="aceptar" id="aceptar">
+                <input type="button" value="Cancelar" name="cancelar" id="cancelar">
             </dialog>
             @if (session('mensaje') && session('tab') == 'tab2')
                     <p>{{ session('mensaje') }}</p>

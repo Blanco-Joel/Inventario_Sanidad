@@ -7,32 +7,48 @@ use Illuminate\Support\Facades\DB;
 
 class MaterialReservaController extends Controller
 {
-    public function index(Request $request)
+    public function showSubmenuHistorial(Request $request)
     {
-        // Inicializamos la consulta base
-        $query = DB::table('almacenamiento')
-            ->join('materiales', 'almacenamiento.id_material', '=', 'materiales.id_material')
+        return view('materiales.submenuHistorial');
+    }
+    public function showHistorialModificaciones(Request $request)
+    {
+        $modifications = DB::table('modifications')
+        ->join('users', 'modifications.user_id', '=', 'users.user_id')
+        ->join('materials', 'modifications.material_id', '=', 'materials.material_id')
+        ->select('users.first_name', 'users.last_name', 'users.email', 'users.user_type', 'users.last_modified', 'users.created_at',
+                 'materials.name as material_name', 'modifications.units', 'modifications.action_datetime', 'modifications.storage_type')
+        ->get();
+    
+        return view('materiales.historialModificaciones', ['modifications' => $modifications]);
+    }
+    public function index(Request $request, $tipo)
+    {
+        $tipo2 = $tipo == "uso" ? "use" : "reserve";
+        // Consulta base
+        $query = DB::table('storage')
+            ->join('materials', 'storage.material_id', '=', 'materials.material_id')
             ->select(
-                'materiales.id_material',
-                'materiales.nombre',
-                'materiales.descripcion',
-                'materiales.ruta_imagen',
-                'almacenamiento.armario',
-                'almacenamiento.balda',
-                'almacenamiento.unidades',
-                'almacenamiento.min_unidades'
+                'materials.material_id',
+                'materials.name',
+                'materials.description',
+                'materials.image_path',
+                'storage.cabinet',
+                'storage.shelf',
+                'storage.units',
+                'storage.min_units'
             )
-            ->where('tipo_almacen', 'reserva');
-
-        // Si existe un parámetro de búsqueda, lo agregamos a la consulta
+            ->where('storage.storage_type', $tipo2);
+    
+        // Filtro opcional por búsqueda
         if ($request->has('busqueda') && !empty($request->busqueda)) {
             $busqueda = $request->busqueda;
-            $query->where('materiales.nombre', 'like', '%' . $busqueda . '%');
+            $query->where('materials.name', 'like', '%' . $busqueda . '%');
         }
-
-        // Obtener los resultados filtrados
-        $materialesReserva = $query->get();
-
-        return view('materiales.reserva', compact('materialesReserva'));
+    
+        $materiales = $query->get();
+    
+        // Vista dinámica: materiales.uso o materiales.reserva
+        return view("materiales.$tipo", compact('materiales'));
     }
 }

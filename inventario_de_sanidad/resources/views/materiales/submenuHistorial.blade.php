@@ -33,22 +33,15 @@
             <div class="header">Menú de administradores </div><br>
                 <div id="name"><b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}</div><br><br>
                 <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
-                @if (session('mensaje'))
-                    <p>{{ session('mensaje') }}</p>
-                @endif
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('gestionUsuarios') }}'" class="btn btn-warning">Gestión de usuarios</button>
-                <button onclick="window.location.href='{{ route('gestionMateriales') }}'" class="btn btn-warning">Gestión de materiales</button>
-                <button onclick="window.location.href='{{ route('materiales.submenuHistorial') }}'" class="btn btn-warning">Reservas de Materiales</button>
+                <button onclick="window.location.href='{{ route('materiales.tipo', ['tipo' => 'uso']) }}'" class="btn btn-warning">Materiales en uso</button>
+                <button onclick="window.location.href='{{ route('materiales.tipo', ['tipo' => 'reserva']) }}'" class="btn btn-warning">Materiales en reserva</button>
+                <button onclick="window.location.href='{{ route('materiales.historialModificaciones') }}'" class="btn btn-warning">Historial de modificaciones</button>
                 <br><br>
+                <a href="{{ route('welcome_admin') }}" class="btn ">Volver</a>
 
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
-                @if($data->isNotEmpty())
-                    <h4>WARNING</h4>
-                    @foreach ($data as $warning)
-                        <p>{{$warning->nombre}} tiene solo {{$warning->unidades}} unidad/es en {{$warning->tipo_almacen}}.</p>
-                    @endforeach
-                @endif
+
         </div>
         
     </div>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+
 
 class LoginController extends Controller
 {
@@ -23,19 +25,19 @@ class LoginController extends Controller
         ]);
 
         $user = User::where('user_id', $credentials['user'])->first();
-        if ($user && $user->first_name === $credentials['password']) {
-            $type = $user->user_type;
+        if ($user && Hash::check($credentials['password'], $user->hashed_password)) {
 
             Cookie::queue('USERPASS', $user->user_id, 60);
             Cookie::queue('NAME', $user->first_name . " " . $user->last_name, 60);
-            Cookie::queue('TYPE', $type, 60);
-            if ($type === 'teacher') {
-                return redirect()->route('welcome_docentes');
-            } else if ($type === 'admin') {
+            Cookie::queue('ROLE', $user->role, 60);
+            
+            if ($user->user_type === 'admin') {
                 return redirect()->route('welcome_admin');
-            } else{
+            } else if ($user->role === 'teacher') {
+                return redirect()->route('welcome_docentes');
+            } else {
                 return redirect()->route('welcome_alumnos');
-            }   
+            }
         } else {
             return back()->withErrors(['login' => 'ERROR DE INICIO SESIÓN']);
         }
@@ -45,7 +47,7 @@ class LoginController extends Controller
     {
         Cookie::queue(Cookie::forget('USERPASS'));
         Cookie::queue(Cookie::forget('NAME'));
-        Cookie::queue(Cookie::forget('TYPE'));
+        Cookie::queue(Cookie::forget('ROLE'));
         return redirect()->route('login.form');
     }
 }

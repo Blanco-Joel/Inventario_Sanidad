@@ -45,6 +45,7 @@ class GestionUsuariosController extends Controller
         $usuario->password             =  $password;
         $usuario->hashed_password      =  Hash::make($password);
         $usuario->user_type            =  $request->input('user_type');
+        $user->firstLog                =  false;
         $usuario->save(); 
         
         return back()->with([

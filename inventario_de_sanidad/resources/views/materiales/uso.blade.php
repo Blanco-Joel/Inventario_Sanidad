@@ -7,12 +7,12 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Materiales en Reserva</h1>
+        <h1 class="mb-4">Materiales en uso</h1>
 
         @if($materiales->isEmpty())
-            <div class="alert alert-warning">No hay materiales en reserva actualmente.</div>
+            <div class="alert alert-warning">No hay materiales en uso actualmente.</div>
         @else
-            <form method="GET" action="{{ route('materiales.tipo', ['tipo' => 'reserva']) }}">
+            <form method="GET" action="{{ route('materiales.tipo', ['tipo' => 'uso'])}}">
                 <input type="text" name="busqueda" placeholder="Buscar por nombre..." value="{{ request('busqueda') }}">
                 <button type="submit">Buscar</button>
             </form>

@@ -17,6 +17,7 @@ class CreateSanidadSchema extends Migration
             $table->string('email', 100)->unique();
             $table->string('password');
             $table->string('hashed_password');
+            $table->boolean('firstLog');
             $table->enum('user_type', ['student', 'teacher', 'admin']);
         });
 

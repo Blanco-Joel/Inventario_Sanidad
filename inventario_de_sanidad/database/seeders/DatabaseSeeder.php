@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'ana.martinez@email.com',
                 'password' => 'clave1',
                 'hashed_password' => Hash::make('clave1'),
+                'firstLog' => false,
                 'user_type' => 'teacher',
             ],
             [
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'carlos.perez@email.com',
                 'password' => 'clave2',
                 'hashed_password' => Hash::make('clave2'),
+                'firstLog' => false,
                 'user_type' => 'student',
             ],
             [
@@ -40,6 +42,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'lucia.fernandez@email.com',
                 'password' => 'clave3',
                 'hashed_password' => Hash::make('clave3'),
+                'firstLog' => false,
                 'user_type' => 'admin',
             ],
         ]);
@@ -86,6 +89,41 @@ class DatabaseSeeder extends Seeder
                 'storage_type' => 'reserve',
                 'action_datetime' => now(),
                 'units' => 10,
+            ],
+            [
+                'user_id' => 2, // Usuario 2
+                'material_id' => 2, // Otro material
+                'storage_type' => 'use',
+                'action_datetime' => now()->subDays(5), // Fecha hace 5 días
+                'units' => -5,
+            ],
+            [
+                'user_id' => 3, // Usuario 3
+                'material_id' => 1, // Latex Gloves
+                'storage_type' => 'use',
+                'action_datetime' => now()->subDays(10), // Fecha hace 10 días
+                'units' => -3,
+            ],
+            [
+                'user_id' => 1, // Ana
+                'material_id' => 1, // Latex Gloves
+                'storage_type' => 'reserve',
+                'action_datetime' => now()->addDays(3), // Fecha en 3 días
+                'units' => 15,
+            ],
+            [
+                'user_id' => 2, // Usuario 2
+                'material_id' => 2, // Otro material
+                'storage_type' => 'reserve',
+                'action_datetime' => now()->addDays(7), // Fecha en 7 días
+                'units' => 20,
+            ],
+            [
+                'user_id' => 3, // Usuario 3
+                'material_id' => 1, // Latex Gloves
+                'storage_type' => 'use',
+                'action_datetime' => now()->subDays(2), // Fecha hace 2 días
+                'units' => -8,
             ],
         ]);
 

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
+
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\GestionUsuariosController;
@@ -25,6 +27,12 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 /* HOME */
+Route::get('/firstLogData', function () {
+    $userpass = Cookie::get('USERPASS'); // nombre de tu cookie
+    return response()->json(
+        \App\Models\User::where('user_id', $userpass)->first()
+    );
+});
 Route::get('/welcome_docentes', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_docentes');
 Route::post('/welcome_docentes', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
@@ -53,4 +61,8 @@ Route::post('/bajaMaterial/add', [GestionMaterialesController::class, 'agregarMa
 Route::post('/bajaMaterial/process', [GestionMaterialesController::class, 'bajaMaterial'])->name('bajaMaterial.process');
 
 /* MATERIALES EN RESERVA */
-Route::get('/materiales/reserva', [MaterialReservaController::class, 'index'])->name('materiales.reserva');
+Route::get('/materiales/submenuHistorial', [MaterialReservaController::class,'showSubmenuHistorial' ])->name('materiales.submenuHistorial');
+Route::get('/materiales/historialModificaciones', [MaterialReservaController::class,'showHistorialModificaciones' ])->name('materiales.historialModificaciones');
+Route::get('/materiales/{tipo}', [MaterialReservaController::class, 'index'])
+    ->where('tipo', 'reserva|uso')
+    ->name('materiales.tipo');

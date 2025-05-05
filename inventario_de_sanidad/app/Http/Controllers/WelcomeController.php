@@ -28,6 +28,7 @@ class WelcomeController extends Controller
         var_dump($user);
         $user->password             =  $credentials['newPassword'];
         $user->hashed_password      =  Hash::make($credentials['newPassword']);
+        $user->firstLog             =  true;
         $user->save(); 
         
         return back()->with([
