@@ -60,10 +60,17 @@
         </div>
 
         <div class="tab-content {{ session('tab') == 'tab2' ? 'active' : '' }}" id="tab2">
-            <dialog id="confirmacion">
-                <p>¿Estás seguro de que deseas continuar?</p>
-                <input type="button" value="Aceptar" name="aceptar" id="aceptar">
-                <input type="button" value="Cancelar" name="cancelar" id="cancelar">
+
+            <dialog id="confirmacionAdmin">
+                <p>Introduzca sus credenciales<br> de administrador.</p>
+                <p id="errorAdmin"></p>
+                <form id="confirmacion">
+                    <input type="text" id="adminUser" name="adminUser" ><br>
+                    <input type="password" id="adminPass" name="adminPass" ><br>
+
+                    <input type="submit" value="Aceptar" name="aceptar" id="aceptar">
+                    <input type="submit" value="Cancelar" name="cancelar" id="cancelar">
+                </form>
             </dialog>
             @if (session('mensaje') && session('tab') == 'tab2')
                     <p>{{ session('mensaje') }}</p>
@@ -146,7 +153,7 @@
 
     <div>
         <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
-        <a href="{{ route('welcome_docentes') }}" class="btn ">Volver</a>
+        <a href="{{ route('welcome_admin') }}" class="btn ">Volver</a>
     </div>
 
     <script src="{{ asset('js/tabs.js') }}" type="text/javascript"></script>
