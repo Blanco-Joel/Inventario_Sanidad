@@ -36,6 +36,8 @@ class StorageController extends Controller
                 'reserve_min_quantity' => 'required|integer|min:1',
                 'reserve_cabinet'      => 'required|integer|min:1',
                 'reserve_shelf'        => 'required|integer|min:1',
+
+                'onlyReserve'          => 'boolean'
             ]);
     
             // Registro actuales.
@@ -54,7 +56,8 @@ class StorageController extends Controller
             $newReserveShelf   = $validated['reserve_shelf'];
 
             // Comprueba si ningún campo cambia.
-            if (
+            if
+            (
                 $newUseQuantity    == $useRecord->quantity && 
                 $newUseMin         == $useRecord->min_quantity && 
                 $newUseCabinet     == $useRecord->cabinet && 
@@ -66,6 +69,43 @@ class StorageController extends Controller
             )
             {
                 return back()->with('info', 'No se han detectado cambios en los datos.');
+            }
+
+            // Solamente actualizar reserva.
+            if ($request->boolean('onlyReserve')) {
+                if
+                (
+                    $newReserveQuantity == $reserveRecord->quantity && 
+                    $newReserveMin     == $reserveRecord->min_quantity && 
+                    $newReserveCabinet == $reserveRecord->cabinet && 
+                    $newReserveShelf   == $reserveRecord->shelf
+                )
+                {
+                    return back()->with('info', 'No se han detectado cambios en los datos de reserva.');
+                }
+
+                // Calcular la diferencia a registrar.
+                $differenceReserve = $newReserveQuantity - $reserveRecord->quantity;
+                // Comprobar stock negativo.
+                if ($newReserveQuantity < 0) {
+                    return back()->with('error','La cantidad de reserva no puede ser negativa.');
+                }
+
+                DB::transaction(function() use ($validated, $newReserveQuantity, $differenceReserve, $material) {
+                    // Actualizar reserva.
+                    Storage::where('material_id', $material->material_id)->where('storage_type' , 'reserve')
+                    ->update([
+                        'quantity'     => $newReserveQuantity,
+                        'min_quantity' => $validated['reserve_min_quantity'],
+                        'cabinet'      => $validated['reserve_cabinet'],
+                        'shelf'        => $validated['reserve_shelf'],
+                    ]);
+            
+                    // Registrar modificación.
+                    $this->storeEditInModification($material->material_id, 'reserve', $differenceReserve);
+                });
+
+                return back()->with('success','Se ha actualizado correctamente el almacenamiento de reserva.');
             }
     
             // Diferencias.

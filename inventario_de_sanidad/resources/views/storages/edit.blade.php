@@ -78,6 +78,12 @@
                             value="{{ $reserveRecord ? $reserveRecord->shelf : '' }}" required>
                     </div>
 
+                    <div>
+                        <br>
+                        <input type="checkbox" id="onlyReserve" name="onlyReserve" value="1">
+                        <label for="onlyReserve">Actualizar solamente reserva</label>
+                    </div>
+
                     <br>
                     <button type="submit" class="btn btn-primary">Actualizar Almacenamiento</button>
                 </form>
