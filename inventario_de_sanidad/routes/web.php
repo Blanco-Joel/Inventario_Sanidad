@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\GestionUsuariosController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\StorageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,12 @@ Route::prefix('materials')->group(function () {
     Route::post('/basket/delete', [MaterialController::class, 'addToDeletionBasket'])->name('materials.basket.delete');
 
     Route::post('/destroy', [MaterialController::class, 'destroyBatch'])->name('materials.destroyBatch');
+});
+
+Route::prefix('storages')->group(function () {
+    Route::get('/update', [StorageController::class, 'updateView'])->name('storages.updateView');
+
+    Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
+
+    Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
 });

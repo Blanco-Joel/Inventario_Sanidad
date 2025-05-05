@@ -18,7 +18,7 @@
                 <!-- Botones del menú -->
                 <button onclick="window.location.href='{{ route('materials.create') }}'" class="btn btn-warning">Dar de alta un material</button>
                 <button onclick="window.location.href='{{ route('materials.delete') }}'" class="btn btn-warning">Dar de baja un material</button>
-                <button onclick="window.location.href='#'" class="btn btn-warning">Gestionar almacenamiento</button>
+                <button onclick="window.location.href='{{ route('storages.updateView') }}'" class="btn btn-warning">Gestionar almacenamiento</button>
                 <button onclick="window.location.href='#'" class="btn btn-warning">Modificar cantidades mínimas</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>

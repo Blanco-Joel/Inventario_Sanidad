@@ -14,11 +14,7 @@ class Modification extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id', 'material_id', 'storage_type', 'timestamp', 'quantity'
-    ];
-
-    protected $casts = [
-        'timestamp' => 'datetime',
+        'user_id', 'material_id', 'storage_type', 'quantity'
     ];
 
     public function user(): BelongsTo
