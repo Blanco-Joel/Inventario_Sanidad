@@ -4,37 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Activity extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = 'activity_id';
+    protected $table = 'activities';
     public $timestamps = false;
-
-    protected $fillable = [
-        'user_id', 'subject_id', 'description', 'activity_date'
-    ];
-
+    protected $primaryKey = 'activity_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $casts = [
-        'activity_date' => 'date',
+        'created_at' => 'datetime',
+    ];
+    protected $fillable = [
+        'user_id', 'description', 'created_at',
     ];
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    public function subject(): BelongsTo
+    public function materials()
     {
-        return $this->belongsTo(Subject::class, 'subject_id', 'subject_id');
-    }
-
-    public function materials(): BelongsToMany
-    {
-        return $this->belongsToMany(Material::class, 'activity_material', 'activity_id', 'material_id')
-                    ->withPivot('quantity');
+        return $this->belongsToMany(Material::class, 'material_activity', 'activity_id', 'material_id')->withPivot('quantity');
     }
 }

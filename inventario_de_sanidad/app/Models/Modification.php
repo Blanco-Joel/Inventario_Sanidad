@@ -4,27 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Modification extends Model
 {
     use HasFactory;
-
-    public $incrementing = false;
+    protected $table = 'modifications';
     public $timestamps = false;
-
+    public $incrementing = false;
+    protected $primaryKey = null;
+    protected $casts = [
+        'action_datetime' => 'datetime',
+    ];
     protected $fillable = [
-        'user_id', 'material_id', 'storage_type', 'quantity'
+        'user_id', 'material_id', 'storage_type', 'action_datetime', 'units',
     ];
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    public function storage(): BelongsTo
+    public function storage()
     {
-        return $this->belongsTo(Storage::class, 'material_id', 'material_id')
-                    ->where('storage_type', $this->storage_type);
+        return $this->belongsTo(Storage::class, ['material_id', 'storage_type']);
     }
 }

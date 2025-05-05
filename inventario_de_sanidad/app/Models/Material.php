@@ -10,22 +10,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Material extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = 'material_id';
+    protected $table = 'materials';
     public $timestamps = false;
-
+    protected $primaryKey = 'material_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
-        'name', 'description', 'image_path'
+        'name', 'description', 'image_path',
     ];
 
-    public function storage(): HasMany
+    public function storage()
     {
         return $this->hasMany(Storage::class, 'material_id', 'material_id');
     }
 
-    public function activities(): BelongsToMany
+    public function modifications()
     {
-        return $this->belongsToMany(Activity::class, 'activity_material', 'material_id', 'activity_id')
+        return $this->hasMany(Modification::class, 'material_id', 'material_id');
+    }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'material_activity', 'material_id', 'activity_id')
                     ->withPivot('quantity');
     }
 }

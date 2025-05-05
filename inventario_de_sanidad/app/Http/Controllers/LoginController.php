@@ -31,10 +31,10 @@ class LoginController extends Controller
             Cookie::queue('NAME', $user->first_name . " " . $user->last_name, 60);
             Cookie::queue('ROLE', $user->role, 60);
             
-            if ($user->role === 'admin') {
+            if ($user->user_type === 'admin') {
                 return redirect()->route('welcome_admin');
             } else if ($user->role === 'teacher') {
-                return redirect()->route('welcome_teacher');
+                return redirect()->route('welcome_docentes');
             } else {
                 return redirect()->route('welcome_student');
             }
