@@ -17,7 +17,7 @@
 
                 <!-- Botones del menú -->
                 <button onclick="window.location.href='{{ route('gestionUsuarios') }}'" class="btn btn-warning">Gestión de usuarios</button>
-                <button onclick="window.location.href='{{ route('gestionMateriales') }}'" class="btn btn-warning">Gestión de materiales</button>
+                <button onclick="window.location.href='{{ route('materials.dashboard') }}'" class="btn btn-warning">Gestión de materiales</button>
                 <button onclick="window.location.href='#'" class="btn btn-warning">Materiales en reserva</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\GestionUsuariosController;
-use App\Http\Controllers\GestionMaterialesController;
+use App\Http\Controllers\MaterialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +28,18 @@ Route::get('/welcome_student', [WelcomeController::class, 'showWelcome_student']
 Route::get('/gestionUsuarios', [GestionUsuariosController::class, 'showGestionUsuarios'])->name('gestionUsuarios');
 Route::post('/gestionUsuarios', [GestionUsuariosController::class, 'altaUsers'])->name('altaUsers.process');
 
-Route::get('/gestionMateriales', [GestionMaterialesController::class, 'showGestionMateriales'])->name('gestionMateriales');
+Route::prefix('materials')->group(function () {
+    Route::get('/dashboard', [MaterialController::class, 'dashboard'])->name('materials.dashboard');
 
-Route::get('/altaMaterial', [GestionMaterialesController::class, 'showAltaMateriales'])->name('altaMaterial.view');
-Route::post('/altaMaterial/add', [GestionMaterialesController::class, 'agregarMaterialACestaAlta'])->name('add.process');
-Route::post('/altaMaterial/process', [GestionMaterialesController::class, 'altaMaterial'])->name('altaMaterial.process');
+    Route::get('/create', [MaterialController::class, 'createForm'])->name('materials.create');
 
-Route::get('/bajaMaterial', [GestionMaterialesController::class, 'showBajaMateriales'])->name('bajaMaterial.view');
-Route::post('/bajaMaterial/add', [GestionMaterialesController::class, 'agregarMaterialACestaBaja'])->name('add.process');
-Route::post('/bajaMaterial/process', [GestionMaterialesController::class, 'bajaMaterial'])->name('bajaMaterial.process');
+    Route::post('/basket/create', [MaterialController::class, 'addToCreationBasket'])->name('materials.basket.create');
+
+    Route::post('/store', [MaterialController::class, 'storeBatch'])->name('materials.store');
+
+    Route::get('/delete', [MaterialController::class, 'deleteForm'])->name('materials.delete');
+
+    Route::post('/basket/delete', [MaterialController::class, 'addToDeletionBasket'])->name('materials.basket.delete');
+
+    Route::post('/destroy', [MaterialController::class, 'destroyBatch'])->name('materials.destroyBatch');
+});

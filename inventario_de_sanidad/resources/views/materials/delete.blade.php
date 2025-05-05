@@ -17,13 +17,13 @@
             <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
 
             <!-- Formulario para agregar material a la cesta -->
-            <form action="{{ route('add.process') }}" method="POST">
+            <form action="{{ route('materials.basket.delete') }}" method="POST">
                 @csrf
                 <div class="input-group">
                     <select name="material" id="material">
                         <option value="">-- Seleccionar material --</option>
                         @foreach ($materiales as $material)
-                            <option value="{{ $material->id_material }}">{{ $material->nombre }} -> {{ $material->descripcion }}</option>
+                            <option value="{{ $material->material_id }}">{{ $material->name }} -> {{ $material->description }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -32,12 +32,12 @@
             </form>
 
             <!-- Formulario para confirmar el alta de materiales guardados en la cesta -->
-            <form action="{{ route('bajaMaterial.process') }}" method="POST">
+            <form action="{{ route('materials.destroyBatch') }}" method="POST">
                 @csrf
                 <input type="submit" value="Baja" class="btn btn-warning">
             </form>
 
-            <button onclick="window.location.href='{{ route('gestionMateriales') }}'" class="btn btn-warning">Volver</button>
+            <button onclick="window.location.href='{{ route('materials.dashboard') }}'" class="btn btn-warning">Volver</button>
 
             <!-- Mensajes flash -->
             @if (session('success'))
@@ -50,16 +50,17 @@
 
             <!-- Mostrar el contenido de la cookie de la cesta. Se decodifica el JSON y se presenta de forma estructurada. -->
             @php
-                $cesta = Cookie::get('cestaMaterialesBaja', '[]');
-                $cestaArray = json_decode($cesta, true);
+                $basket = Cookie::get('materialsRemovalBasket', '[]');
+                $basket = json_decode($basket, true);
             @endphp
 
-            @if (!empty($cestaArray) && is_array($cestaArray))
+            @if (!empty($basket) && is_array($basket))
                 <h4>Cesta de Materiales:</h4>
                 <ul>
-                    @foreach ($cestaArray as $item)
+                    @foreach ($basket as $materialData)
                         <li>
-                            <strong>ID:</strong> {{ $item['id_material'] }}
+                            <strong>ID:</strong> {{ $materialData['material_id'] }}
+                            <strong>Name:</strong> {{ $materialData['name'] }}
                         </li>
                     @endforeach
                 </ul>
