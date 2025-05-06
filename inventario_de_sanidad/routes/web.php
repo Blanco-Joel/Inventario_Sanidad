@@ -65,7 +65,8 @@ Route::prefix('materials')->group(function () {
 
     Route::post('/basket/delete', [GestionMaterialController::class, 'addToDeletionBasket'])->name('materials.basket.delete');
 
-    Route::post('/destroy', [GestionMaterialController::class, 'destroyBatch'])->name('materials.destroyBatch');
+    //Route::post('/destroy', [GestionMaterialController::class, 'destroyBatch'])->name('materials.destroyBatch');
+    Route::post('{material}/destroy', [GestionMaterialController::class, 'destroy'])->name('materials.destroy');
 });
 
 Route::prefix('storages')->group(function () {

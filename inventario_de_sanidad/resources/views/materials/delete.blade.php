@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baja de Materiales</title>
     <link rel="stylesheet" href="{{ asset('css/style_welcome.css') }}">
+    <style>
+        table, th, td {
+            border: 1px solid;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -17,26 +22,36 @@
             <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
 
             <!-- Formulario para agregar material a la cesta -->
-            <form action="{{ route('materials.basket.delete') }}" method="POST">
-                @csrf
-                <div class="input-group">
-                    <select name="material" id="material">
-                        <option value="">-- Seleccionar material --</option>
-                        @foreach ($materiales as $material)
-                            <option value="{{ $material->material_id }}">{{ $material->name }} -> {{ $material->description }}</option>
+
+            <div class="input-group">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Material</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($materials as $material)
+                            <tr>
+                                <td>{{ $material->material_id }}</td>
+                                <td>{{ $material->name }}</td>
+                                <td>{{ $material->description }}</td>
+                                <td>
+                                    <form action="{{ route('materials.destroy', $material) }}" method="POST">
+                                        @csrf
+                                        <input type="submit" value="Eliminar" class="btn btn-danger">
+                                    </form>
+                                </td>
+                            </tr>
                         @endforeach
-                    </select>
-                </div>
+                    </tbody>
+                </table>
+            </div>
 
-                <input type="submit" value="Añadir" class="btn btn-warning">
-            </form>
-
-            <!-- Formulario para confirmar el alta de materiales guardados en la cesta -->
-            <form action="{{ route('materials.destroyBatch') }}" method="POST">
-                @csrf
-                <input type="submit" value="Baja" class="btn btn-warning">
-            </form>
-
+            <br>
             <button onclick="window.location.href='{{ route('materials.dashboard') }}'" class="btn btn-warning">Volver</button>
 
             <!-- Mensajes flash -->
@@ -46,26 +61,6 @@
 
             @if (session('error'))
                 <p class="alert-error-uspas">{{ session('error') }}</p>
-            @endif
-
-            <!-- Mostrar el contenido de la cookie de la cesta. Se decodifica el JSON y se presenta de forma estructurada. -->
-            @php
-                $basket = Cookie::get('materialsRemovalBasket', '[]');
-                $basket = json_decode($basket, true);
-            @endphp
-
-            @if (!empty($basket) && is_array($basket))
-                <h4>Cesta de Materiales:</h4>
-                <ul>
-                    @foreach ($basket as $materialData)
-                        <li>
-                            <strong>ID:</strong> {{ $materialData['material_id'] }}
-                            <strong>Name:</strong> {{ $materialData['name'] }}
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <p>La cesta de materiales está vacía.</p>
             @endif
 
             <br><br>

@@ -154,7 +154,7 @@ class GestionMaterialController extends Controller
      */
     public function deleteForm()
     {
-        return view('materials.delete')->with('materiales', Material::all());
+        return view('materials.delete')->with('materials', Material::all());
     }
 
     /**
@@ -225,4 +225,20 @@ class GestionMaterialController extends Controller
             return back()->with('error', 'Error al eliminar los materiales: ' . $e->getMessage());
         }
     }
+
+    public function destroy(Material $material)
+    {
+        try {
+            if (!Material::find($material->material_id)) {
+                return back()->with('warning', 'El material no existe o ya ha sido eliminado.');
+            }
+
+            $material->delete();
+
+            return back()->with('success', 'Material eliminado correctamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar el material: ' . $e->getMessage());
+        }
+    }
+
 }

@@ -9,6 +9,9 @@
             table, th, td {
                 border: 1px solid;
             }
+            a, a:hover, a:visited {
+                text-decoration: none;
+            }
         </style>
     </head>
     <body>
@@ -31,6 +34,7 @@
                             <th>Cantidad mínima</th>
                             <th>Armario</th>
                             <th>Balda</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +51,7 @@
                                 <td>{{ $useRecord ? $useRecord->cabinet : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->shelf : '-' }}</td>
                                 <td rowspan="2">
-                                    <a href="{{ route('storages.edit', $material) }}">Editar</a>
+                                    <a href="{{ route('storages.edit', $material) }}" class="btn btn-warning">Editar</a>
                                 </td>
                             </tr>
                             <tr>

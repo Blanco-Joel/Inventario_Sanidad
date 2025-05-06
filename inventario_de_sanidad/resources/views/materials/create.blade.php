@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alta de Materiales</title>
     <link rel="stylesheet" href="{{ asset('css/style_welcome.css') }}">
+    <style>
+        table, th, td {
+            border: 1px solid;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -109,32 +114,42 @@
 
             @if (!empty($basket) && is_array($basket))
                 <h4>Cesta de Materiales:</h4>
-                <ul>
-                    @foreach ($basket as $materialData)
-                        <li>
-                            <strong>Nombre:</strong> {{ $materialData['name'] }}<br>
-                            <strong>Descripción:</strong> {{ $materialData['description'] }}<br><br>
-                            
-                            <strong>Almacenamiento para Uso:</strong>
-                            <ul>
-                                <li><strong>Cantidad:</strong> {{ $materialData['use']['units'] }}</li>
-                                <li><strong>Cantidad mínima:</strong> {{ $materialData['use']['min_units'] }}</li>
-                                <li><strong>Armario:</strong> {{ $materialData['use']['cabinet'] }}</li>
-                                <li><strong>Balda:</strong> {{ $materialData['use']['shelf'] }}</li>
-                            </ul>
-                            
-                            <strong>Almacenamiento para Reserva:</strong>
-                            <ul>
-                                <li><strong>Cantidad:</strong> {{ $materialData['reserve']['units'] }}</li>
-                                <li><strong>Cantidad mínima:</strong> {{ $materialData['reserve']['min_units'] }}</li>
-                                <li><strong>Armario:</strong> {{ $materialData['reserve']['cabinet'] }}</li>
-                                <li><strong>Balda:</strong> {{ $materialData['reserve']['shelf'] }}</li>
-                            </ul>
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <p>La cesta de materiales está vacía.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Nombre</th>
+                            <th rowspan="2">Descripción</th>
+                            <th colspan="4" class="text-center">Uso</th>
+                            <th colspan="4" class="text-center">Reserva</th>
+                        </tr>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Mínima</th>
+                            <th>Armario</th>
+                            <th>Balda</th>
+                            <th>Cantidad</th>
+                            <th>Mínima</th>
+                            <th>Armario</th>
+                            <th>Balda</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($basket as $item)
+                            <tr>
+                                <td>{{ $item['name'] }}</td>
+                                <td>{{ $item['description'] }}</td>
+                                <td>{{ $item['use']['units'] }}</td>
+                                <td>{{ $item['use']['min_units'] }}</td>
+                                <td>{{ $item['use']['cabinet'] }}</td>
+                                <td>{{ $item['use']['shelf'] }}</td>
+                                <td>{{ $item['reserve']['units'] }}</td>
+                                <td>{{ $item['reserve']['min_units'] }}</td>
+                                <td>{{ $item['reserve']['cabinet'] }}</td>
+                                <td>{{ $item['reserve']['shelf'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             @endif
 
             <br><br>
