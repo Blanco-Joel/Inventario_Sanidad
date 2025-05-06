@@ -16,7 +16,7 @@ class Storage extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'material_id', 'storage_type', 'cabinet', 'shelf', 'quantity', 'min_quantity'
+        'material_id', 'storage_type', 'cabinet', 'shelf', 'units', 'min_units'
     ];
 
     public function material(): BelongsTo

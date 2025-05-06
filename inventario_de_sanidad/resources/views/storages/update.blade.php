@@ -42,8 +42,8 @@
                             <tr>
                                 <td rowspan="2">{{ $material->name }}</td>
                                 <td>Uso</td>
-                                <td>{{ $useRecord ? $useRecord->quantity : '-' }}</td>
-                                <td>{{ $useRecord ? $useRecord->min_quantity : '-' }}</td>
+                                <td>{{ $useRecord ? $useRecord->units : '-' }}</td>
+                                <td>{{ $useRecord ? $useRecord->min_units : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->cabinet : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->shelf : '-' }}</td>
                                 <td rowspan="2">
@@ -52,8 +52,8 @@
                             </tr>
                             <tr>
                             <td>Reserva</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->quantity : '-' }}</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->min_quantity : '-' }}</td>
+                                <td>{{ $reserveRecord ? $reserveRecord->units : '-' }}</td>
+                                <td>{{ $reserveRecord ? $reserveRecord->min_units : '-' }}</td>
                                 <td>{{ $reserveRecord ? $reserveRecord->cabinet : '-' }}</td>
                                 <td>{{ $reserveRecord ? $reserveRecord->shelf : '-' }}</td>
                             </tr>

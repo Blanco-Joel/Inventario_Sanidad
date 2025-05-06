@@ -31,13 +31,13 @@
                     @endphp
                     <div class="form-group">
                         <label>Cantidad (Uso):</label>
-                        <input type="number" name="use_quantity" class="form-control" 
-                            value="{{ $useRecord ? $useRecord->quantity : '' }}" required>
+                        <input type="number" name="use_units" class="form-control" 
+                            value="{{ $useRecord ? $useRecord->units : '' }}" required>
                     </div>
                     <div class="form-group">
                         <label>Cantidad Mínima (Uso):</label>
-                        <input type="number" name="use_min_quantity" class="form-control" 
-                            value="{{ $useRecord ? $useRecord->min_quantity : '' }}" required>
+                        <input type="number" name="use_min_units" class="form-control" 
+                            value="{{ $useRecord ? $useRecord->min_units : '' }}" required>
                     </div>
                     <div class="form-group">
                         <label>Armario (Uso):</label>
@@ -59,13 +59,13 @@
                     @endphp
                     <div class="form-group">
                         <label>Cantidad (Reserva):</label>
-                        <input type="number" name="reserve_quantity" class="form-control" 
-                            value="{{ $reserveRecord ? $reserveRecord->quantity : '' }}" required>
+                        <input type="number" name="reserve_units" class="form-control" 
+                            value="{{ $reserveRecord ? $reserveRecord->units : '' }}" required>
                     </div>
                     <div class="form-group">
                         <label>Cantidad Mínima (Reserva):</label>
-                        <input type="number" name="reserve_min_quantity" class="form-control" 
-                            value="{{ $reserveRecord ? $reserveRecord->min_quantity : '' }}" required>
+                        <input type="number" name="reserve_min_units" class="form-control" 
+                            value="{{ $reserveRecord ? $reserveRecord->min_units : '' }}" required>
                     </div>
                     <div class="form-group">
                         <label>Armario (Reserva):</label>

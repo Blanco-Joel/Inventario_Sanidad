@@ -53,7 +53,7 @@ Route::get('/gestionUsuariosData', function () {return response()->json(\App\Mod
 Route::prefix('materials')->group(function () {
     Route::get('/dashboard', [GestionMaterialController::class, 'dashboard'])->name('materials.dashboard');
 /* GESTION DE MATERIALES */
-Route::get('/gestionMateriales', [GestionMaterialController::class, 'showGestionMateriales'])->name('gestionMateriales');
+//Route::get('/gestionMateriales', [GestionMaterialController::class, 'showGestionMateriales'])->name('gestionMateriales');
 
     Route::get('/create', [GestionMaterialController::class, 'createForm'])->name('materials.create');
 

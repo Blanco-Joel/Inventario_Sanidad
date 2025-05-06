@@ -38,13 +38,13 @@
                 <fieldset>
                     <legend>Uso</legend>
                     <div class="input-group">
-                        <label for="quantity_use">Cantidad</label>
-                        <input type="number" name="quantity_use" id="quantity_use" min="1">
+                        <label for="units_use">Cantidad</label>
+                        <input type="number" name="units_use" id="units_use" min="1">
                     </div>
 
                     <div class="input-group">
-                        <label for="min_quantity_use">Cantidad mínima</label>
-                        <input type="number" name="min_quantity_use" id="min_quantity_use" min="1">
+                        <label for="min_units_use">Cantidad mínima</label>
+                        <input type="number" name="min_units_use" id="min_units_use" min="1">
                     </div>
 
                     <div class="input-group">
@@ -61,13 +61,13 @@
                 <fieldset>
                     <legend>Reserva</legend>
                     <div class="input-group">
-                        <label for="quantity_reserve">Cantidad</label>
-                        <input type="number" name="quantity_reserve" id="quantity_reserve" min="1">
+                        <label for="units_reserve">Cantidad</label>
+                        <input type="number" name="units_reserve" id="units_reserve" min="1">
                     </div>
 
                     <div class="input-group">
-                        <label for="min_quantity_reserve">Cantidad mínima</label>
-                        <input type="number" name="min_quantity_reserve" id="min_quantity_reserve" min="1">
+                        <label for="min_units_reserve">Cantidad mínima</label>
+                        <input type="number" name="min_units_reserve" id="min_units_reserve" min="1">
                     </div>
 
                     <div class="input-group">
@@ -117,16 +117,16 @@
                             
                             <strong>Almacenamiento para Uso:</strong>
                             <ul>
-                                <li><strong>Cantidad:</strong> {{ $materialData['use']['quantity'] }}</li>
-                                <li><strong>Cantidad mínima:</strong> {{ $materialData['use']['min_quantity'] }}</li>
+                                <li><strong>Cantidad:</strong> {{ $materialData['use']['units'] }}</li>
+                                <li><strong>Cantidad mínima:</strong> {{ $materialData['use']['min_units'] }}</li>
                                 <li><strong>Armario:</strong> {{ $materialData['use']['cabinet'] }}</li>
                                 <li><strong>Balda:</strong> {{ $materialData['use']['shelf'] }}</li>
                             </ul>
                             
                             <strong>Almacenamiento para Reserva:</strong>
                             <ul>
-                                <li><strong>Cantidad:</strong> {{ $materialData['reserve']['quantity'] }}</li>
-                                <li><strong>Cantidad mínima:</strong> {{ $materialData['reserve']['min_quantity'] }}</li>
+                                <li><strong>Cantidad:</strong> {{ $materialData['reserve']['units'] }}</li>
+                                <li><strong>Cantidad mínima:</strong> {{ $materialData['reserve']['min_units'] }}</li>
                                 <li><strong>Armario:</strong> {{ $materialData['reserve']['cabinet'] }}</li>
                                 <li><strong>Balda:</strong> {{ $materialData['reserve']['shelf'] }}</li>
                             </ul>

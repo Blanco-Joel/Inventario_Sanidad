@@ -8,6 +8,7 @@ use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class StorageController extends Controller
 {
@@ -27,13 +28,13 @@ class StorageController extends Controller
     {
         try {
             $validated = $request->validate([
-                'use_quantity'         => 'required|integer|min:1',
-                'use_min_quantity'     => 'required|integer|min:1',
+                'use_units'         => 'required|integer|min:1',
+                'use_min_units'     => 'required|integer|min:1',
                 'use_cabinet'          => 'required|integer|min:1',
                 'use_shelf'            => 'required|integer|min:1',
     
-                'reserve_quantity'     => 'required|integer|min:1',
-                'reserve_min_quantity' => 'required|integer|min:1',
+                'reserve_units'     => 'required|integer|min:1',
+                'reserve_min_units' => 'required|integer|min:1',
                 'reserve_cabinet'      => 'required|integer|min:1',
                 'reserve_shelf'        => 'required|integer|min:1',
 
@@ -45,25 +46,25 @@ class StorageController extends Controller
             $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
 
             // Nuevos valores.
-            $newUseQuantity    = $validated['use_quantity'];
-            $newUseMin         = $validated['use_min_quantity'];
+            $newUseUnits    = $validated['use_units'];
+            $newUseMin         = $validated['use_min_units'];
             $newUseCabinet     = $validated['use_cabinet'];
             $newUseShelf       = $validated['use_shelf'];
 
-            $newReserveQuantity = $validated['reserve_quantity'];
-            $newReserveMin     = $validated['reserve_min_quantity'];
+            $newReserveUnits = $validated['reserve_units'];
+            $newReserveMin     = $validated['reserve_min_units'];
             $newReserveCabinet = $validated['reserve_cabinet'];
             $newReserveShelf   = $validated['reserve_shelf'];
 
             // Comprueba si ningún campo cambia.
             if
             (
-                $newUseQuantity    == $useRecord->quantity && 
-                $newUseMin         == $useRecord->min_quantity && 
+                $newUseUnits    == $useRecord->units && 
+                $newUseMin         == $useRecord->min_units && 
                 $newUseCabinet     == $useRecord->cabinet && 
                 $newUseShelf       == $useRecord->shelf && 
-                $newReserveQuantity == $reserveRecord->quantity && 
-                $newReserveMin     == $reserveRecord->min_quantity && 
+                $newReserveUnits == $reserveRecord->units && 
+                $newReserveMin     == $reserveRecord->min_units && 
                 $newReserveCabinet == $reserveRecord->cabinet && 
                 $newReserveShelf   == $reserveRecord->shelf
             )
@@ -75,8 +76,8 @@ class StorageController extends Controller
             if ($request->boolean('onlyReserve')) {
                 if
                 (
-                    $newReserveQuantity == $reserveRecord->quantity && 
-                    $newReserveMin     == $reserveRecord->min_quantity && 
+                    $newReserveUnits == $reserveRecord->units && 
+                    $newReserveMin     == $reserveRecord->min_units && 
                     $newReserveCabinet == $reserveRecord->cabinet && 
                     $newReserveShelf   == $reserveRecord->shelf
                 )
@@ -85,18 +86,18 @@ class StorageController extends Controller
                 }
 
                 // Calcular la diferencia a registrar.
-                $differenceReserve = $newReserveQuantity - $reserveRecord->quantity;
+                $differenceReserve = $newReserveUnits - $reserveRecord->units;
                 // Comprobar stock negativo.
-                if ($newReserveQuantity < 0) {
+                if ($newReserveUnits < 0) {
                     return back()->with('error','La cantidad de reserva no puede ser negativa.');
                 }
 
-                DB::transaction(function() use ($validated, $newReserveQuantity, $differenceReserve, $material) {
+                DB::transaction(function() use ($validated, $newReserveUnits, $differenceReserve, $material) {
                     // Actualizar reserva.
                     Storage::where('material_id', $material->material_id)->where('storage_type' , 'reserve')
                     ->update([
-                        'quantity'     => $newReserveQuantity,
-                        'min_quantity' => $validated['reserve_min_quantity'],
+                        'units'     => $newReserveUnits,
+                        'min_units' => $validated['reserve_min_units'],
                         'cabinet'      => $validated['reserve_cabinet'],
                         'shelf'        => $validated['reserve_shelf'],
                     ]);
@@ -109,8 +110,8 @@ class StorageController extends Controller
             }
     
             // Diferencias.
-            $differenceUse     = $newUseQuantity     - $useRecord->quantity;
-            $differenceReserve = $newReserveQuantity - $reserveRecord->quantity;
+            $differenceUse     = $newUseUnits     - $useRecord->units;
+            $differenceReserve = $newReserveUnits - $reserveRecord->units;
     
             // Si cambia ambas unidades, no se realiza el cambio.
             if ($differenceUse !== 0 && $differenceReserve !== 0) {
@@ -119,24 +120,24 @@ class StorageController extends Controller
     
             if ($differenceUse !== 0) {
                 // Cambiar la cantidad de reserva.
-                $newReserveQuantity  = $reserveRecord->quantity - $differenceUse;
-                if ($newReserveQuantity < 0) {
+                $newReserveUnits  = $reserveRecord->units - $differenceUse;
+                if ($newReserveUnits < 0) {
                     return back()->with('error','No puedes transferir más unidades de las que hay en reserva.');
                 }
             } else if ($differenceReserve !== 0) {
                 // Cambiar la cantidad de uso.
-                $newUseQuantity  = $useRecord->quantity - $differenceReserve;
-                if ($newUseQuantity < 0) {
+                $newUseUnits  = $useRecord->units - $differenceReserve;
+                if ($newUseUnits < 0) {
                     return back()->with('error','No puedes transferir más unidades de las que hay en uso.');
                 }
             }
     
-            DB::transaction(function() use ($validated, $newUseQuantity, $newReserveQuantity, $differenceUse, $differenceReserve, $material) {
+            DB::transaction(function() use ($validated, $newUseUnits, $newReserveUnits, $differenceUse, $differenceReserve, $material) {
                 // Actualizar uso.
                 Storage::where('material_id', $material->material_id)->where('storage_type' , 'use')
                 ->update([
-                    'quantity'     => $newUseQuantity,
-                    'min_quantity' => $validated['use_min_quantity'],
+                    'units'     => $newUseUnits,
+                    'min_units' => $validated['use_min_units'],
                     'cabinet'      => $validated['use_cabinet'],
                     'shelf'        => $validated['use_shelf'],
                 ]);
@@ -144,8 +145,8 @@ class StorageController extends Controller
                 // Actualizar reserva.
                 Storage::where('material_id', $material->material_id)->where('storage_type' , 'reserve')
                 ->update([
-                    'quantity'     => $newReserveQuantity,
-                    'min_quantity' => $validated['reserve_min_quantity'],
+                    'units'     => $newReserveUnits,
+                    'min_units' => $validated['reserve_min_units'],
                     'cabinet'      => $validated['reserve_cabinet'],
                     'shelf'        => $validated['reserve_shelf'],
                 ]);
@@ -167,15 +168,15 @@ class StorageController extends Controller
         }
     }
 
-    private function storeEditInModification($material_id, $storage_type, $quantity)
+    private function storeEditInModification($material_id, $storage_type, $units)
     {
         $user_id = Cookie::get('USERPASS');
-    
         Modification::create([
-            'user_id'      => $user_id,
-            'material_id'  => $material_id,
-            'storage_type'=> $storage_type,
-            'quantity'    => $quantity,
+            'user_id'         => $user_id,
+            'material_id'     => $material_id,
+            'storage_type'    => $storage_type,
+            'units'           => $units,
+            'action_datetime' => Carbon::now('Europe/Madrid'),
         ]);
     }
 }
