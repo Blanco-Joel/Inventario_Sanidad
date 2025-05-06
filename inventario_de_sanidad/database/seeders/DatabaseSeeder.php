@@ -64,20 +64,36 @@ class DatabaseSeeder extends Seeder
         // Insert Storage
         DB::table('storage')->insert([
             [
-                'material_id' => 1,
+                'material_id'  => 1,
                 'storage_type' => 'reserve',
-                'cabinet' => 1,
-                'shelf' => 1,
-                'units' => 120,
-                'min_units' => 30,
+                'cabinet'      => 1,
+                'shelf'        => 1,
+                'units'        => 120,
+                'min_units'    => 30,
             ],
             [
-                'material_id' => 2, 
+                'material_id'  => 1,
+                'storage_type' => 'use',
+                'cabinet'      => 2,
+                'shelf'        => 1,
+                'units'        => 50,
+                'min_units'    => 10,
+            ],
+            [
+                'material_id'  => 2,
                 'storage_type' => 'reserve',
-                'cabinet' => 1,
-                'shelf' => 2,
-                'units' => 100,
-                'min_units' => 25,
+                'cabinet'      => 1,
+                'shelf'        => 2,
+                'units'        => 100,
+                'min_units'    => 25,
+            ],
+            [
+                'material_id'  => 2,
+                'storage_type' => 'use',
+                'cabinet'      => 2,
+                'shelf'        => 2,
+                'units'        => 40,
+                'min_units'    => 10,
             ],
         ]);
 
