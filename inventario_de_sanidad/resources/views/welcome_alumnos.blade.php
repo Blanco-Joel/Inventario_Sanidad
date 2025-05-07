@@ -31,14 +31,15 @@
         <h1 class="text-center">Portal del departamento de Sanidad</h1> 
 
         <div class="card ">
-            <div class="header">Menú de Docentes </div><br>
+            <div class="header">Menú de Estudiantes </div><br>
             <div id="name"><b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}</div><br><br>
             <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
             @if (session('mensaje'))
                     <p>{{ session('mensaje') }}</p>
                 @endif
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('materiales.reserva') }}'" class="btn btn-warning">Materiales en reserva</button>
+                <button onclick="window.location.href='{{ route('activities.create') }}'" class="btn btn-warning">Registrar actividad</button>
+                <button onclick="window.location.href='#'" class="btn btn-warning">Historial actividades</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
 

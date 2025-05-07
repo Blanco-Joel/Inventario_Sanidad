@@ -9,6 +9,7 @@ use App\Http\Controllers\GestionUsuariosController;
 use App\Http\Controllers\GestionMaterialController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\MaterialReservaController;
+use App\Http\Controllers\ActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ Route::post('/welcome_docentes', [WelcomeController::class, 'changePasswordFirst
 Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
 Route::post('/welcome_admin', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
-Route::get('/welcome_alumnos', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_alumnos');
+Route::get('/welcome_alumnos', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_student');
 Route::post('/welcome_alumnos', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
 
@@ -76,6 +77,13 @@ Route::prefix('storages')->group(function () {
 
     Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
 });
+
+Route::prefix('activities')->group(function () {
+    Route::get('/create', [ActivityController::class, 'createForm'])->name('activities.create');
+
+    Route::post('/store', [ActivityController::class, 'store'])->name('activities.store');
+});
+
 Route::get('/bajaMaterial', [GestionMaterialController::class, 'showBajaMateriales'])->name('bajaMaterial.view');
 Route::post('/bajaMaterial/add', [GestionMaterialController::class, 'agregarMaterialACestaBaja'])->name('add.process');
 Route::post('/bajaMaterial/process', [GestionMaterialController::class, 'bajaMaterial'])->name('bajaMaterial.process');
