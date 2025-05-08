@@ -35,7 +35,7 @@ Route::get('/firstLogData', function () {
         \App\Models\User::where('user_id', $userpass)->first()
     );
 });
-Route::get('/welcome_docentes', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_docentes');
+Route::get('/welcome_docentes', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_teacher');
 Route::post('/welcome_docentes', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
 Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
@@ -76,6 +76,7 @@ Route::prefix('storages')->group(function () {
     Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
 
     Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
+    Route::post('/update/{material}/teacher/process', [StorageController::class, 'transferReserveToUse'])->name('storages.transfer.teacher');
 });
 
 Route::prefix('activities')->group(function () {

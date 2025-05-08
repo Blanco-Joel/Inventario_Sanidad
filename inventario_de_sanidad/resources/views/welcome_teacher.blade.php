@@ -37,8 +37,8 @@
                     <p>{{ session('mensaje') }}</p>
                 @endif
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('gestionMateriales') }}'" class="btn btn-warning">Gestión de materiales</button>
-                <button onclick="window.location.href='{{ route('materiales.reserva') }}'" class="btn btn-warning">Materiales en reserva</button>
+                <button onclick="window.location.href='{{ route('storages.updateView') }}'" class="btn btn-warning">Gestionar almacenamiento</button>
+                <button onclick="window.location.href='{{ route('materiales.submenuHistorial') }}'" class="btn btn-warning">Reservas de Materiales</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
 

@@ -16,43 +16,44 @@
             <h1 class="text-center">Portal del Departamento de Sanidad</h1>
 
             <div class="card">
-                <div class="header">Menú de Administrador - EDITAR ALMACENAMIENTO</div>
+                <div class="header">Menú de {{ Cookie::get('ROLE') === 'admin' ? 'Administrador' : 'Profesor' }} - EDITAR ALMACENAMIENTO</div>
                 <br>
                 <b>Bienvenido/a:</b> {{ Cookie::get('NAME') }}<br><br>
                 <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
 
-                <h2>Editar Almacenamiento para: {{ $material->name }}</h2>
-                <form action="{{ route('storages.updateBatch', $material->material_id) }}" method="POST">
+                <form action="{{ Cookie::get('ROLE') === 'admin' ? route('storages.updateBatch', $material->material_id) : route('storages.transfer.teacher', $material->material_id) }}" method="POST">
                     @csrf
+
+                    <h2>Editar Almacenamiento para: {{ $material->name }}</h2>
                     
-                    <h2>Datos para Uso</h2>
+                    <h3>Datos para Uso</h3>
                     @php
                         $useRecord = $material->storage->where('storage_type', 'use')->first();
                     @endphp
                     <div class="form-group">
                         <label>Cantidad:</label>
-                        <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '' }}" required>
+                        <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '-' }}" required>
                         @error('use_units')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label>Cantidad Mínima:</label>
-                        <input type="number" name="use_min_units" class="form-control" value="{{ $useRecord->min_units ?? '' }}" required>
+                        <input type="number" name="use_min_units" class="form-control" value="{{ $useRecord->min_units ?? '-' }}" {{ Cookie::get('ROLE') === 'teacher' ? 'readonly' : 'required' }}>
                         @error('use_min_units')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label>Armario:</label>
-                        <input type="number" name="use_cabinet" class="form-control" value="{{ $useRecord->cabinet ?? '' }}" required>
+                        <input type="number" name="use_cabinet" class="form-control" value="{{ $useRecord->cabinet ?? '-' }}" {{ Cookie::get('ROLE') === 'teacher' ? 'readonly' : 'required' }}>
                         @error('use_cabinet')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label>Balda:</label>
-                        <input type="number" name="use_shelf" class="form-control" value="{{ $useRecord->shelf ?? '' }}" required>
+                        <input type="number" name="use_shelf" class="form-control" value="{{ $useRecord->shelf ?? '-' }}" {{ Cookie::get('ROLE') === 'teacher' ? 'readonly' : 'required' }}>
                         @error('use_shelf')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
@@ -67,38 +68,41 @@
                     @endphp
                     <div class="form-group">
                         <label>Cantidad:</label>
-                        <input type="number" name="reserve_units" class="form-control" value="{{ $reserveRecord->units ?? '' }}" required>
+                        <input type="number" name="reserve_units" class="form-control" value="{{ $reserveRecord->units ?? '' }}" {{ Cookie::get('ROLE') === 'teacher' ? 'readonly' : 'required' }}>
                         @error('reserve_units')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label>Cantidad Mínima:</label>
-                        <input type="number" name="reserve_min_units" class="form-control" value="{{ $reserveRecord->min_units ?? '' }}" required>
+                        <input type="number" name="reserve_min_units" class="form-control" value="{{ $reserveRecord->min_units ?? '' }}" {{ Cookie::get('ROLE') === 'teacher' ? 'readonly' : 'required' }}>
                         @error('reserve_min_units')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label>Armario:</label>
-                        <input type="number" name="reserve_cabinet" class="form-control" value="{{ $reserveRecord->cabinet ?? '' }}" required>
+                        <input type="number" name="reserve_cabinet" class="form-control" value="{{ $reserveRecord->cabinet ?? '' }}" {{ Cookie::get('ROLE') === 'teacher' ? 'readonly' : 'required' }}>
                         @error('reserve_cabinet')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label>Balda:</label>
-                        <input type="number" name="reserve_shelf" class="form-control" value="{{ $reserveRecord->shelf ?? '' }}" required>
+                        <input type="number" name="reserve_shelf" class="form-control" value="{{ $reserveRecord->shelf ?? '' }}" {{ Cookie::get('ROLE') === 'teacher' ? 'readonly' : 'required' }}>
                         @error('reserve_shelf')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
 
+                @if (Cookie::get('ROLE') === 'admin')
                     <div>
                         <br>
                         <input type="checkbox" id="onlyReserve" name="onlyReserve" value="1">
                         <label for="onlyReserve">Actualizar solamente reserva</label>
                     </div>
+                @endif
+                    
 
                     <br>
                     <button type="submit" class="btn btn-primary">Actualizar Almacenamiento</button>

@@ -179,4 +179,47 @@ class StorageController extends Controller
             'action_datetime' => Carbon::now('Europe/Madrid'),
         ]);
     }
+
+    public function transferReserveToUse(Request $request, Material $material)
+    {
+        try {
+            $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
+            $useRecord     = $material->storage->where('storage_type', 'use')->first();
+            
+            $reserveUnits  = $reserveRecord->units;
+            $useUnits      = $useRecord->units;
+
+            $max = $useUnits + $reserveUnits;
+
+            $validated = $request->validate([
+                'use_units' => "required|integer|min:{$useUnits}|max:{$max}",
+            ], [
+                'use_units.required' => 'Debes indicar cuántas unidades transferir.',
+                'use_units.integer'  => 'La cantidad debe ser un número entero.',
+                'use_units.min'      => "No puedes tener menos de {$useUnits} unidades en uso, ya que actualmente hay {$useUnits}.",
+                'use_units.max'      => "No puedes tener más de {$max} unidades en uso, la diferencia supera las disponibles en reserva ({$reserveUnits}).",
+            ]);
+
+            $modifiedUnits = $validated['use_units'] - $useUnits;
+
+            DB::transaction(function() use ($modifiedUnits, $material) {
+                // decrementa reserva
+                Storage::where('material_id',$material->material_id)
+                ->where('storage_type','reserve')
+                ->decrement('units',$modifiedUnits);
+
+                // incrementa uso
+                Storage::where('material_id',$material->material_id)
+                ->where('storage_type','use')
+                ->increment('units',$modifiedUnits);
+        
+                $this->storeEditInModification($material->material_id, 'reserve', -$modifiedUnits);
+                $this->storeEditInModification($material->material_id, 'use', $modifiedUnits);
+            });
+
+            return back()->with('success',"Se han añadido {$modifiedUnits} unidades de reserva a uso.");
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al modificar los registros: ' . $e->getMessage());
+        }
+    }
 }
