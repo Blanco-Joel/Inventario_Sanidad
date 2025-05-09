@@ -39,7 +39,7 @@
                 @endif
                 <!-- Botones del menú -->
                 <button onclick="window.location.href='{{ route('activities.create') }}'" class="btn btn-warning">Registrar actividad</button>
-                <button onclick="window.location.href='#'" class="btn btn-warning">Historial actividades</button>
+                <button onclick="window.location.href='{{ route('activities.history') }}'" class="btn btn-warning">Historial actividades</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
 

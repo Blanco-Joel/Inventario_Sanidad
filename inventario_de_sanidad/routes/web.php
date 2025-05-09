@@ -83,6 +83,8 @@ Route::prefix('storages')->group(function () {
 Route::prefix('activities')->group(function () {
     Route::get('/create', [ActivityController::class, 'createForm'])->name('activities.create');
 
+    Route::get('/history', [ActivityController::class, 'historyView'])->name('activities.history');
+
     Route::post('/store', [ActivityController::class, 'store'])->name('activities.store');
 });
 
