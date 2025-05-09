@@ -19,7 +19,7 @@
             <h1 class="text-center">Portal del Departamento de Sanidad</h1>
 
             <div class="card">
-                <div class="header">Menú de Administrador - GESTIONAR ALMACENAMIENTO</div>
+                <div class="header">Menú de {{ Cookie::get('ROLE') === 'admin' ? 'Administrador' : 'Docentes' }} - GESTIONAR ALMACENAMIENTO</div>
                 <br>
                 <b>Bienvenido/a:</b> {{ Cookie::get('NAME') }}<br><br>
                 <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
@@ -66,7 +66,7 @@
                 </table>
 
                 <br>
-                <button onclick="window.location.href='{{ route('materials.dashboard') }}'" class="btn btn-warning">Volver</button>
+                <button onclick="window.location.href='{{ Cookie::get('ROLE') === 'admin' ? route('materials.dashboard') : route('welcome_teacher') }}'" class="btn btn-warning">Volver</button>
 
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>

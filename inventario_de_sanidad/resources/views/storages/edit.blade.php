@@ -16,7 +16,7 @@
             <h1 class="text-center">Portal del Departamento de Sanidad</h1>
 
             <div class="card">
-                <div class="header">Menú de {{ Cookie::get('ROLE') === 'admin' ? 'Administrador' : 'Profesor' }} - EDITAR ALMACENAMIENTO</div>
+                <div class="header">Menú de {{ Cookie::get('ROLE') === 'admin' ? 'Administrador' : 'Docentes' }} - EDITAR ALMACENAMIENTO</div>
                 <br>
                 <b>Bienvenido/a:</b> {{ Cookie::get('NAME') }}<br><br>
                 <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
@@ -62,7 +62,7 @@
                     <hr>
                     
                     <!-- Sección para almacenar datos de "Reserva" -->
-                    <h2>Datos para Reserva</h2>
+                    <h3>Datos para Reserva</h3>
                     @php
                         $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
                     @endphp
