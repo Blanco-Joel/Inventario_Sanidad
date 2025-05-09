@@ -51,7 +51,7 @@
                                 <td>{{ $useRecord ? $useRecord->cabinet : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->shelf : '-' }}</td>
                                 <td rowspan="2">
-                                    <a href="{{ route('storages.edit', $material) }}" class="btn btn-warning">Editar</a>
+                                    <a href="{{ Cookie::get('ROLE') === 'admin' ? route('storages.edit', $material) : route('storages.teacher.edit', $material) }}" class="btn btn-warning">Editar</a>
                                 </td>
                             </tr>
                             <tr>

@@ -74,9 +74,10 @@ Route::prefix('storages')->group(function () {
     Route::get('/update', [StorageController::class, 'updateView'])->name('storages.updateView');
 
     Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
+    Route::get('update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
 
     Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
-    Route::post('/update/{material}/teacher/process', [StorageController::class, 'transferReserveToUse'])->name('storages.transfer.teacher');
+    Route::post('/update/{material}/teacher/process', [StorageController::class, 'subtractToUse'])->name('storages.subtract.teacher');
 });
 
 Route::prefix('activities')->group(function () {
