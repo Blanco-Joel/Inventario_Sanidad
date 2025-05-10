@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\ActivityController' => $baseDir . '/app/Http/Controllers/ActivityController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\GestionMaterialController' => $baseDir . '/app/Http/Controllers/GestionMaterialController.php',
     'App\\Http\\Controllers\\GestionUsuariosController' => $baseDir . '/app/Http/Controllers/GestionUsuariosController.php',
@@ -25,8 +26,8 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Models\\Activity' => $baseDir . '/app/Models/Activity.php',
-    'App\\Models\\ActivityMaterial' => $baseDir . '/app/Models/ActivityMaterial.php',
     'App\\Models\\Material' => $baseDir . '/app/Models/Material.php',
+    'App\\Models\\MaterialActivity' => $baseDir . '/app/Models/MaterialActivity.php',
     'App\\Models\\Modification' => $baseDir . '/app/Models/Modification.php',
     'App\\Models\\Storage' => $baseDir . '/app/Models/Storage.php',
     'App\\Models\\Subject' => $baseDir . '/app/Models/Subject.php',
