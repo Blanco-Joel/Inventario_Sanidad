@@ -109,20 +109,22 @@
                                         </button>
                                     </form>
                                 </td>
-                                <td>
-                                    <form action="{{ route('bajaUsers.process') }}" method="POST" name="registro" id="btn-delete-{{$usuario->user_id}}">
-                                    @csrf
-                                    <input type="hidden" name="user_id" value="{{$usuario->user_id}}" >
+                                <td width="34" height="34">
+                                    @if ($usuario->user_id !=  Cookie::get('USERPASS') )
+                                        <form action="{{ route('bajaUsers.process') }}" method="POST" name="registro" id="btn-delete-{{$usuario->user_id}}">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{$usuario->user_id}}" >
 
-                                        <button  type="submit"   style="background: none; border: none; cursor: pointer;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="3 6 5 6 21 6" />
-                                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m5 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                                                <line x1="10" y1="11" x2="10" y2="17" />
-                                                <line x1="14" y1="11" x2="14" y2="17" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                            <button  type="submit"   style="background: none; border: none; cursor: pointer;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="3 6 5 6 21 6" />
+                                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m5 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
 
                                 </td>
                             </tr>
