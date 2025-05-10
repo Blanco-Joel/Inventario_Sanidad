@@ -38,7 +38,7 @@
                 @endif
                 <!-- Botones del menú -->
                 <button onclick="window.location.href='{{ route('gestionUsuarios') }}'" class="btn btn-warning">Gestión de usuarios</button>
-                <button onclick="window.location.href='{{ route('gestionMateriales') }}'" class="btn btn-warning">Gestión de materiales</button>
+                <button onclick="window.location.href='{{ route('materials.dashboard') }}'" class="btn btn-warning">Gestión de materiales</button>
                 <button onclick="window.location.href='{{ route('materiales.submenuHistorial') }}'" class="btn btn-warning">Reservas de Materiales</button>
                 <br><br>
 

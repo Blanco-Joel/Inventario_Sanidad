@@ -11,7 +11,7 @@
         <h1 class="text-center">Portal del departamento de Sanidad</h1> 
 
         <div class="card ">
-            <div class="header">Menú de Docentes - GESTIÓN DE MATERIALES </div><br>
+            <div class="header">Menú de Administrador - GESTIÓN DE MATERIALES </div><br>
                 <b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}<br><br>
                 <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
 

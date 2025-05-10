@@ -5,143 +5,161 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Insert Users
+        // Seed Users
         DB::table('users')->insert([
             [
-                'first_name' => 'Ana',
-                'last_name' => 'Martínez López',
-                'created_at' => '2023-01-10 00:00:00',
-                'last_modified' => '2025-04-01',
-                'email' => 'ana.martinez@email.com',
-                'password' => 'clave1',
-                'hashed_password' => Hash::make('clave1'),
-                'firstLog' => false,
-                'user_type' => 'teacher',
+                'first_name'     => 'Ana',
+                'last_name'      => 'Martínez López',
+                'email'          => 'ana.martinez@example.com',
+                'hashed_password'=> Hash::make('clave1'),
+                'first_log'      => false,
+                'user_type'      => 'teacher',
+                'created_at'     => Carbon::create(2023, 1, 10, 0, 0, 0),
+                'updated_at'     => Carbon::create(2025, 4, 1, 0, 0, 0),
             ],
             [
-                'first_name' => 'Carlos',
-                'last_name' => 'Pérez Ruiz',
-                'created_at' => '2024-03-15 00:00:00',
-                'last_modified' => '2025-04-01',
-                'email' => 'carlos.perez@email.com',
-                'password' => 'clave2',
-                'hashed_password' => Hash::make('clave2'),
-                'firstLog' => false,
-                'user_type' => 'student',
+                'first_name'     => 'Carlos',
+                'last_name'      => 'Pérez Ruiz',
+                'email'          => 'carlos.perez@example.com',
+                'hashed_password'=> Hash::make('clave2'),
+                'first_log'      => false,
+                'user_type'      => 'student',
+                'created_at'     => Carbon::create(2024, 3, 15, 0, 0, 0),
+                'updated_at'     => Carbon::create(2025, 4, 1, 0, 0, 0),
             ],
             [
-                'first_name' => 'Lucía',
-                'last_name' => 'Fernández Soto',
-                'created_at' => '2023-07-20 00:00:00',
-                'last_modified' => '2025-04-01',
-                'email' => 'lucia.fernandez@email.com',
-                'password' => 'clave3',
-                'hashed_password' => Hash::make('clave3'),
-                'firstLog' => false,
-                'user_type' => 'admin',
+                'first_name'     => 'Lucía',
+                'last_name'      => 'Fernández Soto',
+                'email'          => 'lucia.fernandez@example.com',
+                'hashed_password'=> Hash::make('clave3'),
+                'first_log'      => false,
+                'user_type'      => 'admin',
+                'created_at'     => Carbon::create(2023, 7, 20, 0, 0, 0),
+                'updated_at'     => Carbon::create(2025, 4, 1, 0, 0, 0),
             ],
         ]);
 
-        // Insert Materials
+        // Seed Materials
         DB::table('materials')->insert([
             [
-                'name' => 'Latex Gloves',
+                'name'        => 'Latex Gloves',
                 'description' => 'Disposable gloves',
-                'image_path' => 'img/gloves.jpg',
+                'image_path'  => 'img/gloves.jpg',
             ],
             [
-                'name' => 'Surgical Mask',
+                'name'        => 'Surgical Mask',
                 'description' => 'Face protection',
-                'image_path' => 'img/mask.jpg',
+                'image_path'  => 'img/mask.jpg',
             ],
         ]);
 
-        // Insert Storage
-        DB::table('storage')->insert([
+        // Seed Storages
+        DB::table('storages')->insert([
             [
-                'material_id' => 1,
+                'material_id'  => 1,
                 'storage_type' => 'reserve',
-                'cabinet' => 1,
-                'shelf' => 1,
-                'units' => 120,
-                'min_units' => 30,
+                'cabinet'      => '1',
+                'shelf'        => 1,
+                'drawer'       => null,
+                'units'        => 120,
+                'min_units'    => 30,
             ],
             [
-                'material_id' => 2, 
+                'material_id'  => 1,
+                'storage_type' => 'use',
+                'cabinet'      => '1',
+                'shelf'        => 1,
+                'drawer'       => null,
+                'units'        => 0,
+                'min_units'    => 0,
+            ],
+            [
+                'material_id'  => 2,
                 'storage_type' => 'reserve',
-                'cabinet' => 1,
-                'shelf' => 2,
-                'units' => 100,
-                'min_units' => 25,
+                'cabinet'      => '2',
+                'shelf'        => 2,
+                'drawer'       => null,
+                'units'        => 100,
+                'min_units'    => 25,
+            ],
+            [
+                'material_id'  => 2,
+                'storage_type' => 'use',
+                'cabinet'      => '2',
+                'shelf'        => 2,
+                'drawer'       => null,
+                'units'        => 0,
+                'min_units'    => 0,
             ],
         ]);
 
-        // Insert Modifications
+        // Seed Modifications
         DB::table('modifications')->insert([
             [
-                'user_id' => 1, // Ana (primer usuario)
-                'material_id' => 1, // Latex Gloves
+                'user_id' => 1,
+                'material_id' => 1,
                 'storage_type' => 'reserve',
                 'action_datetime' => now(),
                 'units' => 10,
             ],
             [
-                'user_id' => 2, // Usuario 2
-                'material_id' => 2, // Otro material
+                'user_id' => 2,
+                'material_id' => 2,
                 'storage_type' => 'use',
-                'action_datetime' => now()->subDays(5), // Fecha hace 5 días
+                'action_datetime' => now()->subDays(5),
                 'units' => -5,
             ],
             [
-                'user_id' => 3, // Usuario 3
-                'material_id' => 1, // Latex Gloves
+                'user_id' => 3,
+                'material_id' => 1,
                 'storage_type' => 'use',
-                'action_datetime' => now()->subDays(10), // Fecha hace 10 días
+                'action_datetime' => now()->subDays(10),
                 'units' => -3,
             ],
             [
-                'user_id' => 1, // Ana
-                'material_id' => 1, // Latex Gloves
+                'user_id' => 1,
+                'material_id' => 1,
                 'storage_type' => 'reserve',
-                'action_datetime' => now()->addDays(3), // Fecha en 3 días
+                'action_datetime' => now()->subDays(3),
                 'units' => 15,
             ],
             [
-                'user_id' => 2, // Usuario 2
-                'material_id' => 2, // Otro material
+                'user_id' => 2,
+                'material_id' => 2,
                 'storage_type' => 'reserve',
-                'action_datetime' => now()->addDays(7), // Fecha en 7 días
+                'action_datetime' => now()->subDays(7),
                 'units' => 20,
             ],
             [
-                'user_id' => 3, // Usuario 3
-                'material_id' => 1, // Latex Gloves
+                'user_id' => 3,
+                'material_id' => 1,
                 'storage_type' => 'use',
-                'action_datetime' => now()->subDays(2), // Fecha hace 2 días
+                'action_datetime' => now()->subDays(2),
                 'units' => -8,
             ],
         ]);
 
-        // Insert Activities
+        // Seed Activities
         DB::table('activities')->insert([
             [
-                'user_id' => 1, // Ana
-                'description' => 'First aid class',
-                'created_at' => '2025-04-05 00:00:00',
+                'user_id'      => 2,
+                'description'  => 'First aid practice',
+                'created_at'   => Carbon::now()->subDays(3),
             ],
         ]);
 
-        // Insert Material-Activity
+        // Seed Material-Activity pivot
         DB::table('material_activity')->insert([
             [
-                'activity_id' => 1, // First activity
-                'material_id' => 1, // Latex Gloves
-                'quantity' => 10,
+                'activity_id' => 1,
+                'material_id' => 1,
+                'units'       => 10,
             ],
         ]);
     }

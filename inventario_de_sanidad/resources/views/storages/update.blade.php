@@ -9,6 +9,9 @@
             table, th, td {
                 border: 1px solid;
             }
+            a, a:hover, a:visited {
+                text-decoration: none;
+            }
         </style>
     </head>
     <body>
@@ -16,7 +19,7 @@
             <h1 class="text-center">Portal del Departamento de Sanidad</h1>
 
             <div class="card">
-                <div class="header">Menú de Administrador - GESTIONAR ALMACENAMIENTO</div>
+                <div class="header">Menú de {{ Cookie::get('ROLE') === 'admin' ? 'Administrador' : 'Docentes' }} - GESTIONAR ALMACENAMIENTO</div>
                 <br>
                 <b>Bienvenido/a:</b> {{ Cookie::get('NAME') }}<br><br>
                 <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
@@ -31,6 +34,7 @@
                             <th>Cantidad mínima</th>
                             <th>Armario</th>
                             <th>Balda</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,18 +46,18 @@
                             <tr>
                                 <td rowspan="2">{{ $material->name }}</td>
                                 <td>Uso</td>
-                                <td>{{ $useRecord ? $useRecord->quantity : '-' }}</td>
-                                <td>{{ $useRecord ? $useRecord->min_quantity : '-' }}</td>
+                                <td>{{ $useRecord ? $useRecord->units : '-' }}</td>
+                                <td>{{ $useRecord ? $useRecord->min_units : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->cabinet : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->shelf : '-' }}</td>
                                 <td rowspan="2">
-                                    <a href="{{ route('storages.edit', $material) }}">Editar</a>
+                                    <a href="{{ Cookie::get('ROLE') === 'admin' ? route('storages.edit', $material) : route('storages.teacher.edit', $material) }}" class="btn btn-warning">Editar</a>
                                 </td>
                             </tr>
                             <tr>
                             <td>Reserva</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->quantity : '-' }}</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->min_quantity : '-' }}</td>
+                                <td>{{ $reserveRecord ? $reserveRecord->units : '-' }}</td>
+                                <td>{{ $reserveRecord ? $reserveRecord->min_units : '-' }}</td>
                                 <td>{{ $reserveRecord ? $reserveRecord->cabinet : '-' }}</td>
                                 <td>{{ $reserveRecord ? $reserveRecord->shelf : '-' }}</td>
                             </tr>
@@ -62,7 +66,7 @@
                 </table>
 
                 <br>
-                <button onclick="window.location.href='{{ route('materials.dashboard') }}'" class="btn btn-warning">Volver</button>
+                <button onclick="window.location.href='{{ Cookie::get('ROLE') === 'admin' ? route('materials.dashboard') : route('welcome_teacher') }}'" class="btn btn-warning">Volver</button>
 
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>

@@ -493,6 +493,7 @@ class ComposerStaticInitc61ff82cbf0142a401a48a8161e1595a
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\ActivityController' => __DIR__ . '/../..' . '/app/Http/Controllers/ActivityController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\GestionMaterialController' => __DIR__ . '/../..' . '/app/Http/Controllers/GestionMaterialController.php',
         'App\\Http\\Controllers\\GestionUsuariosController' => __DIR__ . '/../..' . '/app/Http/Controllers/GestionUsuariosController.php',
@@ -510,8 +511,8 @@ class ComposerStaticInitc61ff82cbf0142a401a48a8161e1595a
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Activity' => __DIR__ . '/../..' . '/app/Models/Activity.php',
-        'App\\Models\\ActivityMaterial' => __DIR__ . '/../..' . '/app/Models/ActivityMaterial.php',
         'App\\Models\\Material' => __DIR__ . '/../..' . '/app/Models/Material.php',
+        'App\\Models\\MaterialActivity' => __DIR__ . '/../..' . '/app/Models/MaterialActivity.php',
         'App\\Models\\Modification' => __DIR__ . '/../..' . '/app/Models/Modification.php',
         'App\\Models\\Storage' => __DIR__ . '/../..' . '/app/Models/Storage.php',
         'App\\Models\\Subject' => __DIR__ . '/../..' . '/app/Models/Subject.php',

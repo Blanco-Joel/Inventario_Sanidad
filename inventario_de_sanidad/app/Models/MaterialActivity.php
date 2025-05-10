@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ActivityMaterial extends Model
+class MaterialActivity extends Model
 {
     use HasFactory;
 
-    protected $table = 'activity_material';
+    protected $table = 'material_activity';
     public $incrementing = false;
     public $timestamps = false;
 

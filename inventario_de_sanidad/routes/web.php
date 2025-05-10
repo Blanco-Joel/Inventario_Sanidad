@@ -9,6 +9,7 @@ use App\Http\Controllers\GestionUsuariosController;
 use App\Http\Controllers\GestionMaterialController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\MaterialReservaController;
+use App\Http\Controllers\ActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,13 +35,13 @@ Route::get('/firstLogData', function () {
         \App\Models\User::where('user_id', $userpass)->first()
     );
 });
-Route::get('/welcome_docentes', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_docentes');
+Route::get('/welcome_docentes', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_teacher');
 Route::post('/welcome_docentes', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
 Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
 Route::post('/welcome_admin', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
-Route::get('/welcome_alumnos', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_alumnos');
+Route::get('/welcome_alumnos', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_student');
 Route::post('/welcome_alumnos', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
 
@@ -53,7 +54,7 @@ Route::get('/gestionUsuariosData', function () {return response()->json(\App\Mod
 Route::prefix('materials')->group(function () {
     Route::get('/dashboard', [GestionMaterialController::class, 'dashboard'])->name('materials.dashboard');
 /* GESTION DE MATERIALES */
-Route::get('/gestionMateriales', [GestionMaterialController::class, 'showGestionMateriales'])->name('gestionMateriales');
+//Route::get('/gestionMateriales', [GestionMaterialController::class, 'showGestionMateriales'])->name('gestionMateriales');
 
     Route::get('/create', [GestionMaterialController::class, 'createForm'])->name('materials.create');
 
@@ -65,16 +66,28 @@ Route::get('/gestionMateriales', [GestionMaterialController::class, 'showGestion
 
     Route::post('/basket/delete', [GestionMaterialController::class, 'addToDeletionBasket'])->name('materials.basket.delete');
 
-    Route::post('/destroy', [GestionMaterialController::class, 'destroyBatch'])->name('materials.destroyBatch');
+    //Route::post('/destroy', [GestionMaterialController::class, 'destroyBatch'])->name('materials.destroyBatch');
+    Route::post('{material}/destroy', [GestionMaterialController::class, 'destroy'])->name('materials.destroy');
 });
 
 Route::prefix('storages')->group(function () {
     Route::get('/update', [StorageController::class, 'updateView'])->name('storages.updateView');
 
     Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
+    Route::get('update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
 
     Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
+    Route::post('/update/{material}/teacher/process', [StorageController::class, 'subtractToUse'])->name('storages.subtract.teacher');
 });
+
+Route::prefix('activities')->group(function () {
+    Route::get('/create', [ActivityController::class, 'createForm'])->name('activities.create');
+
+    Route::get('/history', [ActivityController::class, 'historyView'])->name('activities.history');
+
+    Route::post('/store', [ActivityController::class, 'store'])->name('activities.store');
+});
+
 Route::get('/bajaMaterial', [GestionMaterialController::class, 'showBajaMateriales'])->name('bajaMaterial.view');
 Route::post('/bajaMaterial/add', [GestionMaterialController::class, 'agregarMaterialACestaBaja'])->name('add.process');
 Route::post('/bajaMaterial/process', [GestionMaterialController::class, 'bajaMaterial'])->name('bajaMaterial.process');

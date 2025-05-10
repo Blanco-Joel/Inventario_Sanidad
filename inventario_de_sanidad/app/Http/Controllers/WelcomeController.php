@@ -45,7 +45,7 @@ class WelcomeController extends Controller
     }
     public function showWelcome_docentes()
     {
-        return view('welcome_docentes');
+        return view('welcome_teacher');
     }
     public function showWelcome_alumnos()
     {

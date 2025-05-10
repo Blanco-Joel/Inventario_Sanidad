@@ -39,23 +39,23 @@ class GestionMaterialController extends Controller
         $validated = $request->validate([
             'name'                     => 'required',
             'description'              => 'required',
-            'quantity_use'             => 'required|numeric|min:1',
-            'min_quantity_use'         => 'required|numeric|min:1',
+            'units_use'             => 'required|numeric|min:1',
+            'min_units_use'         => 'required|numeric|min:1',
             'cabinet_use'              => 'required|numeric|min:1',
             'shelf_use'                => 'required|numeric|min:1',
-            'quantity_reserve'         => 'required|numeric|min:1',
-            'min_quantity_reserve'     => 'required|numeric|min:1',
+            'units_reserve'         => 'required|numeric|min:1',
+            'min_units_reserve'     => 'required|numeric|min:1',
             'cabinet_reserve'          => 'required|numeric|min:1',
             'shelf_reserve'            => 'required|numeric|min:1',
         ], [
             'name.required'                     => 'Debe introducir el nombre del material.',
             'description.required'              => 'Debe introducir la descripción del material.',
-            'quantity_use.required'             => 'Debe introducir la cantidad para uso.',
-            'min_quantity_use.required'         => 'Debe introducir la cantidad mínima para uso.',
+            'units_use.required'             => 'Debe introducir la cantidad para uso.',
+            'min_units_use.required'         => 'Debe introducir la cantidad mínima para uso.',
             'cabinet_use.required'              => 'Debe introducir el armario para uso.',
             'shelf_use.required'                => 'Debe introducir la balda para uso.',
-            'quantity_reserve.required'         => 'Debe introducir la cantidad para reserva.',
-            'min_quantity_reserve.required'     => 'Debe introducir la cantidad mínima para reserva.',
+            'units_reserve.required'         => 'Debe introducir la cantidad para reserva.',
+            'min_units_reserve.required'     => 'Debe introducir la cantidad mínima para reserva.',
             'cabinet_reserve.required'          => 'Debe introducir el armario para reserva.',
             'shelf_reserve.required'            => 'Debe introducir la balda para reserva.',
         ]);
@@ -71,14 +71,14 @@ class GestionMaterialController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'],
             'use' => [
-                'quantity'    => $validated['quantity_use'],
-                'min_quantity'=> $validated['min_quantity_use'],
+                'units'    => $validated['units_use'],
+                'min_units'=> $validated['min_units_use'],
                 'cabinet'     => $validated['cabinet_use'],
                 'shelf'       => $validated['shelf_use'],
             ],
             'reserve' => [
-                'quantity'    => $validated['quantity_reserve'],
-                'min_quantity'=> $validated['min_quantity_reserve'],
+                'units'    => $validated['units_reserve'],
+                'min_units'=> $validated['min_units_reserve'],
                 'cabinet'     => $validated['cabinet_reserve'],
                 'shelf'       => $validated['shelf_reserve'],
             ],
@@ -142,8 +142,8 @@ class GestionMaterialController extends Controller
                 'storage_type' => $type,
                 'cabinet'      => $materialData[$type]['cabinet'],
                 'shelf'        => $materialData[$type]['shelf'],
-                'quantity'     => $materialData[$type]['quantity'],
-                'min_quantity' => $materialData[$type]['min_quantity'],
+                'units'     => $materialData[$type]['units'],
+                'min_units' => $materialData[$type]['min_units'],
             ]);
         }
     }
@@ -154,7 +154,7 @@ class GestionMaterialController extends Controller
      */
     public function deleteForm()
     {
-        return view('materials.delete')->with('materiales', Material::all());
+        return view('materials.delete')->with('materials', Material::all());
     }
 
     /**
@@ -225,4 +225,20 @@ class GestionMaterialController extends Controller
             return back()->with('error', 'Error al eliminar los materiales: ' . $e->getMessage());
         }
     }
+
+    public function destroy(Material $material)
+    {
+        try {
+            if (!Material::find($material->material_id)) {
+                return back()->with('warning', 'El material no existe o ya ha sido eliminado.');
+            }
+
+            $material->delete();
+
+            return back()->with('success', 'Material eliminado correctamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar el material: ' . $e->getMessage());
+        }
+    }
+
 }
