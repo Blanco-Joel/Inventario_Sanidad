@@ -10,7 +10,7 @@ class GestionUsuariosController extends Controller
 {
     public function showGestionUsuarios()
     {
-        $users = User::select('user_id','first_name', 'last_name', 'email', 'password', 'user_type','last_modified','created_at')->get();
+        $users = User::select('user_id','first_name', 'last_name', 'email', 'password', 'user_type','created_at')->get();
         return view('gestionUsuarios',['users' => $users]);
     }
     public function gestionUsuarios(Request $request) {
@@ -45,7 +45,8 @@ class GestionUsuariosController extends Controller
         $usuario->password             =  $password;
         $usuario->hashed_password      =  Hash::make($password);
         $usuario->user_type            =  $request->input('user_type');
-        $usuario->firstLog             =  false;
+        $usuario->first_log            =  false;
+        $usuario->created_at           =  false;
         $usuario->save(); 
         
         return back()->with([

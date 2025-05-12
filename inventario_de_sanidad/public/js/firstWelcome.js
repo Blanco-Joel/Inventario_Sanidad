@@ -10,7 +10,7 @@ async function userDataRetrieve() {
 
 async function inicio(){
     var userdata =  await userDataRetrieve();
-    if (!userdata["firstLog"]) 
+    if (!userdata["first_log"]) 
         mostrarDialogInicio();
         
     

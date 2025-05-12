@@ -46,7 +46,7 @@
                 @if($data->isNotEmpty())
                     <h4>WARNING</h4>
                     @foreach ($data as $warning)
-                        <p>{{$warning->nombre}} tiene solo {{$warning->unidades}} unidad/es en {{$warning->tipo_almacen}}.</p>
+                        <p>{{$warning->name}} tiene solo {{$warning->units}} unidad/es en {{$warning->storage_type ==  "use" ? "uso" : "reserva";}}.</p>
                     @endforeach
                 @endif
         </div>

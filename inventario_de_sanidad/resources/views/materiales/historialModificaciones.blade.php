@@ -33,7 +33,7 @@
                             <td>{{ $modification->last_name }}</td>
                             <td>{{ $modification->email }}</td>
                             <td>{{ $modification->user_type }}</td>
-                            <td>{{ $modification->last_modified }}</td>
+                            <td>{{ $modification->action_datetime }}</td>
                             <td>{{ $modification->created_at }}</td>
                             <td>{{ $modification->material_name }}</td>
                             <td>{{ $modification->units }}</td>

@@ -86,8 +86,8 @@
                             <th onclick="sortTable(1)">Apellidos</th>
                             <th onclick="sortTable(2)">Email</th>
                             <th onclick="sortTable(3)">Tipo de usuario</th>
-                            <th onclick="sortTable(4)">Última modificación</th>
-                            <th onclick="sortTable(5)">Fecha de alta</th>
+                            <th onclick="sortTable(4)">Fecha de alta</th>
+                            <th colspan="2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,7 +97,6 @@
                                 <td id="{{ $usuario->last_name }}">{{ $usuario->last_name }}</td>
                                 <td id="{{ $usuario->email }}">{{ $usuario->email }}</td>
                                 <td id="{{ $usuario->user_type }}">{{ $usuario->user_type }}</td>
-                                <td id="{{ $usuario->last_modified }}">{{ $usuario->last_modified }}</td>
                                 <td id="{{ $usuario->created_at }}">{{ $usuario->created_at }}</td>
                                 <td>
                                     <form id="btn-ver-{{$usuario->user_id}}"> 

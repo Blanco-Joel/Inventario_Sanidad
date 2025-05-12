@@ -28,7 +28,7 @@ class WelcomeController extends Controller
         var_dump($user);
         $user->password             =  $credentials['newPassword'];
         $user->hashed_password      =  Hash::make($credentials['newPassword']);
-        $user->firstLog             =  true;
+        $user->first_Log             =  true;
         $user->save(); 
         
         return back()->with([
@@ -37,9 +37,9 @@ class WelcomeController extends Controller
     }
     public function showWelcome_admin()
     {
-        $data = Storage::join('materials', 'storage.material_id', '=', 'materials.material_id')
-            ->select('materials.name', 'storage.units','storage_type')
-            ->whereColumn('storage.units','<','storage.min_units')
+        $data = Storage::join('materials', 'storages.material_id', '=', 'materials.material_id')
+            ->select('materials.name', 'storages.units','storage_type')
+            ->whereColumn('storages.units','<','storages.min_units')
             ->get();
         return view('welcome_admin',['data' => $data]);
     }

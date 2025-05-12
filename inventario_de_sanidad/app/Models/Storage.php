@@ -11,7 +11,7 @@ class Storage extends Model
 {
     use HasFactory;
 
-    protected $table = 'storage';
+    protected $table = 'storages';
     public $incrementing = false;
     public $timestamps = false;
 

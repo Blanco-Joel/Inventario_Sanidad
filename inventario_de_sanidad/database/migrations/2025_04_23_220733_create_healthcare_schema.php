@@ -15,10 +15,11 @@ class CreateHealthcareSchema extends Migration
             $table->string('first_name', 40);
             $table->string('last_name', 60);
             $table->string('email', 100)->unique();
+            $table->string('password', 255);
             $table->string('hashed_password', 255);
-            $table->boolean('first_log')->default(true);
+            $table->boolean('first_log')->default(false);
             $table->enum('user_type', ['student', 'teacher', 'admin']);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         // materials
