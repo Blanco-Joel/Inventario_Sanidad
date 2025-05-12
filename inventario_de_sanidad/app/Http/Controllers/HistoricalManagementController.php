@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MaterialReservaController extends Controller
+class HistoricalManagementController extends Controller
 {
-    public function showSubmenuHistorial(Request $request)
+    public function showHistoricalSubmenu(Request $request)
     {
-        return view('materiales.submenuHistorial');
+        return view('historical.historicalSubmenu');
     }
-    public function showHistorialModificaciones(Request $request)
+    public function showModificationsHistorical(Request $request)
     {
         $modifications = DB::table('modifications')
         ->join('users', 'modifications.user_id', '=', 'users.user_id')
@@ -20,11 +20,10 @@ class MaterialReservaController extends Controller
                  'materials.name as material_name', 'modifications.units', 'modifications.action_datetime', 'modifications.storage_type')
         ->get();
     
-        return view('materiales.historialModificaciones', ['modifications' => $modifications]);
+        return view('historical.modificationsHistorical', ['modifications' => $modifications]);
     }
-    public function index(Request $request, $tipo)
+    public function index(Request $request, $type)
     {
-        $tipo2 = $tipo == "uso" ? "use" : "reserve";
         // Consulta base
         $query = DB::table('storages')
             ->join('materials', 'storages.material_id', '=', 'materials.material_id')
@@ -38,17 +37,17 @@ class MaterialReservaController extends Controller
                 'storages.units',
                 'storages.min_units'
             )
-            ->where('storages.storage_type', $tipo2);
+            ->where('storages.storage_type', $type);
     
         // Filtro opcional por búsqueda
-        if ($request->has('busqueda') && !empty($request->busqueda)) {
-            $busqueda = $request->busqueda;
-            $query->where('materials.name', 'like', '%' . $busqueda . '%');
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('materials.name', 'like', '%' . $search . '%');
         }
     
-        $materiales = $query->get();
+        $materials = $query->get();
     
         // Vista dinámica: materiales.uso o materiales.reserva
-        return view("materiales.$tipo", compact('materiales'));
+        return view("historical.$type", compact('materials'));
     }
 }

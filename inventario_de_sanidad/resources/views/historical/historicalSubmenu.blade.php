@@ -34,9 +34,9 @@
                 <div id="name"><b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}</div><br><br>
                 <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('materiales.tipo', ['tipo' => 'uso']) }}'" class="btn btn-warning">Materiales en uso</button>
-                <button onclick="window.location.href='{{ route('materiales.tipo', ['tipo' => 'reserva']) }}'" class="btn btn-warning">Materiales en reserva</button>
-                <button onclick="window.location.href='{{ route('materiales.historialModificaciones') }}'" class="btn btn-warning">Historial de modificaciones</button>
+                <button onclick="window.location.href='{{ route('historical.type', ['type' => 'use']) }}'" class="btn btn-warning">Materiales en uso</button>
+                <button onclick="window.location.href='{{ route('historical.type', ['type' => 'reserve']) }}'" class="btn btn-warning">Materiales en reserva</button>
+                <button onclick="window.location.href='{{ route('historical.modificationsHistorical') }}'" class="btn btn-warning">Historial de modificaciones</button>
                 <br><br>
                 <a href="{{ route('welcome_admin') }}" class="btn ">Volver</a>
 

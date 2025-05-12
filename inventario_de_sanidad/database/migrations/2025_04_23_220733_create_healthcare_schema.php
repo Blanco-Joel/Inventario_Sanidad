@@ -35,6 +35,7 @@ class CreateHealthcareSchema extends Migration
         Schema::create('storages', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->unsignedInteger('material_id');
+            $table->enum('storage',['odontología','CAE']);
             $table->enum('storage_type', ['use', 'reserve']);
             $table->string('cabinet', 30);
             $table->unsignedInteger('shelf');

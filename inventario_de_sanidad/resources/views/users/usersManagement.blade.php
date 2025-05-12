@@ -151,6 +151,6 @@
     </div>
 
     <script src="{{ asset('js/tabs.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/gestionUsuarios.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/usersManagement.js') }}" type="text/javascript"></script>
 </body>
 </html>

@@ -62,7 +62,7 @@ function mostrarDialogConfirmacion(event)
     };
 }
 async function userDataRetrieve() {
-    const response = await fetch('/gestionUsuariosData');
+    const response = await fetch('/users/usersManagementData');
     window.USERDATA = await response.json();
 
 }
@@ -87,49 +87,43 @@ function cerrarDialog(mensaje)
 function sortTable(columnIndex) {
     let table = document.getElementById("tabla-usuarios");
     let switching = true;
-    let dir = "asc"; 
+    let dir = "asc";
     let switchcount = 0;
-    let shouldSwitch = true;
-    
+
     while (switching) {
         switching = false;
         let rows = table.rows;
-        
+        let swapIndex = -1;
+
         for (let i = 1; i < (rows.length - 1); i++) {
-            let shouldSwitch = false;
-            
-            let x = rows[i].getElementsByTagName("TD")[columnIndex];
-            let y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
-            
-            if (dir == "asc") {
-                if (x.innerText.toLowerCase() > y.innerText.toLowerCase()) {
-                    shouldSwitch = true;
-                    break;
-                }
-            } else if (dir == "desc") {
-                if (x.innerText.toLowerCase() < y.innerText.toLowerCase()) {
-                    shouldSwitch = true;
-                    break;
+            let linea = rows[i].getElementsByTagName("TD")[columnIndex];
+            let lineaSiguiente = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+
+            let lineaContent = linea.textContent.trim().toLowerCase();
+            let lineaSiguienteContent = lineaSiguiente.textContent.trim().toLowerCase();
+
+            if ((dir ==  "asc" && lineaContent > lineaSiguienteContent) ||
+                (dir ==  "desc" && lineaContent < lineaSiguienteContent)) {
+                if (swapIndex ==  -1) {
+                    swapIndex = i;
                 }
             }
         }
-        
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+
+        if (swapIndex !== -1) {
+            rows[swapIndex].parentNode.insertBefore(rows[swapIndex + 1], rows[swapIndex]);
             switching = true;
             switchcount++;
-        } else {
-            if (switchcount == 0 && dir == "asc") {
-                dir = "desc";
-                switching = true;
-            }
+        } else if (switchcount ==  0 && dir ==  "asc") {
+            dir = "desc";
+            switching = true;
         }
     }
 }
 function filtrarTabla(event) {
 
     console.log(event.target.type);
-    if (event.target.type == "radio" || event.target.type == "text" && (event.key.length === 1 || event.key === "Backspace" || event.key === "Delete")) {
+    if (event.target.type == "radio" || event.target.type == "text" && (event.key.length ==  1 || event.key ==  "Backspace" || event.key ==  "Delete")) {
         let input = document.getElementById("buscarId").value.toLowerCase();
         let filas = document.querySelectorAll("#tabla-usuarios tbody tr");
         let index = document.querySelector('input[name="filtro"]:checked').value;

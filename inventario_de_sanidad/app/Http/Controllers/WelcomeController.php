@@ -25,7 +25,6 @@ class WelcomeController extends Controller
             'confirmPassword.same' => "Las contraseñas no coincdiden."
         ]);
         $user = User::where('user_id', Cookie::get('USERPASS'))->first();
-        var_dump($user);
         $user->password             =  $credentials['newPassword'];
         $user->hashed_password      =  Hash::make($credentials['newPassword']);
         $user->first_Log             =  true;

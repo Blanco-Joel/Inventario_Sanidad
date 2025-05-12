@@ -29,12 +29,12 @@ class LoginController extends Controller
 
             Cookie::queue('USERPASS', $user->user_id, 60);
             Cookie::queue('NAME', $user->first_name . " " . $user->last_name, 60);
-            Cookie::queue('ROLE', $user->user_type, 60);
+            Cookie::queue('TYPE', $user->user_type, 60);
             
             if ($user->user_type === 'admin') {
                 return redirect()->route('welcome_admin');
             } else if ($user->user_type === 'teacher') {
-                return redirect()->route('welcome_teacher');
+                return redirect()->route('welcome_teacher');        
             } else {
                 return redirect()->route('welcome_student');
             }
@@ -47,7 +47,7 @@ class LoginController extends Controller
     {
         Cookie::queue(Cookie::forget('USERPASS'));
         Cookie::queue(Cookie::forget('NAME'));
-        Cookie::queue(Cookie::forget('ROLE'));
+        Cookie::queue(Cookie::forget('TYPE'));
         return redirect()->route('login.form');
     }
 }

@@ -7,18 +7,18 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Materiales en uso</h1>
+        <h1 class="mb-4">Materiales en Reserva</h1>
 
-        @if($materiales->isEmpty())
-            <div class="alert alert-warning">No hay materiales en uso actualmente.</div>
+        @if($materials->isEmpty())
+            <div class="alert alert-warning">No hay materiales en reserva actualmente.</div>
         @else
-            <form method="GET" action="{{ route('materiales.tipo', ['tipo' => 'uso'])}}">
+            <form method="GET" action="{{ route('historical.type', ['type' => 'reserve']) }}">
                 <input type="text" name="busqueda" placeholder="Buscar por nombre..." value="{{ request('busqueda') }}">
                 <button type="submit">Buscar</button>
             </form>
             <br>
             <div class="row">
-                @foreach($materiales as $material)
+                @foreach($materials as $material)
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
                             <img src="{{ asset($material->image_path) }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ $material->name }}">
@@ -37,7 +37,7 @@
                 @endforeach
             </div>
         @endif
-        <a href="{{ route('materiales.submenuHistorial') }}" class="btn ">Volver</a>
+        <a href="{{ route('historical.historicalSubmenu') }}" class="btn ">Volver</a>
 
     </div>
 </body>
