@@ -11,7 +11,7 @@ class GestionUsuariosController extends Controller
     public function showGestionUsuarios()
     {
         $users = User::select('user_id','first_name', 'last_name', 'email', 'password', 'user_type','last_modified','created_at')->get();
-        return view('gestionUsuarios',['users' => $users]);
+        return view('userManagement.gestionUsuarios',['users' => $users]);
     }
     public function gestionUsuarios(Request $request) {
         if ($request->input('action') == 'alta') {

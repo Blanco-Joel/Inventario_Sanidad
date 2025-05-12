@@ -41,18 +41,18 @@ class WelcomeController extends Controller
             ->select('materials.name', 'storage.units','storage_type')
             ->whereColumn('storage.units','<','storage.min_units')
             ->get();
-        return view('welcome_admin',['data' => $data]);
+        return view('welcome.welcome_admin',['data' => $data]);
     }
     public function showWelcome_docentes()
     {
-        return view('welcome_teacher');
+        return view('welcome.welcome_teacher');
     }
     public function showWelcome_alumnos()
     {
-        return view('welcome_alumnos');
+        return view('welcome.welcome_alumnos');
     }
     public function welcome()
     {
-        return view('welcome_docentes');
+        return view('welcome.welcome_docentes');
     }
 }

@@ -1,0 +1,44 @@
+:root {
+    --primary-100:#d4eaf7;
+    --primary-200:#b6ccd8;
+    --primary-300:#3b3c3d;
+    --accent-100:#1768ff;
+    --accent-200:#1555cc;
+    --text-100:#1d1c1c;
+    --text-200:#313d44;
+    --bg-100:#fffefb;
+    --bg-200:#f5f4f1;
+    --bg-300:#cccbc8;
+      
+    --font-principal: 'SF Pro Rounded', sans-serif;
+}
+
+body {
+    font-family: var(--font-principal);
+    background-color: var(--bg-100);
+    color: var(--text-100);
+}
+
+input {
+    border: 1px solid var(--primary-300);
+    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 1rem;
+}
+
+button {
+    color: var(--text-100);
+    background-image: linear-gradient(to right, var(--accent-100), var(--accent-200));
+    border-radius:32px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+    padding: 7px 25px;
+    font-weight: 900;
+}
+
+button:hover {
+    color: var(--bg-100);
+    background-image: linear-gradient(to right, var(--text-100), var(--text-200));
+}

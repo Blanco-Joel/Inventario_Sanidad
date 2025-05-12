@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* 
 body {
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #d0eaff, #f0f8ff);
@@ -9,7 +9,6 @@ body {
     margin: 0;
 }
 
-/* Contenedor del formulario */
 .login-container {
     background: white;
     padding: 30px;
@@ -19,13 +18,11 @@ body {
     text-align: center;
 }
 
-/* Título */
 .login-container h2 {
     color: #007bff;
     margin-bottom: 20px;
 }
 
-/* Campos de entrada */
 .input-group {
     margin-bottom: 15px;
     text-align: left;
@@ -52,7 +49,6 @@ body {
     border-color: #007bff;
 }
 
-/* Botón de login */
 .login-button {
     background: #007bff;
     color: white;
@@ -85,4 +81,4 @@ body {
     padding: 10px;
     border: none;
     font-size: 16px;
-}
+} */
