@@ -51,7 +51,7 @@
                                 <td>{{ $useRecord ? $useRecord->cabinet : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->shelf : '-' }}</td>
                                 <td rowspan="2">
-                                    <a href="{{ route('storages.edit', $material) }}" class="btn btn-warning">Editar</a>
+                                    <a href="{{ Cookie::get('ROLE') === 'admin' ? route('storages.edit', $material) : route('storages.teacher.edit', $material) }}" class="btn btn-warning">Editar</a>
                                 </td>
                             </tr>
                             <tr>
@@ -66,7 +66,7 @@
                 </table>
 
                 <br>
-                <button onclick="window.location.href='{{ Cookie::get('ROLE') === 'admin' ? route('materials.dashboard') : route('welcome_teacher') }}'" class="btn btn-warning">Volver</button>
+                <button onclick="window.location.href='{{ Cookie::get('TYPE') === 'admin' ? route('materials.dashboard') : route('welcome_teacher') }}'" class="btn btn-warning">Volver</button>
 
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>

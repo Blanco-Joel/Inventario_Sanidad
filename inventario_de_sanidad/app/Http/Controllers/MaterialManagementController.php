@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class GestionMaterialController extends Controller
+class MaterialManagementController extends Controller
 {
     /**
      * Muestra la vista principal de gestión de materiales.

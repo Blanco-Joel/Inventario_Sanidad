@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class HistoricalManagementController extends Controller
+{
+    public function showHistoricalSubmenu(Request $request)
+    {
+        return view('historical.historicalSubmenu');
+    }
+    public function showModificationsHistorical(Request $request)
+    {
+        $modifications = DB::table('modifications')
+        ->join('users', 'modifications.user_id', '=', 'users.user_id')
+        ->join('materials', 'modifications.material_id', '=', 'materials.material_id')
+        ->select('users.first_name', 'users.last_name', 'users.email', 'users.user_type', 'users.created_at',
+                 'materials.name as material_name', 'modifications.units', 'modifications.action_datetime', 'modifications.storage_type')
+        ->get();
+    
+        return view('historical.modificationsHistorical', ['modifications' => $modifications]);
+    }
+    public function index(Request $request, $type)
+    {
+        // Consulta base
+        $query = DB::table('storages')
+            ->join('materials', 'storages.material_id', '=', 'materials.material_id')
+            ->select(
+                'materials.material_id',
+                'materials.name',
+                'materials.description',
+                'materials.image_path',
+                'storages.cabinet',
+                'storages.shelf',
+                'storages.units',
+                'storages.min_units'
+            )
+            ->where('storages.storage_type', $type);
+    
+        // Filtro opcional por búsqueda
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('materials.name', 'like', '%' . $search . '%');
+        }
+    
+        $materials = $query->get();
+    
+        // Vista dinámica: materiales.uso o materiales.reserva
+        return view("historical.$type", compact('materials'));
+    }
+}

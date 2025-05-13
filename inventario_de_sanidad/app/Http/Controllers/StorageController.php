@@ -180,44 +180,38 @@ class StorageController extends Controller
         ]);
     }
 
-    public function transferReserveToUse(Request $request, Material $material)
+    public function teacherEditView(Material $material)
+    {
+        return view('storages.teacher.edit')->with('material', $material);
+    }
+
+    public function subtractToUse(Request $request, Material $material)
     {
         try {
-            $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
             $useRecord     = $material->storage->where('storage_type', 'use')->first();
-            
-            $reserveUnits  = $reserveRecord->units;
-            $useUnits      = $useRecord->units;
-
-            $max = $useUnits + $reserveUnits;
+            $currentUse      = $useRecord->units;
 
             $validated = $request->validate([
-                'use_units' => "required|integer|min:{$useUnits}|max:{$max}",
+                'subtract_units' => "required|integer|min:1|max:{$currentUse}",
             ], [
-                'use_units.required' => 'Debes indicar cuántas unidades transferir.',
-                'use_units.integer'  => 'La cantidad debe ser un número entero.',
-                'use_units.min'      => "No puedes tener menos de {$useUnits} unidades en uso, ya que actualmente hay {$useUnits}.",
-                'use_units.max'      => "No puedes tener más de {$max} unidades en uso, la diferencia supera las disponibles en reserva ({$reserveUnits}).",
+                'subtract_units.required' => 'Debes indicar cuántas unidades transferir.',
+                'subtract_units.integer'  => 'La cantidad debe ser un número entero.',
+                'subtract_units.min'      => 'Debes restar al menos 1 unidad.',
+                'subtract_units.max'      => "Solo hay {$currentUse} unidades disponibles en uso.",
             ]);
 
-            $modifiedUnits = $validated['use_units'] - $useUnits;
+            $modifiedUnits = $validated['subtract_units'];
 
             DB::transaction(function() use ($modifiedUnits, $material) {
-                // decrementa reserva
-                Storage::where('material_id',$material->material_id)
-                ->where('storage_type','reserve')
-                ->decrement('units',$modifiedUnits);
-
-                // incrementa uso
+                // decrementa uso
                 Storage::where('material_id',$material->material_id)
                 ->where('storage_type','use')
-                ->increment('units',$modifiedUnits);
+                ->decrement('units',$modifiedUnits);
         
-                $this->storeEditInModification($material->material_id, 'reserve', -$modifiedUnits);
-                $this->storeEditInModification($material->material_id, 'use', $modifiedUnits);
+                $this->storeEditInModification($material->material_id, 'use', -$modifiedUnits);
             });
 
-            return back()->with('success',"Se han añadido {$modifiedUnits} unidades de reserva a uso.");
+            return back()->with('success',"Se han restado {$modifiedUnits} unidades.");
         } catch (\Exception $e) {
             return back()->with('error', 'Error al modificar los registros: ' . $e->getMessage());
         }

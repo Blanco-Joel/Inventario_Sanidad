@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\MaterialActivity;
 use App\Models\Material;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -65,5 +66,12 @@ class ActivityController extends Controller
                 'quantity'    => $data['units']
             ]);
         }
+    }
+
+    public function historyView()
+    {
+        $user = User::find(Cookie::get('USERPASS'));
+        $activities = $user->activities()->with('materials')->get();
+        return view('activities.history')->with('activities', $activities);
     }
 }

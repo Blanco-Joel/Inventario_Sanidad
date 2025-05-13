@@ -86,8 +86,8 @@
                             <th onclick="sortTable(1)">Apellidos</th>
                             <th onclick="sortTable(2)">Email</th>
                             <th onclick="sortTable(3)">Tipo de usuario</th>
-                            <th onclick="sortTable(4)">Última modificación</th>
-                            <th onclick="sortTable(5)">Fecha de alta</th>
+                            <th onclick="sortTable(4)">Fecha de alta</th>
+                            <th colspan="2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,7 +97,6 @@
                                 <td id="{{ $usuario->last_name }}">{{ $usuario->last_name }}</td>
                                 <td id="{{ $usuario->email }}">{{ $usuario->email }}</td>
                                 <td id="{{ $usuario->user_type }}">{{ $usuario->user_type }}</td>
-                                <td id="{{ $usuario->last_modified }}">{{ $usuario->last_modified }}</td>
                                 <td id="{{ $usuario->created_at }}">{{ $usuario->created_at }}</td>
                                 <td>
                                     <form id="btn-ver-{{$usuario->user_id}}"> 
@@ -109,20 +108,22 @@
                                         </button>
                                     </form>
                                 </td>
-                                <td>
-                                    <form action="{{ route('bajaUsers.process') }}" method="POST" name="registro" id="btn-delete-{{$usuario->user_id}}">
-                                    @csrf
-                                    <input type="hidden" name="user_id" value="{{$usuario->user_id}}" >
+                                <td width="34" height="34">
+                                    @if ($usuario->user_id !=  Cookie::get('USERPASS') )
+                                        <form action="{{ route('bajaUsers.process') }}" method="POST" name="registro" id="btn-delete-{{$usuario->user_id}}">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{$usuario->user_id}}" >
 
-                                        <button  type="submit"   style="background: none; border: none; cursor: pointer;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="3 6 5 6 21 6" />
-                                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m5 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                                                <line x1="10" y1="11" x2="10" y2="17" />
-                                                <line x1="14" y1="11" x2="14" y2="17" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                            <button  type="submit"   style="background: none; border: none; cursor: pointer;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="3 6 5 6 21 6" />
+                                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m5 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
 
                                 </td>
                             </tr>
@@ -150,6 +151,6 @@
     </div>
 
     <script src="{{ asset('js/tabs.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/gestionUsuarios.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/usersManagement.js') }}" type="text/javascript"></script>
 </body>
 </html>

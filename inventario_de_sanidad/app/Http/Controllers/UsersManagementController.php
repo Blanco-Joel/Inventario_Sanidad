@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class GestionUsuariosController extends Controller
+class UsersManagementController extends Controller
 {
-    public function showGestionUsuarios()
+    public function showUsersManagement()
     {
-        $users = User::select('user_id','first_name', 'last_name', 'email', 'password', 'user_type','last_modified','created_at')->get();
-        return view('userManagement.gestionUsuarios',['users' => $users]);
+        $users = User::select('user_id','first_name', 'last_name', 'email', 'password', 'user_type','created_at')->get();
+        return view('users.usersManagement',['users' => $users]);
     }
     public function gestionUsuarios(Request $request) {
         if ($request->input('action') == 'alta') {
@@ -45,7 +45,8 @@ class GestionUsuariosController extends Controller
         $usuario->password             =  $password;
         $usuario->hashed_password      =  Hash::make($password);
         $usuario->user_type            =  $request->input('user_type');
-        $usuario->firstLog             =  false;
+        $usuario->first_log            =  false;
+        $usuario->created_at           =  false;
         $usuario->save(); 
         
         return back()->with([

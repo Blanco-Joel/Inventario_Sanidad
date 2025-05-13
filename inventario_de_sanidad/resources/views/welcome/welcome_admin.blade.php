@@ -37,16 +37,16 @@
                     <p>{{ session('mensaje') }}</p>
                 @endif
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('gestionUsuarios') }}'" class="btn btn-warning">Gestión de usuarios</button>
+                <button onclick="window.location.href='{{ route('users.usersManagement') }}'" class="btn btn-warning">Gestión de usuarios</button>
                 <button onclick="window.location.href='{{ route('materials.dashboard') }}'" class="btn btn-warning">Gestión de materiales</button>
-                <button onclick="window.location.href='{{ route('materiales.submenuHistorial') }}'" class="btn btn-warning">Reservas de Materiales</button>
+                <button onclick="window.location.href='{{ route('historical.historicalSubmenu') }}'" class="btn btn-warning">Reservas de Materiales</button>
                 <br><br>
 
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
                 @if($data->isNotEmpty())
                     <h4>WARNING</h4>
                     @foreach ($data as $warning)
-                        <p>{{$warning->nombre}} tiene solo {{$warning->unidades}} unidad/es en {{$warning->tipo_almacen}}.</p>
+                        <p>{{$warning->name}} tiene solo {{$warning->units}} unidad/es en {{$warning->storage_type ==  "use" ? "uso" : "reserva";}}.</p>
                     @endforeach
                 @endif
         </div>
