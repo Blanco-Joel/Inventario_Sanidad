@@ -104,6 +104,10 @@ textarea:not(:placeholder-shown) {
   opacity: 1;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* === BOTÓN PRINCIPAL === */
 .btn {
   padding: 10px 25px;
