@@ -15,7 +15,7 @@ class MaterialActivity extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'activity_id', 'material_id', 'quantity'
+        'activity_id', 'material_id', 'units'
     ];
 
     public function activity(): BelongsTo

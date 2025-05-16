@@ -19,7 +19,7 @@
             <h1 class="text-center">Portal del Departamento de Sanidad</h1>
 
             <div class="card">
-                <div class="header">Menú de {{ Cookie::get('ROLE') === 'admin' ? 'Administrador' : 'Docentes' }} - GESTIONAR ALMACENAMIENTO</div>
+                <div class="header">Menú de {{ Cookie::get('TYPE') === 'admin' ? 'Administrador' : 'Docentes' }} - GESTIONAR ALMACENAMIENTO</div>
                 <br>
                 <b>Bienvenido/a:</b> {{ Cookie::get('NAME') }}<br><br>
                 <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
@@ -51,7 +51,7 @@
                                 <td>{{ $useRecord ? $useRecord->cabinet : '-' }}</td>
                                 <td>{{ $useRecord ? $useRecord->shelf : '-' }}</td>
                                 <td rowspan="2">
-                                    <a href="{{ Cookie::get('ROLE') === 'admin' ? route('storages.edit', $material) : route('storages.teacher.edit', $material) }}" class="btn btn-warning">Editar</a>
+                                    <a href="{{ Cookie::get('TYPE') === 'admin' ? route('storages.edit', $material) : route('storages.teacher.edit', $material) }}" class="btn btn-warning">Editar</a>
                                 </td>
                             </tr>
                             <tr>
@@ -64,6 +64,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="mt-4">
+                    {{ $storages->links() }}
+                </div>
 
                 <br>
                 <button onclick="window.location.href='{{ Cookie::get('TYPE') === 'admin' ? route('materials.dashboard') : route('welcome_teacher') }}'" class="btn btn-warning">Volver</button>

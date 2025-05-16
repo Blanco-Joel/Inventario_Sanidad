@@ -37,27 +37,31 @@ class MaterialManagementController extends Controller
     public function addToCreationBasket(Request $request)
     {
         $validated = $request->validate([
-            'name'                     => 'required',
-            'description'              => 'required',
-            'units_use'             => 'required|numeric|min:1',
-            'min_units_use'         => 'required|numeric|min:1',
-            'cabinet_use'              => 'required|numeric|min:1',
-            'shelf_use'                => 'required|numeric|min:1',
-            'units_reserve'         => 'required|numeric|min:1',
-            'min_units_reserve'     => 'required|numeric|min:1',
-            'cabinet_reserve'          => 'required|numeric|min:1',
-            'shelf_reserve'            => 'required|numeric|min:1',
+            'name'                  => 'required',
+            'description'           => 'required',
+            'storage'               => 'required',
+            'units_use'             => 'required|integer|min:1',
+            'min_units_use'         => 'required|integer|min:1',
+            'cabinet_use'           => 'required|integer|min:1',
+            'shelf_use'             => 'required|integer|min:1',
+            'drawer'                => 'required|integer|min:1',
+            'units_reserve'         => 'required|integer|min:1',
+            'min_units_reserve'     => 'required|integer|min:1',
+            'cabinet_reserve'       => 'required|string',
+            'shelf_reserve'         => 'required|integer|min:1'
         ], [
-            'name.required'                     => 'Debe introducir el nombre del material.',
-            'description.required'              => 'Debe introducir la descripción del material.',
-            'units_use.required'             => 'Debe introducir la cantidad para uso.',
-            'min_units_use.required'         => 'Debe introducir la cantidad mínima para uso.',
-            'cabinet_use.required'              => 'Debe introducir el armario para uso.',
-            'shelf_use.required'                => 'Debe introducir la balda para uso.',
-            'units_reserve.required'         => 'Debe introducir la cantidad para reserva.',
-            'min_units_reserve.required'     => 'Debe introducir la cantidad mínima para reserva.',
-            'cabinet_reserve.required'          => 'Debe introducir el armario para reserva.',
-            'shelf_reserve.required'            => 'Debe introducir la balda para reserva.',
+            'name.required'               => 'Debe introducir el nombre del material.',
+            'description.required'        => 'Debe introducir la descripción del material.',
+            'storage.required'            => 'Debe introducir la localización.',
+            'units_use.required'          => 'Debe introducir la cantidad para uso.',
+            'min_units_use.required'      => 'Debe introducir la cantidad mínima para uso.',
+            'cabinet_use.required'        => 'Debe introducir el armario para uso.',
+            'shelf_use.required'          => 'Debe introducir la balda para uso.',
+            'drawer.required'             => 'Debe introducir el cajón para uso.',
+            'units_reserve.required'      => 'Debe introducir la cantidad para reserva.',
+            'min_units_reserve.required'  => 'Debe introducir la cantidad mínima para reserva.',
+            'cabinet_reserve.required'    => 'Debe introducir el armario para reserva.',
+            'shelf_reserve.required'      => 'Debe introducir la balda para reserva.'
         ]);
 
         $basket = Cookie::get('materialsAddBasket', '[]');
@@ -70,17 +74,20 @@ class MaterialManagementController extends Controller
         $basket[] = [
             'name' => $validated['name'],
             'description' => $validated['description'],
+            'storage' => $validated['storage'],
             'use' => [
-                'units'    => $validated['units_use'],
-                'min_units'=> $validated['min_units_use'],
-                'cabinet'     => $validated['cabinet_use'],
-                'shelf'       => $validated['shelf_use'],
+                'units'         => $validated['units_use'],
+                'min_units'     => $validated['min_units_use'],
+                'cabinet'       => $validated['cabinet_use'],
+                'shelf'         => $validated['shelf_use'],
+                'drawer'        => $validated['drawer']
             ],
             'reserve' => [
-                'units'    => $validated['units_reserve'],
-                'min_units'=> $validated['min_units_reserve'],
-                'cabinet'     => $validated['cabinet_reserve'],
-                'shelf'       => $validated['shelf_reserve'],
+                'units'         => $validated['units_reserve'],
+                'min_units'     => $validated['min_units_reserve'],
+                'cabinet'       => $validated['cabinet_reserve'],
+                'shelf'         => $validated['shelf_reserve'],
+                'drawer'        => null
             ],
         ];
 
@@ -99,11 +106,7 @@ class MaterialManagementController extends Controller
         $basket = Cookie::get('materialsAddBasket', '[]');
         $basket = json_decode($basket, true);
     
-        if (!is_array($basket)) {
-            $basket = [];
-        }
-    
-        if (empty($basket)) {
+        if (empty($basket) || !is_array($basket)) {
             return back()->with('error', 'No hay materiales en la cesta para dar de alta.');
         }
     
@@ -138,12 +141,14 @@ class MaterialManagementController extends Controller
     {
         foreach (['use', 'reserve'] as $type) {
             Storage::create([
-                'material_id'  => $material->material_id,
-                'storage_type' => $type,
-                'cabinet'      => $materialData[$type]['cabinet'],
-                'shelf'        => $materialData[$type]['shelf'],
-                'units'     => $materialData[$type]['units'],
-                'min_units' => $materialData[$type]['min_units'],
+                'material_id'   => $material->material_id,
+                'storage'       => $materialData['storage'],
+                'storage_type'  => $type,
+                'cabinet'       => $materialData[$type]['cabinet'],
+                'shelf'         => $materialData[$type]['shelf'],
+                'drawer'        => $materialData[$type]['drawer'],
+                'units'         => $materialData[$type]['units'],
+                'min_units'     => $materialData[$type]['min_units']
             ]);
         }
     }
@@ -154,7 +159,8 @@ class MaterialManagementController extends Controller
      */
     public function deleteForm()
     {
-        return view('materials.delete')->with('materials', Material::all());
+        //return view('materials.delete')->with('materials', Material::all())->paginate(10);
+        return view('materials.delete')->with('materials', Material::simplePaginate(5));
     }
 
     /**
@@ -165,10 +171,10 @@ class MaterialManagementController extends Controller
     public function addToDeletionBasket(Request $request)
     {
         $validated = $request->validate([
-            'material' => 'required|exists:materials,material_id',
+            'material' => 'required|exists:materials,material_id'
         ], [
             'material.required' => 'Debe seleccionar un material.',
-            'material.exists'   => 'El material seleccionado no existe.',
+            'material.exists'   => 'El material seleccionado no existe.'
         ]);
 
         $basket = Cookie::get('materialsRemovalBasket', '[]');
@@ -182,7 +188,7 @@ class MaterialManagementController extends Controller
 
         $basket[] = [
             'material_id' => $material->material_id,
-            'name'        => $material->name,
+            'name'        => $material->name
         ];
         
         Cookie::queue('materialsRemovalBasket', json_encode($basket), 1440);

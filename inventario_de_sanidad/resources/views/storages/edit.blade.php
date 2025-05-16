@@ -25,6 +25,22 @@
                     @csrf
 
                     <h2>Editar Almacenamiento para: {{ $material->name }}</h2>
+
+                    @php
+                        $useRecord = $material->storage->where('storage_type', 'use')->first();
+                        $currentLocation = $useRecord->storage ?? ''; // 'CAE' o 'odontologia'
+                    @endphp
+
+                    <div class="form-group">
+                        <label for="storage">Localización:</label>
+                        <select name="storage" id="storage">
+                            <option value="CAE" {{ $currentLocation == 'CAE' ? 'selected' : '' }}>CAE</option>
+                            <option value="odontologia" {{ $currentLocation == 'odontologia' ? 'selected' : '' }}>Odontología</option>
+                        </select>
+                        @error('storage')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
+                    </div>
                     
                     <h3>Datos para Uso</h3>
                     @php
@@ -58,6 +74,13 @@
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label>Cajón:</label>
+                        <input type="number" name="drawer" class="form-control" value="{{ $useRecord->drawer ?? '-' }}" required>
+                        @error('drawer')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
+                    </div>
                     
                     <hr>
                     
@@ -82,7 +105,7 @@
                     </div>
                     <div class="form-group">
                         <label>Armario:</label>
-                        <input type="number" name="reserve_cabinet" class="form-control" value="{{ $reserveRecord->cabinet ?? '' }}" required>
+                        <input type="text" name="reserve_cabinet" class="form-control" value="{{ $reserveRecord->cabinet ?? '' }}" required>
                         @error('reserve_cabinet')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror

@@ -27,6 +27,6 @@ class Activity extends Model
 
     public function materials()
     {
-        return $this->belongsToMany(Material::class, 'material_activity', 'activity_id', 'material_id')->withPivot('quantity');
+        return $this->belongsToMany(Material::class, 'material_activity', 'activity_id', 'material_id')->withPivot('units');
     }
 }

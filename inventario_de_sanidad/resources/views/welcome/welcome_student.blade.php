@@ -30,13 +30,12 @@
         <h1 class="text-center">Portal del departamento de Sanidad</h1> 
         
         <div class="card ">
-            <div class="header">Menú de administradores </div><br>
+            <div class="header">Menú de Estudiantes </div><br>
                 <div id="name"><b>Bienvenido/a: </b> {{ Cookie::get('NAME') }}</div><br><br>
                 <b>Identificador Empleado: </b> {{ Cookie::get('USERPASS') }}<br><br>
                 <!-- Botones del menú -->
-                <button onclick="window.location.href='{{ route('historical.type', ['type' => 'use']) }}'" class="btn btn-warning">Materiales en uso</button>
-                <button onclick="window.location.href='{{ route('historical.type', ['type' => 'reserve']) }}'" class="btn btn-warning">Materiales en reserva</button>
-                <button onclick="window.location.href='{{ route('historical.modificationsHistorical') }}'" class="btn btn-warning">Historial de modificaciones</button>
+                <button onclick="window.location.href='{{ route('activities.create') }}'" class="btn btn-warning">Registrar actividad</button>
+                <button onclick="window.location.href='{{ route('activities.history') }}'" class="btn btn-warning">Historial actividades</button>
                 <br><br>
                 <a href="{{ route('welcome_admin') }}" class="btn ">Volver</a>
 

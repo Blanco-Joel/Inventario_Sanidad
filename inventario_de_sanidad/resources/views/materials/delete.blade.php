@@ -16,7 +16,7 @@
         <h1 class="text-center">Portal del Departamento de Sanidad</h1>
 
         <div class="card">
-            <div class="header">Menú de Docentes - BAJA DE MATERIALES</div>
+            <div class="header">Menú de Administrador - BAJA DE MATERIALES</div>
             <br>
             <b>Bienvenido/a:</b> {{ Cookie::get('NAME') }}<br><br>
             <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
@@ -49,6 +49,11 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{-- Enlaces de paginación --}}
+                <div class="mt-4">
+                    {{ $materials->links() }}
+                </div>
+
             </div>
 
             <br>

@@ -43,7 +43,7 @@
                     @endforeach
                 </tbody>
             </table>
-        <a href="{{ route('materiales.submenuHistorial') }}" class="btn ">Volver</a>
+        <a href="{{ route('historical.historicalSubmenu') }}" class="btn ">Volver</a>
 
     </div>
 </body>

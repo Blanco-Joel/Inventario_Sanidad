@@ -63,7 +63,7 @@ class ActivityController extends Controller
             MaterialActivity::create([
                 'activity_id' => $activity->activity_id,
                 'material_id' => $data['material_id'],
-                'quantity'    => $data['units']
+                'units'    => $data['units']
             ]);
         }
     }
