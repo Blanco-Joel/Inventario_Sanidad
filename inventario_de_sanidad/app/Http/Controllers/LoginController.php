@@ -31,13 +31,8 @@ class LoginController extends Controller
             Cookie::queue('NAME', $user->first_name . " " . $user->last_name, 60);
             Cookie::queue('TYPE', $user->user_type, 60);
             
-            if ($user->user_type === 'admin') {
-                return redirect()->route('welcome_admin');
-            } else if ($user->user_type === 'teacher') {
-                return redirect()->route('welcome_teacher');        
-            } else {
-                return redirect()->route('welcome_student');
-            }
+            return redirect()->route('welcome');
+            
         } else {
             return back()->withErrors(['login' => 'ERROR DE INICIO SESIÓN']);
         }

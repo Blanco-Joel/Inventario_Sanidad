@@ -12,63 +12,87 @@
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <!-- Sección para archivos CSS adicionales por página -->
     @stack('styles')
 </head>
 <body>
 <div class="wrapper">
+    <header class="header">
+        <!-- Notificaciones -->
+        <div>
+            <button class="btn btn-secondary" aria-label="Notificaciones">
+                <i class="fa-solid fa-bell"></i>
+            </button>
+
+        </div>
+
+        <!-- Informacion del usuario -->
+        <div class="user-info">
+            <span>{{ Cookie::get('NAME') }}</span>
+        </div>
+
+        <!-- LOGOUT -->
+        <div class="logout">
+            <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
         <!-- Menú lateral (estático) -->
         <aside class="sidebar">
             <nav>
                 <ul>
                     <!-- Menú para Administrador -->
-                    @if(Auth::user()->role == 'admin')
+                    @if(Cookie::get('TYPE') === 'admin')
                         <li class="{{ request()->routeIs('user.create') ? 'active' : '' }}">
-                            <a href="{{ route('user.create') }}">Gestión de usuarios</a>
+                            <a href="">Gestión de usuarios</a>
                             <ul class="submenu">
-                                <li><a href="{{ route('user.create') }}">Alta de usuarios</a></li>
-                                <li><a href="{{  }}">Control</a></li>
+                                <li><a href="{{ route('users.usersManagement') }}">Gestión de usuarios</a></li>
+                                <li><a href="{{ route('materials.dashboard') }}">Gestión de materiales</a></li>
+                                <li><a href="{{ route('historical.historicalSubmenu') }}">Reservas de Materiales</a></li>
                             </ul>
                         </li>
 
                         <li class="{{ request()->routeIs('material.create') ? 'active' : '' }}">
-                            <a href="{{ route('material.create') }}">Gestión de materiales</a>
+                            <a href="">Gestión de materiales</a>
                             <ul class="submenu">
-                                <li><a href="{{ route('material.create') }}">Alta de material</a></li>
-                                <li><a href="{{ route('material.delete') }}">Baja de material</a></li>
-                                <li><a href="{{ route('material.storage') }}">Gestionar almacenamiento</a></li>
+                                <li><a href="">Alta de material</a></li>
+                                <li><a href="">Baja de material</a></li>
+                                <li><a href="">Gestionar almacenamiento</a></li>
                             </ul>
                         </li>
 
                         <li class="{{ request()->routeIs('reservation.index') ? 'active' : '' }}">
-                            <a href="{{ route('reservation.index') }}">Reservas de materiales</a>
+                            <a href="">Reservas de materiales</a>
                             <ul class="submenu">
-                                <li><a href="{{ route('reservation.used') }}">Materiales en uso</a></li>
-                                <li><a href="{{ route('reservation.reserved') }}">Materiales en reserva</a></li>
-                                <li><a href="{{ route('reservation.history') }}">Historial de modificaciones</a></li>
+                                <li><a href="">Materiales en uso</a></li>
+                                <li><a href="">Materiales en reserva</a></li>
+                                <li><a href="">Historial de modificaciones</a></li>
                             </ul>
                         </li>
                     @endif
 
                     <!-- Menú para Estudiantes -->
-                    @if(Auth::user()->role == 'student')
-                        <li class="{{ request()->routeIs('activity.register') ? 'active' : '' }}">
-                            <a href="{{ route('activity.register') }}">Registrar actividad</a>
+                    @if(Cookie::get('TYPE') === 'student')
+                        <li class="">
+                            <a href="">Registrar actividad</a>
                         </li>
 
-                        <li class="{{ request()->routeIs('activity.history') ? 'active' : '' }}">
-                            <a href="{{ route('activity.history') }}">Historial de actividades</a>
+                        <li class="">
+                            <a href="">Historial de actividades</a>
                         </li>
                     @endif
 
                     <!-- Menú para Docentes -->
-                    @if(Auth::user()->role == 'teacher')
-                        <li class="{{ request()->routeIs('storage.manage') ? 'active' : '' }}">
-                            <a href="{{ route('storage.manage') }}">Gestionar almacenamiento</a>
+                    @if(Cookie::get('TYPE') === 'teacher')
+                        <li class="">
+                            <a href="">Gestionar almacenamiento</a>
                         </li>
 
-                        <li class="{{ request()->routeIs('reservation.index') ? 'active' : '' }}">
-                            <a href="{{ route('reservation.index') }}">Reservas de materiales</a>
+                        <li class="">
+                            <a href="">Reservas de materiales</a>
                         </li>
                     @endif
                 </ul>
@@ -77,20 +101,15 @@
 
         <!-- Contenido principal (cambia según la ruta) -->
         <main class="main-content">
-            <!-- Header (estático) -->
-            <header>
-                <div class="user-info">
-                    <span>Bienvenido, {{ Auth::user()->name }}</span>
-                    <!-- Aquí puedes poner notificaciones y otras cosas -->
-                </div>
-            </header>
 
             <!-- Aquí se insertará el contenido dinámico -->
             @yield('content')
         </main>
+
     </div>
 
     <script src="{{ asset('js/app.js') }}"></script>
+    
     @stack('scripts')
 </body>
 </html>
