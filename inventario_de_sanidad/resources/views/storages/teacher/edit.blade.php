@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group">
                         <label>Cantidad a restar:</label>
-                        <input type="number" name="subtract_units" class="form-control" value="0" min="0" max="{{ $useRecord->units }}" required>
+                        <input type="number" name="subtract_units" class="form-control" value="0" min="0" max="{{ $useRecord->units ?? '-' }}" required>
                         @error('subtract_units')
                             <div class="alert-error-uspas">{{ $message }}</div>
                         @enderror

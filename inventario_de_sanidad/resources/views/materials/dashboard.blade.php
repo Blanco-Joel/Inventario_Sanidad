@@ -21,6 +21,7 @@
                 <button onclick="window.location.href='{{ route('storages.updateView') }}'" class="btn btn-warning">Gestionar almacenamiento</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+                <a href="{{ route('welcome_admin') }}" class="btn ">Volver</a>
         </div>
     </div>
 </body>

@@ -14,8 +14,7 @@ class StorageController extends Controller
 {
     public function updateView()
     {
-        //return view('storages.update')->with('storages', Storage::all());
-        $materials = Material::with('storage')->get();
+        $materials = Material::with('storage')->simplePaginate(5);
         return view('storages.update')->with('storages', $materials);
     }
 
@@ -28,14 +27,16 @@ class StorageController extends Controller
     {
         try {
             $validated = $request->validate([
+                'storage'   => 'required|string|in:CAE, odontología',
                 'use_units'         => 'required|integer|min:1',
                 'use_min_units'     => 'required|integer|min:1',
                 'use_cabinet'          => 'required|integer|min:1',
                 'use_shelf'            => 'required|integer|min:1',
+                'drawer'    => 'required|integer|min:1',
     
                 'reserve_units'     => 'required|integer|min:1',
                 'reserve_min_units' => 'required|integer|min:1',
-                'reserve_cabinet'      => 'required|integer|min:1',
+                'reserve_cabinet'      => 'required|string',
                 'reserve_shelf'        => 'required|integer|min:1',
 
                 'onlyReserve'          => 'boolean'
@@ -46,6 +47,7 @@ class StorageController extends Controller
             $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
 
             // Nuevos valores.
+            $newStorage = $validated['storage'];
             $newUseUnits    = $validated['use_units'];
             $newUseMin         = $validated['use_min_units'];
             $newUseCabinet     = $validated['use_cabinet'];
@@ -59,6 +61,7 @@ class StorageController extends Controller
             // Comprueba si ningún campo cambia.
             if
             (
+                $newStorage == $useRecord->storage &&
                 $newUseUnits    == $useRecord->units && 
                 $newUseMin         == $useRecord->min_units && 
                 $newUseCabinet     == $useRecord->cabinet && 
@@ -136,6 +139,7 @@ class StorageController extends Controller
                 // Actualizar uso.
                 Storage::where('material_id', $material->material_id)->where('storage_type' , 'use')
                 ->update([
+                    'storage' => $validated['storage'],
                     'units'     => $newUseUnits,
                     'min_units' => $validated['use_min_units'],
                     'cabinet'      => $validated['use_cabinet'],
@@ -145,6 +149,7 @@ class StorageController extends Controller
                 // Actualizar reserva.
                 Storage::where('material_id', $material->material_id)->where('storage_type' , 'reserve')
                 ->update([
+                    'storage' => $validated['storage'],
                     'units'     => $newReserveUnits,
                     'min_units' => $validated['reserve_min_units'],
                     'cabinet'      => $validated['reserve_cabinet'],

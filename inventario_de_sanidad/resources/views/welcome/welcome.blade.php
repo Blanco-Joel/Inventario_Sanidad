@@ -18,7 +18,7 @@
                 <p id="error"></p>
                 <button type="submit">Cambiar Contraseña</button>
             </form>
-            
+
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -38,14 +38,6 @@
 
     <h1>Bienvenido</h1>
     <p>Has iniciado sesión correctamente.</p>
-
-    <!-- Notificaciones de alerta -->
-    @if(!empty($data))
-        <h4>WARNING</h4>
-        @foreach ($data as $warning)
-            <p>{{$warning->name}} tiene solo {{$warning->units}} unidad/es en {{$warning->storage_type ==  "use" ? "uso" : "reserva";}}.</p>
-        @endforeach
-    @endif
 
 @endsection
 

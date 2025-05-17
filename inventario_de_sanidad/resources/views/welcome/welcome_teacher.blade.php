@@ -38,7 +38,7 @@
                 @endif
                 <!-- Botones del menú -->
                 <button onclick="window.location.href='{{ route('storages.updateView') }}'" class="btn btn-warning">Gestionar almacenamiento</button>
-                <button onclick="window.location.href='{{ route('materiales.submenuHistorial') }}'" class="btn btn-warning">Reservas de Materiales</button>
+                <button onclick="window.location.href='{{ route('historical.historicalSubmenu') }}'" class="btn btn-warning">Reservas de Materiales</button>
                 <br><br>
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
 

@@ -12,20 +12,7 @@ class WelcomeController extends Controller
 {
     public function welcome()
     {
-        $user = User::where('user_id', Cookie::get('USERPASS'))->first();
-        $data = [];
-
-        if ($user && $user->type === 'admin') {
-            $data = Storage::join('materials', 'storages.material_id', '=', 'materials.material_id')
-                ->select('materials.name', 'storages.units', 'storage_type')
-                ->whereColumn('storages.units', '<', 'storages.min_units')
-                ->get();
-        }
-
-        return view('welcome.welcome', [
-            'user' => $user,
-            'data' => $data,
-        ]);
+        return view('welcome.welcome');
     }
 
     public function changePasswordFirstLog(Request $request)
@@ -52,5 +39,4 @@ class WelcomeController extends Controller
 
         return redirect()->route('welcome')->with('mensaje', 'Contraseña actualizada con éxito.');
     }
-
 }

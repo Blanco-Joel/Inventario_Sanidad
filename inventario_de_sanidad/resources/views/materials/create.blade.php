@@ -40,26 +40,58 @@
                     @enderror
                 </div>
 
+                <div class="input-group">
+                    <label for="storage">Localización</label>
+                    <select name="storage" id="storage">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="CAE" {{ old('storage')=='CAE'?'selected':'' }}>CAE</option>
+                        <option value="odontologia" {{ old('storage')=='odontologia'?'selected':'' }}>Odontología</option>
+                    </select>
+                    @error('storage')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <fieldset>
                     <legend>Uso</legend>
                     <div class="input-group">
                         <label for="units_use">Cantidad</label>
-                        <input type="number" name="units_use" id="units_use" min="1">
+                        <input type="number" name="units_use" id="units_use" min="1" value="{{ old('units_use') }}">
+                        @error('units_use')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="min_units_use">Cantidad mínima</label>
-                        <input type="number" name="min_units_use" id="min_units_use" min="1">
+                        <input type="number" name="min_units_use" id="min_units_use" min="1" value="{{ old('min_units_use') }}">
+                        @error('min_units_use')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="cabinet_use">Armario</label>
-                        <input type="number" name="cabinet_use" id="cabinet_use" min="1">
+                        <input type="number" name="cabinet_use" id="cabinet_use" value="{{ old('cabinet_use') }}">
+                        @error('cabinet_use')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="shelf_use">Balda</label>
-                        <input type="number" name="shelf_use" id="shelf_use" min="1">
+                        <input type="number" name="shelf_use" id="shelf_use" min="1" value="{{ old('shelf_use') }}">
+                        @error('shelf_use')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="input-group">
+                        <label for="drawer">Cajón</label>
+                        <input type="number" name="drawer" id="drawer" value="{{ old('drawer') }}">
+                        @error('drawer')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
                 </fieldset>
 
@@ -67,22 +99,34 @@
                     <legend>Reserva</legend>
                     <div class="input-group">
                         <label for="units_reserve">Cantidad</label>
-                        <input type="number" name="units_reserve" id="units_reserve" min="1">
+                        <input type="number" name="units_reserve" id="units_reserve" min="1" value="{{ old('units_reserve') }}">
+                        @error('units_reserve')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="min_units_reserve">Cantidad mínima</label>
-                        <input type="number" name="min_units_reserve" id="min_units_reserve" min="1">
+                        <input type="number" name="min_units_reserve" id="min_units_reserve" min="1" value="{{ old('min_units_reserve') }}">
+                        @error('min_units_reserve')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="cabinet_reserve">Armario</label>
-                        <input type="number" name="cabinet_reserve" id="cabinet_reserve" min="1">
+                        <input type="text" name="cabinet_reserve" id="cabinet_reserve" value="{{ old('cabinet_reserve') }}">
+                        @error('cabinet_reserve')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <label for="shelf_reserve">Balda</label>
-                        <input type="number" name="shelf_reserve" id="shelf_reserve" min="1">
+                        <input type="number" name="shelf_reserve" id="shelf_reserve" min="1" value="{{ old('shelf_reserve') }}">
+                        @error('shelf_reserve')
+                            <div class="alert-error-uspas">{{ $message }}</div>
+                        @enderror
                     </div>
                 </fieldset>
 
@@ -101,36 +145,29 @@
             @if (session('success'))
                 <p class="alert-success">{{ session('success') }}</p>
             @endif
-
+            
             @if (session('error'))
                 <p class="alert-error-uspas">{{ session('error') }}</p>
             @endif
 
-            <!-- Mostrar el contenido de la cookie de la cesta. Se decodifica el JSON y se presenta de forma estructurada. -->
+            <!-- Mostrar contenido de la cesta -->
             @php
-                $basket = Cookie::get('materialsAddBasket', '[]');
-                $basket = json_decode($basket, true);
+                $basket = json_decode(Cookie::get('materialsAddBasket','[]'), true);
             @endphp
 
-            @if (!empty($basket) && is_array($basket))
+            @if ($basket)
                 <h4>Cesta de Materiales:</h4>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th rowspan="2">Nombre</th>
                             <th rowspan="2">Descripción</th>
-                            <th colspan="4" class="text-center">Uso</th>
-                            <th colspan="4" class="text-center">Reserva</th>
+                            <th colspan="5" class="text-center">Uso</th>
+                            <th colspan="5" class="text-center">Reserva</th>
                         </tr>
                         <tr>
-                            <th>Cantidad</th>
-                            <th>Mínima</th>
-                            <th>Armario</th>
-                            <th>Balda</th>
-                            <th>Cantidad</th>
-                            <th>Mínima</th>
-                            <th>Armario</th>
-                            <th>Balda</th>
+                            <th>Cantidad</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Cajón</th>
+                            <th>Cantidad</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Cajón</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,10 +179,12 @@
                                 <td>{{ $item['use']['min_units'] }}</td>
                                 <td>{{ $item['use']['cabinet'] }}</td>
                                 <td>{{ $item['use']['shelf'] }}</td>
+                                <td>{{ $item['use']['drawer'] }}</td>
                                 <td>{{ $item['reserve']['units'] }}</td>
                                 <td>{{ $item['reserve']['min_units'] }}</td>
                                 <td>{{ $item['reserve']['cabinet'] }}</td>
                                 <td>{{ $item['reserve']['shelf'] }}</td>
+                                <td>{{ $item['reserve']['drawer'] }}</td>
                             </tr>
                         @endforeach
                     </tbody>

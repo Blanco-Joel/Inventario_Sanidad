@@ -26,6 +26,32 @@
                 <i class="fa-solid fa-bell"></i>
             </button>
 
+            <!-- Notificaciones de alerta -->
+            @php
+                use App\Models\User;
+                use App\Models\Storage;
+                use Illuminate\Support\Facades\Cookie;
+
+                $user = User::where('user_id', Cookie::get('USERPASS'))->first();
+                $notifications = [];
+
+                if ($user && $user->type === 'admin') {
+                    $notifications = Storage::join('materials', 'storages.material_id', '=', 'materials.material_id')
+                        ->select('materials.name', 'storages.units', 'storage_type')
+                        ->whereColumn('storages.units', '<', 'storages.min_units')
+                        ->get();
+                }
+            @endphp
+
+            @if(count($notifications))
+                <div class="notifications-alert">
+                    <h4>WARNING</h4>
+                    @foreach ($notifications as $warning)
+                        <p>{{ $warning->name }} tiene solo {{ $warning->units }} unidad/es en {{ $warning->storage_type == "use" ? "use" : "reserva" }}.</p>
+                    @endforeach
+                </div>
+            @endif
+
         </div>
 
         <!-- Informacion del usuario -->
