@@ -1,6 +1,6 @@
 /* === Fondo animado === */
 .bg-login {
-  background: linear-gradient(to bottom, var(--accent-200), var(--accent-100), var(--gray-800));
+  background: linear-gradient(to bottom, var(--primary-400), var(--primary-300), var(--primary-200));
   position: absolute;
   top: 0;
   left: 0;
@@ -32,7 +32,7 @@
 .login-box h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--accent-100);
+  color: var(--primary-100);
   margin-bottom: 0.5rem;
 }
 

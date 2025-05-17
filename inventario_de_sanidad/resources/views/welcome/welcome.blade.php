@@ -32,12 +32,12 @@
         </div>
     </dialog>
 
+    <h1>Bienvenido</h1>
+    <p>Has iniciado sesión correctamente.</p>
+
     @if (session('mensaje'))
         <p>{{ session('mensaje') }}</p>
     @endif
-
-    <h1>Bienvenido</h1>
-    <p>Has iniciado sesión correctamente.</p>
 
 @endsection
 
