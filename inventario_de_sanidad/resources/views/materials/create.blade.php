@@ -133,6 +133,8 @@
                 <input type="submit" value="Añadir" class="btn btn-warning">
             </form>
 
+            <input type="file" name="file" id="file">
+
             <!-- Formulario para confirmar el alta de materiales guardados en la cesta -->
             <form action="{{ route('materials.store') }}" method="POST">
                 @csrf
