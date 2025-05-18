@@ -28,25 +28,9 @@ Route::post('/', [LoginController::class, 'login'])->name('login.process');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 /* WELCOME */
-Route::get('/firstLogData', function () {
-    $userpass = Cookie::get('USERPASS'); // nombre de tu cookie
-    return response()->json(
-        \App\Models\User::where('user_id', $userpass)->first()
-    );
-});
-
+Route::get('/firstLogData', [WelcomeController::class, 'firstLogData']);
 Route::get('/welcome', [WelcomeController::class, 'welcome'])->name('welcome');
 Route::post('/welcome', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
-
-// Route::get('/welcome_teacher', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_teacher');
-// Route::post('/welcome_teacher', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
-
-// Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
-// Route::post('/welcome_admin', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
-
-// Route::get('/welcome_student', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_student');
-// Route::post('/welcome_student', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
-
 
 /* GESTION DE USUARIOS */
 Route::get('/users/usersManagement', [UsersManagementController::class, 'showUsersManagement'])->name('users.usersManagement');

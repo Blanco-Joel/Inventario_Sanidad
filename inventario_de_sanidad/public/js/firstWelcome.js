@@ -3,12 +3,18 @@ if (document.addEventListener)
 else if (document.attachEvent)
     window.attachEvent("onload",inicio);
 
-// Función para obtener los datos del usuario
+// Obtener datos del usuario (para saber si es primer login)
 async function userDataRetrieve() {
-    var response = await fetch('/firstLogData');
-    var data = await response.json();
-    console.log("📦 Datos del usuario:", data);
-    return data;
+    try {
+        let response = await fetch('/firstLogData');
+        if (!response.ok) throw new Error("No se pudo obtener datos");
+        let data = await response.json();
+        console.log("📦 Datos del usuario:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al obtener datos de usuario:", error);
+        return null;
+    }
 }
 
 // Función para iniciar la página
@@ -21,8 +27,10 @@ async function inicio(){
 // Función para mostrar el dialogo de cambio de contraseña
 function mostrarDialogInicio(e) {
     let dialog = document.getElementById("firstLogDialog");
-    dialog.setAttribute("open", "true");
-    console.log("💬 Diálogo abierto.");
+    
+    dialog.style.display = "flex";
+    // dialog.setAttribute("open", "true");
+    // console.log("💬 Diálogo abierto.");
 
     let form = dialog.querySelector("form");
     if (document.addEventListener) {
@@ -49,12 +57,5 @@ function newPass(e) {
     }
 
     let dialog = document.getElementById("firstLogDialog");
-    cerrarDialog(dialog);
-}
-
-// Función para cerrar el dialogo
-function cerrarDialog(dialog) {
-    if (dialog.hasAttribute("open")) {
-        dialog.removeAttribute("open");
-    }
+    dialog.style.display = "none";
 }

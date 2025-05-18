@@ -26,6 +26,16 @@
                         <input type="password" name="password" placeholder="Contraseña">
                     </div>
 
+                    @if ($errors->any())
+                        <div class="error-messages">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <button type="submit" class="btn btn-primary">Login</button>
 
                 </form>

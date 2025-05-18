@@ -56,8 +56,38 @@
     color: var(--primary-600);
 }
 
+.notification-count {
+    position: absolute;
+    top: 30px;
+    right: -5px;
+    background-color: var(--warning);
+    color: var(--bg-100);
+    font-size: 9px;
+    padding: 3px 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    user-select: none;
+}
+
 .notifications-list {
     display: none;
+    position: absolute;
+    right: 250px;
+    top: 60px;
+    background-color: var(--bg-100);
+    width: 300px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 2px solid var(--primary-300);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 10px 15px;
+    z-index: 1000;
+}
+
+.notifications-alert {
+    position: relative;
+    display: inline-block;
 }
 
 .notifications-list.show {
@@ -197,6 +227,6 @@
 /* Contenido principal que ocupa el resto */
 .main-content {
     flex: 1 1 auto;
-    padding: 20px;
+    padding: 100px;
     background-color: var(--primary-600);
 }

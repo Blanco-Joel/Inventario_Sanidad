@@ -15,6 +15,18 @@ class WelcomeController extends Controller
         return view('welcome.welcome');
     }
 
+    public function firstLogData()
+    {
+        $userpass = Cookie::get('USERPASS');
+        $user = User::where('user_id', $userpass)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        return response()->json($user);
+    }
+
     public function changePasswordFirstLog(Request $request)
     {
         $request->validate([

@@ -40,6 +40,11 @@
     margin-bottom: 15px;
 }
 
+.error-messages {
+    color: var(--error);
+    font-size: 0.9rem;
+}
+
 footer {
   background-color: transparent;
   position: absolute;

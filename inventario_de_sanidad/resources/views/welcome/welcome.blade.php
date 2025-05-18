@@ -1,34 +1,23 @@
 @extends('layout.app')
 
+@section('title', 'Bienvenido')
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/style_welcome.css') }}">
+@endpush
+
 @section('content')
     <!-- Dialog para cambiar contraseña -->
-    <dialog id="firstLogDialog" >
-        <div  class="text-center" >
+    <dialog id="firstLogDialog" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
             <h3>Cambiar Contraseña</h3>
-            <p>En el primer ingreso a la página se ha<br> de cambiar la contraseña.</p>
-            <form id="FirstLogForm"  action="{{ route('changePasswordFirstLog') }}" method="POST">
+            <p>En el primer ingreso a la página se ha de cambiar la contraseña.</p>
+            <form id="FirstLogForm" action="{{ route('changePasswordFirstLog') }}" method="POST">
                 @csrf
-
-                <label for="newPassword">Nueva Contraseña</label><br>
-                <input type="password" id="newPassword" name="newPassword" ><br><br>
-            
-                <label for="confirmPassword">Confirmar Nueva Contraseña</label><br>
-                <input type="password" id="confirmPassword" name="confirmPassword" ><br><br>
-                
-                <p id="error"></p>
-                <button type="submit">Cambiar Contraseña</button>
+                <input type="password" id="newPassword" name="newPassword" placeholder="Nueva contraseña">
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirma la nueva contraseña">
+                <button class="btn btn-primary" type="submit">Cambiar Contraseña</button>
             </form>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
         </div>
     </dialog>
 
@@ -38,7 +27,6 @@
     @if (session('mensaje'))
         <p>{{ session('mensaje') }}</p>
     @endif
-
 @endsection
 
 @push('scripts')
