@@ -1,5 +1,5 @@
 :root {
-    /* PALETA PRINCIPAL (Azules confiables y suaves) */
+    /* PALETA PRINCIPAL  */
   --primary-100: #0f3d57;   /* Muy oscuro: headers, dark backgrounds */
   --primary-200: #155b8a;   /* Oscuro: botones, énfasis */
   --primary-300: #1d7fbf;   /* Base: elementos activos */
@@ -7,7 +7,7 @@
   --primary-500: #a3d4f7;   /* Muy claro: fondo destacado */
   --primary-600: #eaf6fd;   /* Azul pálido: fondos generales */
 
-  /* ACCENT (Toques rosados cálidos, humanos) */
+  /* ACCENT  */
   --accent-100: #d94f70;    /* Primario rosa: call-to-action */
   --accent-200: #f28ca5;    /* Rosa claro: hover/acento suave */
   --accent-300: #fce5ea;    /* Muy suave: fondos o etiquetas */
@@ -15,7 +15,7 @@
   /* TEXTO */
   --text-100: #0f0f0f;      /* Texto principal */
   --text-200: #3b4753;      /* Secundario */
-  --text-300: #ffffff;      /* Para texto sobre azul oscuro */
+  --text-300: #ffffff;      /* Para texto oscuro */
 
   /* BACKGROUND */
   --bg-100: #ffffff;        /* Fondo principal */
@@ -96,7 +96,6 @@ body {
   font-family: var(--font-principal);
   background-color: var(--bg-100);
   color: var(--text-100);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* === INPUTS Y CAMPOS DE TEXTO === */

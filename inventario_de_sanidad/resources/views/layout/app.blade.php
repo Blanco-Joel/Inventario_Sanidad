@@ -183,13 +183,13 @@
                     <!-- Menú para Estudiantes -->
                     @if(Cookie::get('TYPE') === 'student')
                         <li>
-                            <a href="">
+                            <a href="{{ route('activities.create') }}">
                                 <i class="fa-solid fa-pen"></i>
                                 <span class="link-text">Registrar actividad</span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="{{ route('activities.history') }}">
                                 <i class="fa-solid fa-clock-rotate-left"></i>
                                 <span class="link-text">Historial de actividades </span>
                             </a>
@@ -199,13 +199,13 @@
                     <!-- Menú para Docentes -->
                     @if(Cookie::get('TYPE') === 'teacher')
                         <li>
-                            <a href="">
+                            <a href="{{ route('storages.updateView') }}">
                                 <i class="fa-solid fa-box-archive"></i>
                                 <span class="link-text"> Gestionar almacenamiento </span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="{{ route('historical.historicalSubmenu') }}">
                                 <i class="fa-solid fa-book-bookmark"></i>
                                 <span class="link-text"> Reservas de materiales </span>
                             </a>

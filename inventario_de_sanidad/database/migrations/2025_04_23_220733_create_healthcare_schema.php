@@ -27,7 +27,7 @@ class CreateHealthcareSchema extends Migration
             $table->engine = 'InnoDB';
             $table->increments('material_id');
             $table->string('name', 60);
-            $table->string('title', 100);
+            $table->string('description', 255);
             $table->string('image_path', 255);
         });
 
