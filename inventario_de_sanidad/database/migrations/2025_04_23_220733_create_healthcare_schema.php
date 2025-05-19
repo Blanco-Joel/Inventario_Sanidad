@@ -28,7 +28,7 @@ class CreateHealthcareSchema extends Migration
             $table->increments('material_id');
             $table->string('name', 60);
             $table->string('description', 255);
-            $table->string('image_path', 255);
+            $table->string('image_path', 255)->nullable();
         });
 
         // storages

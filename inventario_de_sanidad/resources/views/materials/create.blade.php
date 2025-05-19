@@ -22,7 +22,7 @@
             <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
 
             <!-- Formulario para agregar material a la cesta -->
-            <form action="{{ route('materials.basket.create') }}" method="POST">
+            <form action="{{ route('materials.basket.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="input-group">
                     <label for="name">Nombre del material</label>
@@ -130,10 +130,11 @@
                     </div>
                 </fieldset>
 
+                <input type="file" name="image" id="image">
+
+                <br><br>
                 <input type="submit" value="Añadir" class="btn btn-warning">
             </form>
-
-            <input type="file" name="file" id="file">
 
             <!-- Formulario para confirmar el alta de materiales guardados en la cesta -->
             <form action="{{ route('materials.store') }}" method="POST">
@@ -169,7 +170,7 @@
                         </tr>
                         <tr>
                             <th>Cantidad</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Cajón</th>
-                            <th>Cantidad</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Cajón</th>
+                            <th>Cantidad</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Imagen</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -186,7 +187,9 @@
                                 <td>{{ $item['reserve']['min_units'] }}</td>
                                 <td>{{ $item['reserve']['cabinet'] }}</td>
                                 <td>{{ $item['reserve']['shelf'] }}</td>
-                                <td>{{ $item['reserve']['drawer'] }}</td>
+                                <td>
+                                    <img src="{{ asset('storage/' . ($item['image_temp'] ?? 'no_image.jpg')) }}" style="max-width:100px" alt="">
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

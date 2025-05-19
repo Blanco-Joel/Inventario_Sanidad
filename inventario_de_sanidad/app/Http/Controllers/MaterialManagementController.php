@@ -8,6 +8,7 @@ use App\Models\Storage;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage as StorageFacade;
 
 class MaterialManagementController extends Controller
 {
@@ -48,7 +49,8 @@ class MaterialManagementController extends Controller
             'units_reserve'         => 'required|integer|min:1',
             'min_units_reserve'     => 'required|integer|min:1',
             'cabinet_reserve'       => 'required|string',
-            'shelf_reserve'         => 'required|integer|min:1'
+            'shelf_reserve'         => 'required|integer|min:1',
+            'image'                 => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'name.required'               => 'Debe introducir el nombre del material.',
             'description.required'        => 'Debe introducir la descripción del material.',
@@ -61,8 +63,17 @@ class MaterialManagementController extends Controller
             'units_reserve.required'      => 'Debe introducir la cantidad para reserva.',
             'min_units_reserve.required'  => 'Debe introducir la cantidad mínima para reserva.',
             'cabinet_reserve.required'    => 'Debe introducir el armario para reserva.',
-            'shelf_reserve.required'      => 'Debe introducir la balda para reserva.'
+            'shelf_reserve.required'      => 'Debe introducir la balda para reserva.',
+            'image.image'                 => 'El fichero debe ser una imagen.',
+            'image.mimes'                 => 'Sólo se aceptan imágenes jpeg, png, jpg, gif o svg.',
+            'image.max'                   => 'La imagen no puede superar 2 MB.',
         ]);
+
+        $tempPath = null;
+
+        if ($request->hasFile('image')) {
+            $tempPath = $request->file('image')->store('temp', 'public');
+        }
 
         $basket = Cookie::get('materialsAddBasket', '[]');
         $basket = json_decode($basket, true);
@@ -72,9 +83,10 @@ class MaterialManagementController extends Controller
         }
 
         $basket[] = [
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'storage' => $validated['storage'],
+            'name'          => $validated['name'],
+            'description'   => $validated['description'],
+            'storage'       => $validated['storage'],
+            'image_temp'    => $tempPath,
             'use' => [
                 'units'         => $validated['units_use'],
                 'min_units'     => $validated['min_units_use'],
@@ -103,26 +115,43 @@ class MaterialManagementController extends Controller
      */
     public function storeBatch()
     {
-        $basket = Cookie::get('materialsAddBasket', '[]');
-        $basket = json_decode($basket, true);
+        $basket = json_decode(Cookie::get('materialsAddBasket', '[]'), true);
     
         if (empty($basket) || !is_array($basket)) {
             return back()->with('error', 'No hay materiales en la cesta para dar de alta.');
         }
+
+        $imagesMaterials = [];
     
         try {
-            DB::transaction(function () use ($basket) {
+            DB::transaction(function () use ($basket, &$imagesMaterials) {
                 foreach ($basket as $materialData) {
                     $material = new Material();
                     $material->name = $materialData["name"];
                     $material->description = $materialData["description"];
-                    $material->image_path = "images/" . $materialData["name"] . ".png";
+                    $material->image_path = null;
                     $material->save();
+
+                    if (!empty($materialData["image_temp"])) {
+                        $imageName = pathinfo($materialData["image_temp"], PATHINFO_BASENAME);
+                        $imagesMaterials[] = [
+                            'material_id'   =>  $material->material_id,
+                            'image_temp'    =>  $materialData["image_temp"],
+                            'image_path'    =>  "materials/{$imageName}",
+                        ];
+                    }
                     
                     $this->storeMaterialInStorage($material, $materialData);
                 }
             });
-    
+
+            foreach ($imagesMaterials as $imageData) {
+                StorageFacade::disk('public')->move($imageData["image_temp"], $imageData["image_path"]);
+                Material::where('material_id', $imageData["material_id"])->update(['image_path' =>  $imageData["image_path"]]);
+            }
+
+            StorageFacade::disk('public')->deleteDirectory('temp');
+
             Cookie::queue(Cookie::forget('materialsAddBasket'));
     
             return back()->with('success', 'Materiales incorporados correctamente.');
