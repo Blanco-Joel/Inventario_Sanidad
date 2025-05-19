@@ -18,7 +18,13 @@ class User extends Model
         'last_modified' => 'date',
     ];
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'user_type', 'firstLog'
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'hashed_password',
+        'user_type',
+        'first_log'
     ];
 
     public function modifications()

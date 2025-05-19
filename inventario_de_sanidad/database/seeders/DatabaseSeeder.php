@@ -257,11 +257,21 @@ class DatabaseSeeder extends Seeder
             [
                 'material_id'  => (3-2),
                 'storage'      => 'CAE',
+                'storage_type' => 'use',
+                'cabinet'      => 'armario gris',
+                'shelf'        => 1,
+                'drawer'       => null,
+                'units'        => 7,
+                'min_units'    => 8,
+            ],
+            [
+                'material_id'  => (3-2),
+                'storage'      => 'CAE',
                 'storage_type' => 'reserve',
                 'cabinet'      => 'armario gris',
                 'shelf'        => 1,
                 'drawer'       => null,
-                'units'        => 15,
+                'units'        => 7,
                 'min_units'    => 8,
             ],
             [
@@ -586,7 +596,7 @@ class DatabaseSeeder extends Seeder
         DB::table('activities')->insert([
             [
                 'user_id'      => 2,
-                'description'  => 'First aid practice',
+                'title'  => 'First aid practice',
                 'created_at'   => Carbon::now()->subDays(3),
             ],
         ]);

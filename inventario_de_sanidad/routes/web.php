@@ -27,26 +27,12 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post('/', [LoginController::class, 'login'])->name('login.process');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
-/* HOME */
-Route::get('/firstLogData', function () {
-    $userpass = Cookie::get('USERPASS'); // nombre de tu cookie
-    return response()->json(
-        \App\Models\User::where('user_id', $userpass)->first()
-    );
-});
-Route::post('/welcome_teacher', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
-
-Route::post('/welcome_admin', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
-
-Route::get('/welcome_student', [WelcomeController::class, 'showWelcome_alumnos'])->name('welcome_student');
-Route::post('/welcome_student', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
-
+/* WELCOME */
+Route::get('/firstLogData', [WelcomeController::class, 'firstLogData']);
+Route::get('/welcome', [WelcomeController::class, 'welcome'])->name('welcome');
+Route::post('/welcome', [WelcomeController::class, 'changePasswordFirstLog'])->name('changePasswordFirstLog');
 
 Route::middleware('check.teacher.cookie')->group(function () {
-    // BIENVENIDA DOCENTE
-    Route::get('/welcome_teacher', [WelcomeController::class, 'showWelcome_docentes'])->name('welcome_teacher');
-
     // Rutas de almacenamiento de docentes
     Route::get('storages/update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
     Route::post('/storages/update/{material}/teacher/process', [StorageController::class, 'subtractToUse'])->name('storages.subtract.teacher');
@@ -67,8 +53,7 @@ Route::prefix('activities')->group(function () {
 
 
 Route::middleware('check.admin.cookie')->group(function () {
-    Route::get('/welcome_admin', [WelcomeController::class, 'showWelcome_admin'])->name('welcome_admin');
-    
+
     /* GESTION DE USUARIOS */
 
     Route::get('/users/usersManagement', [UsersManagementController::class, 'showUsersManagement'])->name('users.usersManagement');
@@ -97,10 +82,11 @@ Route::middleware('check.admin.cookie')->group(function () {
     Route::get('/bajaMaterial', [MaterialManagementController::class, 'showBajaMateriales'])->name('bajaMaterial.view');
     Route::post('/bajaMaterial/add', [MaterialManagementController::class, 'agregarMaterialACestaBaja'])->name('add.process');
     Route::post('/bajaMaterial/process', [MaterialManagementController::class, 'bajaMaterial'])->name('bajaMaterial.process');
+    
     Route::prefix('materials')->group(function () {
         Route::get('/dashboard', [MaterialManagementController::class, 'dashboard'])->name('materials.dashboard');
-    /* GESTION DE MATERIALES */
-    //Route::get('/gestionMateriales', [MaterialManagementController::class, 'showGestionMateriales'])->name('gestionMateriales');
+        /* GESTION DE MATERIALES */
+        //Route::get('/gestionMateriales', [MaterialManagementController::class, 'showGestionMateriales'])->name('gestionMateriales');
     
         Route::get('/create', [MaterialManagementController::class, 'createForm'])->name('materials.create');
     

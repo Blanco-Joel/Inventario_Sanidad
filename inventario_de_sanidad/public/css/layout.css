@@ -1,33 +1,232 @@
-/* Estilo general para los enlaces del menú */
-.sidebar ul li a {
+/* Contenedor general: columna */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header  */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background-color: var(--bg-100);
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
+    width: 60px;
+}
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-notifications {
+    width: 40px;
+    height: 40px;
     padding: 10px;
+    background-color: var(--primary-600);
+}
+
+.btn-notifications i {
+    width: 15px;
+    height: 15px;
+    color: var(--primary-300);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-300);
+}
+
+.btn-notifications:hover {
+    color: var(--primary-500);
+}
+
+.btn-notifications:hover i {
+    color: var(--primary-600);
+}
+
+.notification-count {
+    position: absolute;
+    top: 30px;
+    right: -5px;
+    background-color: var(--warning);
+    color: var(--bg-100);
+    font-size: 9px;
+    padding: 3px 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    user-select: none;
+}
+
+.notifications-list {
+    display: none;
+    position: absolute;
+    right: 250px;
+    top: 60px;
+    background-color: var(--bg-100);
+    width: 300px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 2px solid var(--primary-300);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 10px 15px;
+    z-index: 1000;
+}
+
+.notifications-alert {
+    position: relative;
+    display: inline-block;
+}
+
+.notifications-list.show {
     display: block;
-    text-decoration: none;
-    color: #333;
 }
 
-.sidebar ul li.active a {
-    background-color: #007bff;
-    color: white;
+#theme-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Estilo para el submenú (oculto por defecto) */
+#theme-switch i:last-child {
+    display: none;
+}
+
+.darkmode #theme-switch i:first-child {
+    display: none;
+}
+
+.darkmode #theme-switch i:last-child {
+    display: block;
+}
+
+.user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-600);
+    border-radius: 8px;
+    padding: 10px 20px;
+}
+
+.user-info i {
+    background-color: var(--bg-100);
+    color: var(--primary-300);
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.user-info span {
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+
+.logout {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    z-index: 10;
+}
+
+
+/* sidebar + main content */
+.content-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    height: calc(100vh - 80px);
+}
+
+/* Sidebar*/
+.sidebar {
+    width: 60px;
+    transition: width 0.3s ease;
+}
+
+/* Ancho de la barra lateral */
+.sidebar.expanded {
+    width: 280px;
+}
+
+/* Lista de elementos del submenú */
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar a:hover {
+    background-color: var(--primary-500);
+}
+
+/* Ícono de cada elemento del submenú */
+.sidebar i {
+    color: var(--primary-300);
+    min-width: 20px;
+    text-align: center;
+}
+
+.link-text {
+    flex-grow: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.expanded .link-text.show {
+    opacity: 1;
+}
+
+/* Submenús ocultos por defecto */
 .submenu {
     display: none;
-    padding-left: 20px;
+    background-color: var(--primary-600);
 }
 
-.sidebar ul li.active .submenu {
+/* Mostrar submenú solo cuando el padre tiene clase open */
+.has-submenu.open > .submenu {
     display: block;
 }
 
-.submenu li a {
-    background-color: #f0f0f0;
-    padding: 5px;
-    color: #333;
+/* Ícono de flecha para abrir/cerrar submenú */
+.arrow-icon {
+    margin-left: auto;
+    transition: transform 0.3s ease;
 }
 
-.submenu li a:hover {
-    background-color: #007bff;
-    color: white;
+/* Rota el ícono cuando está abierto */
+.has-submenu.open .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Sangría para subelementos */
+.submenu li a {
+    padding-left: 40px;
+    font-size: 0.95em;
+}
+
+/* Contenido principal que ocupa el resto */
+.main-content {
+    flex: 1 1 auto;
+    padding: 100px;
+    background-color: var(--primary-600);
 }

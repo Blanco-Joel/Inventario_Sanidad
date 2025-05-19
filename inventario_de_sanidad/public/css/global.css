@@ -1,44 +1,223 @@
 :root {
-    --primary-100:#d4eaf7;
-    --primary-200:#b6ccd8;
-    --primary-300:#3b3c3d;
-    --accent-100:#1768ff;
-    --accent-200:#1555cc;
-    --text-100:#1d1c1c;
-    --text-200:#313d44;
-    --bg-100:#fffefb;
-    --bg-200:#f5f4f1;
-    --bg-300:#cccbc8;
-      
-    --font-principal: 'SF Pro Rounded', sans-serif;
+    /* PALETA PRINCIPAL  */
+  --primary-100: #0f3d57;   /* Muy oscuro: headers, dark backgrounds */
+  --primary-200: #155b8a;   /* Oscuro: botones, énfasis */
+  --primary-300: #1d7fbf;   /* Base: elementos activos */
+  --primary-400: #4aa3e0;   /* Claro: fondo activo o hover */
+  --primary-500: #a3d4f7;   /* Muy claro: fondo destacado */
+  --primary-600: #eaf6fd;   /* Azul pálido: fondos generales */
+
+  /* ACCENT  */
+  --accent-100: #d94f70;    /* Primario rosa: call-to-action */
+  --accent-200: #f28ca5;    /* Rosa claro: hover/acento suave */
+  --accent-300: #fce5ea;    /* Muy suave: fondos o etiquetas */
+
+  /* TEXTO */
+  --text-100: #0f0f0f;      /* Texto principal */
+  --text-200: #3b4753;      /* Secundario */
+  --text-300: #ffffff;      /* Para texto oscuro */
+
+  /* BACKGROUND */
+  --bg-100: #ffffff;        /* Fondo principal */
+  --bg-200: #f4f7fa;        /* Fondo gris-azulado claro */
+  --bg-300: #e3e8ee;        /* Secciones suaves */
+  --bg-400: #0c1c2c;        /* Fondo oscuro */
+
+  /* GRISES NEUTROS */
+  --gray-100: #f5f5f5;
+  --gray-200: #e1e1e1;
+  --gray-300: #cfcfcf;
+  --gray-400: #a0a0a0;
+  --gray-500: #707070;
+  --gray-600: #505050;
+  --gray-700: #303030;
+  --gray-800: #1c1c1c;
+  --gray-900: #121212;
+
+  /* ALERTAS Y ESTADOS */
+  --error: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+
+  --font-principal: 'Calibri', sans-serif;
+}
+
+.darkmode {
+  /* PRIMARY (Azules adaptados para dark) */
+  --primary-100: #eaf6fd;   /* Muy claro, para detalles */
+  --primary-200: #a3d4f7;   /* Claro, como fondo activo */
+  --primary-300: #4aa3e0;   /* Medio: botones */
+  --primary-400: #1d7fbf;   /* Oscuro, énfasis */
+  --primary-500: #155b8a;   /* Más oscuro */
+  --primary-600: #0f3d57;   /* Muy oscuro */
+
+  /* ACCENT (Rosados con contraste sobre fondo oscuro) */
+  --accent-100: #f28ca5;    /* Claro: elementos suaves */
+  --accent-200: #d94f70;    /* Medio: botones/acento fuerte */
+  --accent-300: #a1304d;    /* Oscuro: hover/acento más discreto */
+
+  /* TEXTOS */
+  --text-100: #ffffff;      /* Texto principal */
+  --text-200: #cfd8df;      /* Texto secundario */
+  --text-300: #94a3b8;      /* Desactivado o auxiliar */
+
+  /* BACKGROUND */
+  --bg-100: #0c1c2c;        /* Fondo principal */
+  --bg-200: #152230;        /* Fondo secundario */
+  --bg-300: #1f2f41;        /* Elementos elevados (cards) */
+  --bg-400: #29394d;        /* Separadores, headers oscuros */
+
+  /* GRISES */
+  --gray-100: #121212;
+  --gray-200: #1e1e1e;
+  --gray-300: #2a2a2a;
+  --gray-400: #3f3f3f;
+  --gray-500: #565656;
+  --gray-600: #7a7a7a;
+  --gray-700: #a0a0a0;
+  --gray-800: #d1d1d1;
+  --gray-900: #f0f0f0;
+
+  /* ESTADOS */
+  --error: #f87171;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --info: #60a5fa;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: var(--font-principal);
-    background-color: var(--bg-100);
-    color: var(--text-100);
+  font-family: var(--font-principal);
+  background-color: var(--bg-100);
+  color: var(--text-100);
 }
 
-input {
-    border: 1px solid var(--primary-300);
-    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    padding: 10px 15px;
-    font-size: 1rem;
+/* === INPUTS Y CAMPOS DE TEXTO === */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--gray-200);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-100);
+  line-height: 1.25rem; 
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  position: relative;
 }
 
-button {
-    color: var(--text-100);
-    background-image: linear-gradient(to right, var(--accent-100), var(--accent-200));
-    border-radius:32px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
-    padding: 7px 25px;
-    font-weight: 900;
+/* Cuando el campo tiene foco */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--gray-400);
+  /* background-color: var(--gray-100); */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-button:hover {
-    color: var(--bg-100);
-    background-image: linear-gradient(to right, var(--text-100), var(--text-200));
+/* === COMPORTAMIENTO DEL PLACEHOLDER === */
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  opacity: 0;
+}
+
+input:not(:placeholder-shown),
+textarea:not(:placeholder-shown) {
+  opacity: 1;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* === BOTÓN PRINCIPAL === */
+.btn {
+  padding: 10px 25px;
+  background-color: var(--gray-800);
+  color: var(--bg-100);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 200ms ease-in, color 80ms ease-in;
+}
+.btn:hover {
+  background-color: var(--gray-600);
+}
+
+/* === BOTÓN PRIMARIO === */
+.btn-primary {
+  background-color: var(--primary-300);
+}
+.btn-primary:hover {
+  background-color: var(--primary-200);
+}
+
+/* === BOTÓN SECUNDARIO (Outline) === */
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary-300);
+  border: 2px solid var(--primary-300);
+}
+.btn-outline:hover {
+  background-color: var(--primary-300);
+  color: var(--bg-100);
+}
+
+/* === BOTÓN DE CONFIRMACIÓN === */
+.btn-success {
+  background-color: var(--success);
+  color: var(--bg-100);
+}
+.btn-success:hover {
+  background-color: #0e9e6e;
+}
+
+/* === BOTÓN DE ALERTA === */
+.btn-danger {
+  background-color: var(--error);
+  color: var(--bg-100);
+}
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+/* ANIMACIONES DE ENTRADA Y DE SALIDA */
+.fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
