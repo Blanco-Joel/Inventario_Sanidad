@@ -25,6 +25,16 @@
                 <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
 
                 <h2>Actualizar Datos de Almacenamiento</h2>
+                <form>
+                <input type="text" id="buscarId" placeholder="Buscar..." >
+                
+                <label><input type="radio" name="regs" value="10" checked>10 registros</label>
+                <label><input type="radio" name="regs" value="20">20 registros</label>
+                <label><input type="radio" name="regs" value="30">30 registros</label>
+                <label><input type="radio" name="regs" value="40">40 registros</label>
+                <label><input type="radio" name="regs" value="50">50 registros</label>
+                <label><input type="radio" name="regs" value="60">60 registros</label>
+                </form><br>
                 <table>
                     <thead>
                         <tr>
@@ -38,35 +48,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($storages as $material)
-                            @php
-                                $useRecord = $material->storage->where('storage_type', 'use')->first();
-                                $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
-                            @endphp
-                            <tr>
-                                <td rowspan="2">{{ $material->name }}</td>
-                                <td>Uso</td>
-                                <td>{{ $useRecord ? $useRecord->units : '-' }}</td>
-                                <td>{{ $useRecord ? $useRecord->min_units : '-' }}</td>
-                                <td>{{ $useRecord ? $useRecord->cabinet : '-' }}</td>
-                                <td>{{ $useRecord ? $useRecord->shelf : '-' }}</td>
-                                <td rowspan="2">
-                                    <a href="{{ Cookie::get('TYPE') === 'admin' ? route('storages.edit', $material) : route('storages.teacher.edit', $material) }}" class="btn btn-warning">Editar</a>
-                                </td>
-                            </tr>
-                            <tr>
-                            <td>Reserva</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->units : '-' }}</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->min_units : '-' }}</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->cabinet : '-' }}</td>
-                                <td>{{ $reserveRecord ? $reserveRecord->shelf : '-' }}</td>
-                            </tr>
-                        @endforeach
+                       
                     </tbody>
                 </table>
-                <div class="mt-4">
-                    {{ $storages->links() }}
-                </div>
+                
+
 
                 <br>
                 <button onclick="window.location.href='{{ Cookie::get('TYPE') === 'admin' ? route('materials.dashboard') : route('welcome_teacher') }}'" class="btn btn-warning">Volver</button>
@@ -75,5 +61,7 @@
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
             </div>
         </div>
+        <script src="{{ asset('js/storagesUpdate.js') }}" type="text/javascript"></script>
+
     </body>
 </html>

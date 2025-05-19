@@ -14,7 +14,7 @@ class StorageController extends Controller
 {
     public function updateView()
     {
-        $materials = Material::with('storage')->simplePaginate(5);
+        $materials = Material::with('storage')->get();
         return view('storages.update')->with('storages', $materials);
     }
 

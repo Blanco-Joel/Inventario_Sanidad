@@ -38,7 +38,7 @@
                 <button onclick="window.location.href='{{ route('historical.type', ['type' => 'reserve']) }}'" class="btn btn-warning">Materiales en reserva</button>
                 <button onclick="window.location.href='{{ route('historical.modificationsHistorical') }}'" class="btn btn-warning">Historial de modificaciones</button>
                 <br><br>
-                <a href="{{ route('welcome_admin') }}" class="btn ">Volver</a>
+                <button onclick="window.location.href='{{ Cookie::get('TYPE') === 'admin' ? route('materials.dashboard') : route('welcome_teacher') }}'" class="btn btn-warning">Volver</button>
 
                 <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
 

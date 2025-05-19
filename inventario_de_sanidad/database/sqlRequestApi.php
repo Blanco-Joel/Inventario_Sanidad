@@ -49,7 +49,7 @@
     // --------------------------------------------------------------------
     // --------------------------------------------------------------------
 
-    // funcion para Cambiar contraseña usuario
+    // funcion para recuperar los materiales qeu tienen menos del minimo
 
     $sql = "SELECT materials.name, storages.units, storage_type FROM materials, storage WHERE storages.material_id = materials.material_id AND storage.units < storages.min_units ";
 
@@ -58,4 +58,14 @@
     // units
     // storage_type
 
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+
+    // funcion para dar de alta materiales 
+    $name = $conn->real_escape_string($data["name"]);
+    $description =$conn->real_escape_string($data["description"]);
+    $image_path = $conn->real_escape_string($data["img"]);
+    
+    $sql = "INSERT INTO materials (name, description, image_path)
+        VALUES ('$name', '$description', '$image_path')";
 ?>
