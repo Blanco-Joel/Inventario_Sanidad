@@ -18,7 +18,6 @@
             <button onclick="window.location.href='{{ route('historical.type', ['type' => 'reserve']) }}'" class="btn btn-primary">Materiales en reserva</button>
             <button onclick="window.location.href='{{ route('historical.modificationsHistorical') }}'" class="btn btn-primary">Historial de modificaciones</button>
         </div>
-    </div>
 @endsection
 
 @push('scripts')
