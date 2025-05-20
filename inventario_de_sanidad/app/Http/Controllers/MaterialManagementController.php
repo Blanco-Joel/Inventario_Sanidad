@@ -225,42 +225,6 @@ class MaterialManagementController extends Controller
         return back()->with('success', 'Material agregado a la cesta.');
     }
 
-    /**
-     * Da de baja (elimina) los materiales cuyos IDs están almacenados en la cookie
-     * 'materialsRemovalBasket'. Si ocurre un error no se da de baja ningún material.
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroyBatch()
-    {
-        $basket = Cookie::get('materialsRemovalBasket', '[]');
-        $basket = json_decode($basket, true);
-
-        if (!is_array($basket)) {
-            $basket = [];
-        }
-
-        if (empty($basket)) {
-            return back()->with('error', 'No hay materiales en la cesta para dar de baja.');
-        }
-
-        try {
-            DB::transaction(function () use ($basket) {
-                foreach ($basket as $materialData) {
-                    $material = Material::find($materialData['material_id']);
-                    if ($material) {
-                        $material->delete();
-                    }
-                }
-            });
-
-            Cookie::queue(Cookie::forget('materialsRemovalBasket'));
-
-            return back()->with('success', 'Materiales eliminados correctamente.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error al eliminar los materiales: ' . $e->getMessage());
-        }
-    }
-
     public function destroy(Material $material)
     {
         try {
@@ -276,4 +240,52 @@ class MaterialManagementController extends Controller
         }
     }
 
+    public function edit()
+    {
+        return view('materials.edit')->with('materials', Material::simplePaginate(5));
+    }
+
+    public function update(Material $material, Request $request)
+    {
+        $validated = $request->validate([
+            'name'        => 'required|string|max:60',
+            'description' => 'required|string|max:100',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'name.required'        => 'Debe introducir el nombre del material.',
+            'description.required' => 'Debe introducir la descripción del material.',
+            'image.image'          => 'El fichero debe ser una imagen.',
+            'image.mimes'          => 'Solo se aceptan jpeg, png, jpg, gif o svg.',
+            'image.max'            => 'La imagen no puede superar 2 MB.',
+        ]);
+
+        $oldPath = $material->image_path;
+        $newPath = null;
+
+        try {
+            DB::transaction(function() use ($material, $request, $validated, &$newPath, $oldPath) {
+                if ($request->hasFile('image')) {
+                    $newPath = $request->file('image')->store('materials', 'public');
+                }
+
+                $material->update([
+                    'name'        => $validated['name'],
+                    'description' => $validated['description'],
+                    'image_path'    =>  $newPath ?? $oldPath,
+                ]);
+
+                if (!empty($newPath) && !empty($oldPath)) {
+                    StorageFacade::disk('public')->delete($oldPath);
+                }
+            });
+
+            return back()->with('success', 'Material editado correctamente.');
+        } catch (\Exception $e) {
+            if (!empty($newPath)) {
+                StorageFacade::disk('public')->delete($newPath);
+            }
+
+            return back()->with('error', 'Error al editar el material: ' . $e->getMessage());
+        }
+    }
 }

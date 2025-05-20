@@ -30,6 +30,7 @@
                             <th>ID Material</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
+                            <th>Imagen</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -39,6 +40,9 @@
                                 <td>{{ $material->material_id }}</td>
                                 <td>{{ $material->name }}</td>
                                 <td>{{ $material->description }}</td>
+                                <td>
+                                    <img src="{{ asset('storage/' . ($material->image_path ?? 'no_image.jpg')) }}" style="max-width:100px" alt="">
+                                </td>
                                 <td>
                                     <form action="{{ route('materials.destroy', $material) }}" method="POST">
                                         @csrf

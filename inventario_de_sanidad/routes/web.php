@@ -98,8 +98,11 @@ Route::middleware('check.admin.cookie')->group(function () {
     
         Route::post('/basket/delete', [MaterialManagementController::class, 'addToDeletionBasket'])->name('materials.basket.delete');
     
-        //Route::post('/destroy', [MaterialManagementController::class, 'destroyBatch'])->name('materials.destroyBatch');
         Route::post('{material}/destroy', [MaterialManagementController::class, 'destroy'])->name('materials.destroy');
+
+        Route::get('/edit', [MaterialManagementController::class, 'edit'])->name('materials.edit');
+
+        Route::post('{material}/update', [MaterialManagementController::class, 'update'])->name('materials.update');
     });
     
 });

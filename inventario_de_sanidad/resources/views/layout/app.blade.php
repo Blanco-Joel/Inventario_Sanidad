@@ -137,6 +137,12 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('materials.edit') }}">
+                                        <i class="fa-solid fa-minus"></i>
+                                        <span class="link-text"> Editar material </span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ route('storages.updateView') }}">
                                         <i class="fa-solid fa-box-archive"></i>
                                         <span class="link-text"> Gestionar almacenamiento </span>
