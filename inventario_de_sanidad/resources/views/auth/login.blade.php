@@ -20,26 +20,24 @@
                     
                     <div class="input-group">
                         <input type="text" name="user" placeholder="Número de usuario">
+                        @error('user')
+                            <div class="error-messages">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="input-group">
                         <input type="password" name="password" placeholder="Contraseña">
+                        @error('password')
+                            <div class="error-messages">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    @if ($errors->any())
-                        <div class="error-messages">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @error('login')
+                        <div class="error-messages">{{ $message }}</div>
+                    @enderror
 
                     <button type="submit" class="btn btn-primary">Login</button>
-
                 </form>
-                
             </div>
         </div>
     </div>

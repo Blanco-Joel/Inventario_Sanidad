@@ -34,7 +34,7 @@ class LoginController extends Controller
             return redirect()->route('welcome');
             
         } else {
-            return back()->withErrors(['login' => 'ERROR DE INICIO SESIÓN']);
+            return back()->withErrors(['login' => 'Usuario o contraseña incorrectos']);
         }
     }
 

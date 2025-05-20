@@ -1,0 +1,154 @@
+.material-form-wrapper {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--bg-100);
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.form-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--primary-100);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.file-upload{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.form-grid-4, .form-grid-5 {
+    display: grid;
+    gap: 1rem;
+}
+
+.form-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.form-grid-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.fieldset {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.5rem;
+}
+
+.fieldset legend {
+    font-weight: bold;
+    color: var(--primary-200);
+}
+
+.form-actions {
+    margin-top: 1.5rem;
+}
+
+.file-upload-input {
+    display: none;
+}
+
+.file-name-display {
+    margin-left: 1rem;
+    color: var(--text-200);
+    font-size: 0.875rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.form-actions input[type="submit"] {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.material-form:last-of-type {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.material-form:last-of-type input[type="submit"] {
+    font-size: 1.1rem;
+    padding: 0.7rem 2.5rem;
+}
+
+#imgPreview {
+    min-width: none;
+    max-width: 80px;
+    height: auto;
+}
+
+.basket-section {
+    margin-top: 2rem;
+}
+
+.basket-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--primary-100);
+}
+
+.basket-table-wrapper {
+    overflow-x: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.basket-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--bg-100);
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    /* table-layout: fixed; */
+}
+
+.basket-table th {
+    background-color: var(--bg-200);
+    color: var(--text-100);
+    font-weight: 600;
+    padding: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+    text-align: center;
+    
+}
+
+.basket-table td{
+    padding: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+    
+}
+
+.basket-description {
+    word-break: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+    max-width: 500px;
+    text-align: left;
+}
+
+
+
+.basket-img {
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: cover;
+}
+
+.alert-error-uspas{
+    font-size: 0.8rem;
+    color: var(--error);
+}
