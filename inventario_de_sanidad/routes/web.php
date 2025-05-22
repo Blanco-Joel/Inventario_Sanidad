@@ -75,7 +75,6 @@ Route::middleware('check.admin.cookie')->group(function () {
         ;
     
         Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
-        Route::get('update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
     
         Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
     });
@@ -102,7 +101,4 @@ Route::middleware('check.admin.cookie')->group(function () {
         Route::post('{material}/destroy', [MaterialManagementController::class, 'destroy'])->name('materials.destroy');
     });
     
-});
-Route::middleware('check.teacher.cookie')->group(function () {
-    Route::post('/storages/update/{material}/teacher/process', [StorageController::class, 'subtractToUse'])->name('storages.subtract.teacher');
 });

@@ -64,13 +64,13 @@
         @endif
 
         <form>
-            <input type="text" id="buscarId" placeholder="Buscar..."><br><br>
-            <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
-            <label><input type="radio" name="filtro" value="2">Apellidos</label>
-            <label><input type="radio" name="filtro" value="3">Email</label>
-            <label><input type="radio" name="filtro" value="4">Tipo de usuario</label>
-            <label><input type="radio" name="filtro" value="5">Última modificación</label>
-            <label><input type="radio" name="filtro" value="6">Fecha de alta</label>
+            <input  type="text" id="buscarId" placeholder="Buscar..."><br><br>
+            <label><input type="radio"  name="filtro" value="1" checked>Nombre</label>
+            <label><input type="radio"  name="filtro" value="2">Apellidos</label>
+            <label><input type="radio"  name="filtro" value="3">Email</label>
+            <label><input type="radio"  name="filtro" value="4">Tipo de usuario</label>
+            <label><input type="radio"  name="filtro" value="5">Última modificación</label>
+            <label><input type="radio"  name="filtro" value="6">Fecha de alta</label>
         </form><br>
 
         <table id="tabla-usuarios">
@@ -115,6 +115,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div id="paginacion" class="pagination-controls">
+            <!-- Aquí se inyectarán los botones de paginación desde JS -->
+        </div>
     </div>
 </div>
 @endsection
@@ -122,4 +125,5 @@
 @push('scripts')
     <script src="{{ asset('js/tabs.js') }}"></script>
     <script src="{{ asset('js/usersManagement.js') }}"></script>
+    <script src="{{ asset('js/tableUser.js') }}"></script>
 @endpush
