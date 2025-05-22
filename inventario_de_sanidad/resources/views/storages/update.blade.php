@@ -63,6 +63,5 @@
 
 @push('scripts')
     <script src="{{ asset('js/storagesUpdate.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/tables.js') }}" type="text/javascript"></script>
 @endpush
 
