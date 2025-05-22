@@ -21,213 +21,228 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
-<div class="wrapper">
-    <header class="header">
+<div class="layout">
+    <!-- Menú lateral (estático) -->
+    <aside class="sidebar">
         <!-- Logo -->
         <div class="logo">
-            <!--<img src="{{ asset('img/logo.png') }}" alt="logo">  -->
+            <img src="{{ asset('img/logo.png') }}" alt="logo">
         </div>
 
-        <div class="header-right">
-            <!-- DarkMode Toggle -->
-            <button class="btn btn-outline btn-notifications" id="theme-switch" type="button">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
+        <!-- Menú  -->
+        <nav>
+            <ul>
+                <!-- Menú para Administrador -->
+                @if(Cookie::get('TYPE') === 'admin')
+                    <li class="has-submenu">
+                        <a href="">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="link-text">Gestión de usuarios</span>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{{ route('users.usersManagement') }}"
+                                class="{{ request()->routeIs('users.usersManagement') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-users-gear"></i>
+                                    <span class="link-text">Gestión de usuarios</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-            <!-- Notificaciones de alerta -->
-            @php
-                use App\Models\User;
-                use App\Models\Storage;
-                use Illuminate\Support\Facades\Cookie;
+                    <li class="has-submenu">
+                        <a href="">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            <span class="link-text">Gestión de materiales</span>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{{ route('materials.create') }}"
+                                class="{{ request()->routeIs('materials.create') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span class="link-text">Alta de material</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('materials.delete') }}"
+                                class="{{ request()->routeIs('materials.delete') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-minus"></i>
+                                    <span class="link-text">Baja de material</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('materials.edit') }}"
+                                class="{{ request()->routeIs('materials.edit') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-minus"></i>
+                                    <span class="link-text">Editar material</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('storages.updateView') }}"
+                                class="{{ request()->routeIs('storages.updateView') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-box-archive"></i>
+                                    <span class="link-text">Gestionar almacenamiento</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-                $user = User::where('user_id', Cookie::get('USERPASS'))->first();
-                
-                $notifications = collect();
+                    <li class="has-submenu">
+                        <a href="">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                            <span class="link-text">Reservas de materiales</span>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{{ route('historical.type', ['type' => 'use']) }}"
+                                class="{{ request()->fullUrlIs(route('historical.type', ['type' => 'use'])) ? 'active' : '' }}">
+                                    <i class="fa-solid fa-book-open"></i>
+                                    <span class="link-text">Materiales en uso</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('historical.type', ['type' => 'reserve']) }}"
+                                class="{{ request()->fullUrlIs(route('historical.type', ['type' => 'reserve'])) ? 'active' : '' }}">
+                                    <i class="fa-solid fa-boxes-packing"></i>
+                                    <span class="link-text">Materiales en reserva</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('historical.modificationsHistorical') }}"
+                                class="{{ request()->routeIs('historical.modificationsHistorical') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                    <span class="link-text">Historial de modificaciones</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
 
-                if ($user && $user->user_type === 'admin') {
-                    $notifications = Storage::join('materials', 'storages.material_id', '=', 'materials.material_id')
-                        ->select('materials.name', 'storages.units', 'storage_type')
-                        ->whereColumn('storages.units', '<', 'storages.min_units')
-                        ->get();
-                }
-            @endphp
+                <!-- Menú para Estudiantes -->
+                @if(Cookie::get('TYPE') === 'student')
+                    <li>
+                        <a href="{{ route('activities.create') }}"
+                        class="{{ request()->routeIs('activities.create') ? 'active' : '' }}">
+                            <i class="fa-solid fa-pen"></i>
+                            <span class="link-text">Registrar actividad</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('activities.history') }}"
+                        class="{{ request()->routeIs('activities.history') ? 'active' : '' }}">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <span class="link-text">Historial de actividades</span>
+                        </a>
+                    </li>
+                @endif
 
-            <!-- Notificaciones -->
-            <div>
-                <div class="notifications-alert">
-                    <button id="btn-notifications" class="btn btn-primary btn-notifications">
-                        <i class="fa-solid fa-bell"></i>
+                <!-- Menú para Docentes -->
+                @if(Cookie::get('TYPE') === 'teacher')
+                    <li>
+                        <a href="{{ route('storages.updateView') }}"
+                        class="{{ request()->routeIs('storages.updateView') ? 'active' : '' }}">
+                            <i class="fa-solid fa-box-archive"></i>
+                            <span class="link-text">Gestionar almacenamiento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('historical.historicalSubmenu') }}"
+                        class="{{ request()->routeIs('historical.historicalSubmenu') ? 'active' : '' }}">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                            <span class="link-text">Reservas de materiales</span>
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </nav>
+    </aside>
+
+    
+    <div class="main-area">
+        <!-- Header  -->
+        <header class="header">
+            <div class="header-right">
+                <!-- DarkMode Toggle -->
+                <button class="btn btn-primary btn-notifications" id="theme-switch" type="button">
+                    <i class="fa-solid fa-sun"></i>
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Notificaciones de alerta -->
+                @php
+                    use App\Models\User;
+                    use App\Models\Storage;
+                    use Illuminate\Support\Facades\Cookie;
+
+                    $user = User::where('user_id', Cookie::get('USERPASS'))->first();
+                    
+                    $notifications = collect();
+
+                    if ($user && $user->user_type === 'admin') {
+                        $notifications = Storage::join('materials', 'storages.material_id', '=', 'materials.material_id')
+                            ->select('materials.name', 'storages.units', 'storage_type')
+                            ->whereColumn('storages.units', '<', 'storages.min_units')
+                            ->get();
+                    }
+                @endphp
+
+                <!-- Notificaciones -->
+                <div>
+                    <div class="notifications-alert">
+                        <button id="btn-notifications" class="btn btn-primary btn-notifications">
+                            <i class="fa-solid fa-bell"></i>
+                            @if($notifications->isNotEmpty())
+                                <span id="notification-count" class="notification-count">{{ $notifications->count() }}</span>
+                            @endif
+                        </button>
+                    </div>
+
+                    <div id="notifications-list" class="notifications-list fade-in">
                         @if($notifications->isNotEmpty())
-                            <span id="notification-count" class="notification-count">{{ $notifications->count() }}</span>
+                            <h3>Notificaciones</h3>
+                            <hr>
+                            @foreach ($notifications as $warning)
+                                <p>{{$warning->name}} tiene solo {{$warning->units}} unidad/es en {{$warning->storage_type ==  "use" ? "uso" : "reserva"}}.</p>
+                            @endforeach
+                        @else
+                            <p>No hay notificaciones</p>
                         @endif
-                    </button>
+                    </div>
                 </div>
 
-                <div id="notifications-list" class="notifications-list">
-                    @if($notifications->isNotEmpty())
-                        @foreach ($notifications as $warning)
-                            <p>{{$warning->name}} tiene solo {{$warning->units}} unidad/es en {{$warning->storage_type ==  "use" ? "uso" : "reserva"}}.</p>
-                        @endforeach
-                    @else
-                        <p>No hay notificaciones</p>
-                    @endif
-                </div>
+                <!-- Contenedor del usuario -->
+                <div class="user-dropdown">
+                    <!-- Info del usuario -->
+                    <div class="user-info btn btn-notifications" id="user-info-toggle">
+                        <i class="fa-solid fa-user"></i>
+                        {{-- <span>{{ Cookie::get('NAME') }}</span> --}}
+                    </div>
 
+                    <!-- Logout oculto por defecto -->
+                    <div class="logout" id="logout-section" style="display: none;">
+                        <div class="user-details">
+                            <p class="user-name">{{ Cookie::get('NAME') }}</p>
+                            <p class="user-email">{{ Cookie::get('EMAIL') }}</p>
+                            <p class="user-role">{{ Cookie::get('TYPE') }}</p>
+                        </div>
+
+                        <hr>
+
+                        <div class="logout-button">
+                            <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Contenedor del usuario -->
-            <div class="user-dropdown">
-                <!-- Info del usuario -->
-                <div class="user-info" id="user-info-toggle">
-                    <i class="fa-solid fa-user"></i>
-                    <span>{{ Cookie::get('NAME') }}</span>
-                </div>
-
-                <!-- Logout oculto por defecto -->
-                <div class="logout" id="logout-section" style="display: none;">
-                    <a href="{{ route('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="content-wrapper">
-
-        <!-- Menú lateral (estático) -->
-        <aside class="sidebar">
-            <!-- Menú  -->
-            <nav>
-                <ul>
-                    <!-- Menú para Administrador -->
-                    @if(Cookie::get('TYPE') === 'admin')
-                        <li class="has-submenu">
-                            <a href="">
-                                <i class="fa-solid fa-user"></i>
-                                <span class="link-text">Gestión de usuarios</span>
-                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                            </a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="{{ route('users.usersManagement') }}">
-                                        <i class="fa-solid fa-users-gear"></i>
-                                        <span class="link-text">Gestión de usuarios </span>   
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="has-submenu">
-                            <a href="">
-                                <i class="fa-solid fa-clipboard-list"></i>
-                                <span class="link-text">Gestión de materiales</span>
-                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                            </a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="{{ route('materials.create') }}">
-                                        <i class="fa-solid fa-plus"></i>
-                                        <span class="link-text"> Alta de material </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('materials.delete') }}">
-                                        <i class="fa-solid fa-minus"></i>
-                                        <span class="link-text"> Baja de material </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('materials.edit') }}">
-                                        <i class="fa-solid fa-minus"></i>
-                                        <span class="link-text"> Editar material </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('storages.updateView') }}">
-                                        <i class="fa-solid fa-box-archive"></i>
-                                        <span class="link-text"> Gestionar almacenamiento </span>
-                                    </a>
-                                </li>  
-                            </ul>
-                        </li>
-
-                        <li class="has-submenu">
-                            <a href="">
-                                <i class="fa-solid fa-book-bookmark"></i>
-                                <span class="link-text">Reservas de materiales</span>
-                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                            </a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="{{ route('historical.historicalSubmenu') }}">
-                                        <i class="fa-solid fa-book-bookmark"></i>
-                                        <span class="link-text"> Submenu </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('historical.type', ['type' => 'use']) }}">
-                                        <i class="fa-solid fa-book-open"></i>
-                                        <span class="link-text"> Materiales en uso </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('historical.type', ['type' => 'reserve']) }}">
-                                        <i class="fa-solid fa-boxes-packing"></i>
-                                        <span class="link-text"> Materiales en reserva </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('historical.modificationsHistorical') }}">
-                                        <i class="fa-solid fa-clock-rotate-left"></i>
-                                        <span class="link-text"> Historial de modificaciones </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
-
-                    <!-- Menú para Estudiantes -->
-                    @if(Cookie::get('TYPE') === 'student')
-                        <li>
-                            <a href="{{ route('activities.create') }}">
-                                <i class="fa-solid fa-pen"></i>
-                                <span class="link-text">Registrar actividad</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('activities.history') }}">
-                                <i class="fa-solid fa-clock-rotate-left"></i>
-                                <span class="link-text">Historial de actividades </span>
-                            </a>
-                        </li>
-                    @endif
-
-                    <!-- Menú para Docentes -->
-                    @if(Cookie::get('TYPE') === 'teacher')
-                        <li>
-                            <a href="{{ route('storages.updateView') }}">
-                                <i class="fa-solid fa-box-archive"></i>
-                                <span class="link-text"> Gestionar almacenamiento </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('historical.historicalSubmenu') }}">
-                                <i class="fa-solid fa-book-bookmark"></i>
-                                <span class="link-text"> Reservas de materiales </span>
-                            </a>
-                        </li>
-                    @endif
-                </ul>
-            </nav>
-        </aside>
-
+        </header>
+        
         <!-- Contenido principal (cambia según la ruta) -->
         <main class="main-content">
-
-            <!-- Aquí se insertará el contenido dinámico -->
             @yield('content')
         </main>
-
     </div>
     
     @stack('scripts')

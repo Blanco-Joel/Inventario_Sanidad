@@ -29,6 +29,7 @@ class LoginController extends Controller
 
             Cookie::queue('USERPASS', $user->user_id, 60);
             Cookie::queue('NAME', $user->first_name . " " . $user->last_name, 60);
+            Cookie::queue('EMAIL', $user->email, 60);
             Cookie::queue('TYPE', $user->user_type, 60);
             
             return redirect()->route('welcome');

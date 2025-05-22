@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Materiales en Reserva</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Materiales en Reserva</h1>
+@extends('layout.app')
+
+@section('title', 'Materiales en reserva')
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/') }}">
+@endpush
+
+@section('content')
+    <div class="">
+        <h1 class="">Materiales en Reserva</h1>
 
         @if($materials->isEmpty())
             <div class="alert alert-warning">No hay materiales en reserva actualmente.</div>
@@ -17,15 +18,15 @@
                 <button type="submit">Buscar</button>
             </form>
             <br>
-            <div class="row">
+            <div class="">
                 @foreach($materials as $material)
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="{{ asset($material->image_path) }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ $material->name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $material->name }}</h5>
-                                <p class="card-text">{{ $material->description }}</p>
-                                <ul class="list-unstyled">
+                    <div class="">
+                        <div class="">
+                            <img src="{{ asset($material->image_path) }}" class="" style="height: 200px; object-fit: cover;" alt="{{ $material->name }}">
+                            <div class="">
+                                <h5 class="">{{ $material->name }}</h5>
+                                <p class="">{{ $material->description }}</p>
+                                <ul class="">
                                     <li><strong>Armario:</strong> {{ $material->cabinet }}</li>
                                     <li><strong>Balda:</strong> {{ $material->shelf }}</li>
                                     <li><strong>Unidades:</strong> {{ $material->units }}</li>
@@ -37,8 +38,11 @@
                 @endforeach
             </div>
         @endif
-        <a href="{{ route('historical.historicalSubmenu') }}" class="btn ">Volver</a>
-
+        
     </div>
-</body>
-</html>
+@endsection
+
+@push('scripts')
+    <script src="{{ asset('js/') }}"></script>
+@endpush
+

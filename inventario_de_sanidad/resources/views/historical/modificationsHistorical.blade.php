@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Materiales en Reserva</title>
-    <link rel="stylesheet" href="{{ asset('css/style_welcome.css') }}">
+@extends('layout.app')
 
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Historial de modificaciones</h1>
+@section('title', 'Historial de modificaciones')
 
-            <div class="row">
-            <table id="tabla-modificaciones" border="1">
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+@endpush
+
+@section('content')
+    <div class="">
+        <h1 class="">Historial de modificaciones</h1>
+
+        <div class="">
+            <table class="table">
                 <thead>
                     <tr>
                         <th onclick="sortTable(0)">Nombre</th>
@@ -43,8 +43,10 @@
                     @endforeach
                 </tbody>
             </table>
-        <a href="{{ route('historical.historicalSubmenu') }}" class="btn ">Volver</a>
-
+        </div>
     </div>
-</body>
-</html>
+@endsection
+
+@push('scripts')
+    <script src="{{ asset('js/') }}"></script>
+@endpush

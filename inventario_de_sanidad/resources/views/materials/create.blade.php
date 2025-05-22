@@ -4,11 +4,18 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/style_createMaterial.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
 @endpush
 
 @section('content')
 <div class="material-form-wrapper">
     <h1 class="form-title">Alta de Materiales</h1>
+
+    <div class="basket-toggle">
+        <button id="toggleBasketBtn" class="btn btn-outline btn-notifications" type="button">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+    </div>
 
     {{-- Formulario para agregar a la cesta --}}
     <form action="{{ route('materials.basket.create') }}" method="POST" enctype="multipart/form-data" class="material-form">
@@ -105,14 +112,14 @@
     @endphp
 
     @if ($basket)
-        <div class="basket-section">
+        <div class="basket-section hidden">
             <h4 class="basket-title">Cesta de Materiales</h4>
-            <div class="basket-table-wrapper">
-                <table class="basket-table">
+            <div class="table-wrapper">
+                <table class="table">
                     <thead>
                         <tr>
                             <th rowspan="2">Nombre</th>
-                            <th rowspan="2">Descripción</th>
+                            <th class="wide" rowspan="2">Descripción</th>
                             <th colspan="5">Uso</th>
                             <th colspan="5">Reserva</th>
                         </tr>
@@ -125,7 +132,7 @@
                         @foreach ($basket as $item)
                             <tr>
                                 <td>{{ $item['name'] }}</td>
-                                <td class="basket-description">{{ $item['description'] }}</td>
+                                <td class="cell-description custom-scroll">{{ $item['description'] }}</td>
                                 <td>{{ $item['use']['units'] }}</td>
                                 <td>{{ $item['use']['min_units'] }}</td>
                                 <td>{{ $item['use']['cabinet'] }}</td>
@@ -135,8 +142,7 @@
                                 <td>{{ $item['reserve']['min_units'] }}</td>
                                 <td>{{ $item['reserve']['cabinet'] }}</td>
                                 <td>{{ $item['reserve']['shelf'] }}</td>
-                                <td><img src="{{ asset('storage/' . ($item['image_temp'] ?? 'no_image.jpg')) }}" class="basket-img" alt=""></td>
-                                
+                                <td><img class="cell-img" src="{{ asset('storage/' . ($item['image_temp'] ?? 'no_image.jpg')) }}" class="basket-img" alt=""></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -157,4 +163,26 @@
     </script>
 
     <script src="{{ asset('js/previewImage.js') }}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleBtn = document.getElementById("toggleBasketBtn");
+            const formSections = document.querySelectorAll(".material-form, .form-title, .form-group, fieldset, .form-actions");
+            const basketSection = document.querySelector(".basket-section");
+            let showingBasketOnly = false;
+
+            toggleBtn.addEventListener("click", function () {
+                showingBasketOnly = !showingBasketOnly;
+
+                formSections.forEach(el => el.classList.toggle("hidden", showingBasketOnly));
+
+                if (basketSection) {
+                    basketSection.classList.toggle("hidden", !showingBasketOnly);
+                }
+
+                toggleBtn.classList.remove(showingBasketOnly ? "btn-outline" : "btn-primary");
+                toggleBtn.classList.add(showingBasketOnly ? "btn-primary" : "btn-outline");
+            });
+        });
+    </script>
 @endpush
