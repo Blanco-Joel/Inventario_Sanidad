@@ -76,8 +76,7 @@
                         <label><input type="radio" name="filtro" value="2">Apellidos</label>
                         <label><input type="radio" name="filtro" value="3">Email</label>
                         <label><input type="radio" name="filtro" value="4">Tipo de usuario</label>
-                        <label><input type="radio" name="filtro" value="5">Última modificación</label>
-                        <label><input type="radio" name="filtro" value="6">Fecha de alta</label>
+                        <label><input type="radio" name="filtro" value="5">Fecha de alta</label>
                     </div>
                 </div>
             </div>
@@ -125,6 +124,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div id="paginacion" class="pagination-controls">
+            <!-- Aquí se inyectarán los botones de paginación desde JS -->
+        </div>
     </div>
 </div>
 @endsection
@@ -150,4 +152,5 @@
             });
         });
     </script>
+    <script src="{{ asset('js/tableUser.js') }}"></script>
 @endpush

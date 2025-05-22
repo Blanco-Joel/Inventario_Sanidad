@@ -19,16 +19,12 @@ class CheckTeacherCookie
 
     public function handle(Request $request, Closure $next)
     {
-        if ($request->cookie('TYPE') == "teacher") {
+        if ($request->cookie('TYPE') != "teacher") {
             // Si no existe la cookie, se puede redirigir o abortar
-            return $next($request);
-
+            return redirect()->route('logout');
         }
-        if ($request->cookie('TYPE') == "admin") {
-            // Si no existe la cookie, se puede redirigir o abortar
-            return $next($request);
-        }
-        return redirect()->route('logout');
+        
+        return $next($request);
 
     }
 }
