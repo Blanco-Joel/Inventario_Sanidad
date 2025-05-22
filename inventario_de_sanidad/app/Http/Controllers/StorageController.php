@@ -14,8 +14,9 @@ class StorageController extends Controller
 {
     public function updateView()
     {
-        $materials = Material::with('storage')->get();
-        return view('storages.update')->with('storages', $materials);
+        //$storage = Material::with('storage')->get()->first();
+        $storage = Storage::first();  
+        return view('storages.update')->with('storage', $storage);
     }
 
     public function editView(Material $material)
@@ -220,5 +221,17 @@ class StorageController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Error al modificar los registros: ' . $e->getMessage());
         }
+    }
+
+    public function show($cabinet, $shelf)
+    {
+        // Buscar todos los Storage que coincidan con esa ubicación
+        $storages = Storage::where('cabinet', $cabinet)
+                           ->where('shelf',   $shelf)
+                           ->get();
+
+        // Opcional: si lo quieres como un único registro, ->firstOrFail()
+
+        return view('storages.show', compact('storages', 'cabinet', 'shelf'));
     }
 }

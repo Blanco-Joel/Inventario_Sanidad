@@ -78,6 +78,8 @@ Route::middleware('check.admin.cookie')->group(function () {
         Route::get('update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
     
         Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
+
+        Route::get('qr/{cabinet}/{shelf}', [StorageController::class, 'show'])->name('storages.show');
     });
     Route::get('/bajaMaterial', [MaterialManagementController::class, 'showBajaMateriales'])->name('bajaMaterial.view');
     Route::post('/bajaMaterial/add', [MaterialManagementController::class, 'agregarMaterialACestaBaja'])->name('add.process');
