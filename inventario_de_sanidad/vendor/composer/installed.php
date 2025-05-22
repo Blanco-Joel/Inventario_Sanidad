@@ -3,7 +3,11 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => '1d26af1e0a073d9954cfaf73efc8c53a8a6d8de2',
+=======
+        'reference' => '7b3049b87a9de4809b04a89cb8bf134f262c2253',
+>>>>>>> 8c6c7338b77bbf7db9f24a93d1fd2dad041f2a2c
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -16,6 +20,15 @@
             'reference' => 'acf3142e6c5eafa378dc8ef3c069ab4558993f70',
             'type' => 'library',
             'install_path' => __DIR__ . '/../asm89/stack-cors',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'bacon/bacon-qr-code' => array(
+            'pretty_version' => '2.0.8',
+            'version' => '2.0.8.0',
+            'reference' => '8674e51bb65af933a5ffaf1c308a660387c35c22',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../bacon/bacon-qr-code',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -42,6 +55,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'dasprid/enum' => array(
+            'pretty_version' => '1.0.6',
+            'version' => '1.0.6.0',
+            'reference' => '8dfd07c6d2cf31c8da90c53b83c026c7696dda90',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../dasprid/enum',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'davedevelopment/hamcrest-php' => array(
             'dev_requirement' => true,
@@ -397,7 +419,11 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => '1d26af1e0a073d9954cfaf73efc8c53a8a6d8de2',
+=======
+            'reference' => '7b3049b87a9de4809b04a89cb8bf134f262c2253',
+>>>>>>> 8c6c7338b77bbf7db9f24a93d1fd2dad041f2a2c
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -922,6 +948,15 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'simplesoftwareio/simple-qrcode' => array(
+            'pretty_version' => '4.2.0',
+            'version' => '4.2.0.0',
+            'reference' => '916db7948ca6772d54bb617259c768c9cdc8d537',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../simplesoftwareio/simple-qrcode',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'swiftmailer/swiftmailer' => array(
             'pretty_version' => 'v6.3.0',

@@ -3,11 +3,12 @@
 @section('title', 'Gestión de usuarios')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/style_gestionUsuarios.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style_userManagement.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
 @endpush
 
 @section('content')
-<div>
+<div class="container">
     <div class="tabs">
         <button class="tab {{ session('tab', 'tab1') == 'tab1' ? 'active' : '' }}" data-tab="tab1">Alta de usuarios </button>
         <button class="tab {{ session('tab') == 'tab2' ? 'active' : '' }}" data-tab="tab2">Control de usuarios </button>
@@ -63,17 +64,25 @@
             <p>{{ session('mensaje') }}</p>
         @endif
 
-        <form>
-            <input  type="text" id="buscarId" placeholder="Buscar..."><br><br>
-            <label><input type="radio"  name="filtro" value="1" checked>Nombre</label>
-            <label><input type="radio"  name="filtro" value="2">Apellidos</label>
-            <label><input type="radio"  name="filtro" value="3">Email</label>
-            <label><input type="radio"  name="filtro" value="4">Tipo de usuario</label>
-            <label><input type="radio"  name="filtro" value="5">Última modificación</label>
-            <label><input type="radio"  name="filtro" value="6">Fecha de alta</label>
-        </form><br>
+        <form class="search-form">
+            <div class="search-container">
+                <input type="text" id="buscarId" placeholder="Buscar...">
+                <div class="dropdown-container">
+                    
+                    <button type="button" id="filterToggle"><i class="fa-solid fa-filter"></i></button>
+                    
+                    <div id="filterOptions" class="filter-options">
+                        <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
+                        <label><input type="radio" name="filtro" value="2">Apellidos</label>
+                        <label><input type="radio" name="filtro" value="3">Email</label>
+                        <label><input type="radio" name="filtro" value="4">Tipo de usuario</label>
+                        <label><input type="radio" name="filtro" value="5">Fecha de alta</label>
+                    </div>
+                </div>
+            </div>
+        </form>
 
-        <table id="tabla-usuarios">
+        <table id="tabla-usuarios" class="table">
             <thead>
                 <tr>
                     <th onclick="sortTable(0)">Nombre</th>
@@ -125,5 +134,23 @@
 @push('scripts')
     <script src="{{ asset('js/tabs.js') }}"></script>
     <script src="{{ asset('js/usersManagement.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('filterToggle');
+            const optionsBox = document.getElementById('filterOptions');
+
+            toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            optionsBox.style.display = optionsBox.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown-container')) {
+                optionsBox.style.display = 'none';
+            }
+            });
+        });
+    </script>
     <script src="{{ asset('js/tableUser.js') }}"></script>
 @endpush

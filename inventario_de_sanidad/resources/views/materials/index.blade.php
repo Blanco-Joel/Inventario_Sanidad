@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baja de Materiales</title>
+    <title>Gestión de Materiales</title>
     <link rel="stylesheet" href="{{ asset('css/style_welcome.css') }}">
     <style>
         table, th, td {
@@ -16,7 +16,7 @@
         <h1 class="text-center">Portal del Departamento de Sanidad</h1>
 
         <div class="card">
-            <div class="header">Menú de Administrador - BAJA DE MATERIALES</div>
+            <div class="header">Menú de Administrador - GESTIÓN DE MATERIALES</div>
             <br>
             <b>Bienvenido/a:</b> {{ Cookie::get('NAME') }}<br><br>
             <b>Identificador Empleado:</b> {{ Cookie::get('USERPASS') }}<br><br>
@@ -24,12 +24,14 @@
             <!-- Formulario para agregar material a la cesta -->
 
             <div class="input-group">
+                <a href="{{ route('materials.create') }}" class="btn btn-success mb-3">Nuevo Material</a>
                 <table>
                     <thead>
                         <tr>
                             <th>ID Material</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
+                            <th>Imagen</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -40,6 +42,10 @@
                                 <td>{{ $material->name }}</td>
                                 <td>{{ $material->description }}</td>
                                 <td>
+                                    <img src="{{ asset('storage/' . ($material->image_path ?? 'no_image.jpg')) }}" style="max-width:100px" alt="">
+                                </td>
+                                <td>
+                                    <a href="{{ route('materials.edit', $material) }}" class="btn btn-primary">Editar</a>
                                     <form action="{{ route('materials.destroy', $material) }}" method="POST">
                                         @csrf
                                         <input type="submit" value="Eliminar" class="btn btn-danger">
