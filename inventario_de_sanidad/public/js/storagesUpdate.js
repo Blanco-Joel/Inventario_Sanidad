@@ -103,6 +103,7 @@ function renderTable(limit) {
 }
 
 function getEditUrl(id) {
+    console.log(id);
     let isAdmin = document.querySelector(".header").textContent.includes("Administrador");
     return isAdmin ? `/storages/${id}/edit` : `/storages/teacher/${id}/edit`;
 }
