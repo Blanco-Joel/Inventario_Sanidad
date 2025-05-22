@@ -14,17 +14,18 @@
 
             <h2>Editar Almacenamiento para: {{ $material->name }}</h2>
             
-            <h3>Datos para Uso</h3>
+            <h3>Unidades en Uso</h3>
 
             @php
                 $useRecord = $material->storage->where('storage_type', 'use')->first();
             @endphp
 
-            <input type="number" placeholder="Cantidad a agregar" name="add_units" class="form-control" value="0" min="0" max="{{ $useRecord->units ?? '-' }}" required>
+            <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '-' }}" readonly>
             @error('use_units')
                 <div class="alert-error-uspas">{{ $message }}</div>
             @enderror
             
+            <h3>Unidades a restar</h3>
              
             <input type="number" placeholder="Cantidad a restar" name="subtract_units" class="form-control" value="0" min="0" max="{{ $useRecord->units ?? '-' }}" required>
             @error('subtract_units')
