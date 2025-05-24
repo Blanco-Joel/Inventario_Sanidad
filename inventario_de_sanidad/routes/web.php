@@ -34,7 +34,7 @@ Route::post('/welcome', [WelcomeController::class, 'changePasswordFirstLog'])->n
 
 Route::middleware('check.teacher.cookie')->group(function () {
     // Rutas de almacenamiento de docentes
-    Route::get('storages/update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
+    Route::get('/storages/update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
     Route::post('/storages/update/{material}/teacher/process', [StorageController::class, 'subtractToUse'])->name('storages.subtract.teacher');
 });
 
@@ -72,11 +72,14 @@ Route::middleware('check.admin.cookie')->group(function () {
 
         Route::get('/update', [StorageController::class, 'updateView'])->name('storages.updateView');
         Route::get('/updateData',function () {return response()->json(\App\Models\Material::with('storage')->get());});
-        ;
     
         Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
     
         Route::post('/update/{material}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
+
+        //Route::get('update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
+
+        //Route::post('/update/{material}/teacher/process', [StorageController::class, 'subtractToUse'])->name('storages.subtract.teacher');
 
         Route::get('qr/{cabinet}/{shelf}', [StorageController::class, 'show'])->name('storages.show');
     });

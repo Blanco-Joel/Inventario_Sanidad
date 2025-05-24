@@ -38,7 +38,7 @@ function renderTable(limit) {
         let row1 = document.createElement("tr");
 
         let tdMaterial = document.createElement("td");
-        tdMaterial.rowSpan = 2;
+        tdMaterial.rowSpan = document.querySelector(".user-role").textContent.includes("admin") ? 2 : 1;
         tdMaterial.textContent = material.name;
         tdMaterial.setAttribute("data-label", "Material");
 
@@ -63,14 +63,14 @@ function renderTable(limit) {
         tdBaldaUso.setAttribute("data-label", "Balda");
 
         let tdAcciones = document.createElement("td");
-        tdAcciones.rowSpan = 2;
+        tdAcciones.rowSpan = document.querySelector(".user-role").textContent.includes("admin") ? 2 : 1;
         tdAcciones.setAttribute("data-label", "Acciones");
 
         let enlace = document.createElement("a");
         enlace.href = getEditUrl(material.id);
         enlace.className = "btn btn-outine";
-        enlace.textContent = "Editar";
-        tdAcciones.appendChild(enlace);
+        tdAcciones.rowSpan = document.querySelector(".user-role").textContent.includes("admin") ? 2 : 1;
+        
 
         row1.appendChild(tdMaterial);
         row1.appendChild(tdTipoUso);
@@ -80,43 +80,46 @@ function renderTable(limit) {
         row1.appendChild(tdBaldaUso);
         row1.appendChild(tdAcciones);
 
-        // Segunda fila (reserva)
-        let row2 = document.createElement("tr");
+        tbody.appendChild(row1);
 
-        let tdTipoReserva = document.createElement("td");
-        tdTipoReserva.textContent = "Reserva";
-        tdTipoReserva.setAttribute("data-label", "Tipo");
+        if (document.querySelector(".user-role").textContent.includes("admin")) {
+            // Segunda fila (reserva)
+            let row2 = document.createElement("tr");
 
-        let tdCantidadReserva = document.createElement("td");
-        tdCantidadReserva.textContent = reserve.units ?? "-";
-        tdCantidadReserva.setAttribute("data-label", "Cantidad");
+            let tdTipoReserva = document.createElement("td");
+            tdTipoReserva.textContent = "Reserva";
 
-        let tdMinReserva = document.createElement("td");
-        tdMinReserva.textContent = reserve.min_units ?? "-";
-        tdMinReserva.setAttribute("data-label", "Mínimo");
+            let tdCantidadReserva = document.createElement("td");
+            tdCantidadReserva.textContent = reserve.units ?? "-";
 
-        let tdArmarioReserva = document.createElement("td");
-        tdArmarioReserva.textContent = reserve.cabinet ?? "-";
-        tdArmarioReserva.setAttribute("data-label", "Armario");
+            let tdMinReserva = document.createElement("td");
+            tdMinReserva.textContent = reserve.min_units ?? "-";
 
-        let tdBaldaReserva = document.createElement("td");
-        tdBaldaReserva.textContent = reserve.shelf ?? "-";
-        tdBaldaReserva.setAttribute("data-label", "Balda");
+            let tdArmarioReserva = document.createElement("td");
+            tdArmarioReserva.textContent = reserve.cabinet ?? "-";
 
-        row2.appendChild(tdTipoReserva);
-        row2.appendChild(tdCantidadReserva);
-        row2.appendChild(tdMinReserva);
-        row2.appendChild(tdArmarioReserva);
-        row2.appendChild(tdBaldaReserva);
+            let tdBaldaReserva = document.createElement("td");
+            tdBaldaReserva.textContent = reserve.shelf ?? "-";
+
+            row2.appendChild(tdTipoReserva);
+            row2.appendChild(tdCantidadReserva);
+            row2.appendChild(tdMinReserva);
+            row2.appendChild(tdArmarioReserva);
+            row2.appendChild(tdBaldaReserva);
+
+            tbody.appendChild(row2);
+        }
+
+        
 
         // Agregamos ambas filas
-        tbody.appendChild(row1);
-        tbody.appendChild(row2);
+        
+        
     });
 }
 
 function getEditUrl(id) {
     console.log(id);
     let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
-    return isAdmin ? `/storages/${id}/edit` : `/storages/teacher/${id}/edit`;
+    return isAdmin ? `/storages/update/${id}/edit` : `/storages/update/${id}/teacher/edit`;
 }
