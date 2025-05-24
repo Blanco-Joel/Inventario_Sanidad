@@ -107,6 +107,7 @@
                 </div>
             </div>
         </form>
+<div class="table-wrapper">
 
         <table id="tabla-usuarios" class="table">
             <thead>

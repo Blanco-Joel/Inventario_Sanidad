@@ -27,6 +27,7 @@ return array(
     'App\\Http\\Middleware\\TrustHosts' => $baseDir . '/app/Http/Middleware/TrustHosts.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Mail\\LowStockAlert' => $baseDir . '/app/Mail/LowStockAlert.php',
     'App\\Models\\Activity' => $baseDir . '/app/Models/Activity.php',
     'App\\Models\\Material' => $baseDir . '/app/Models/Material.php',
     'App\\Models\\MaterialActivity' => $baseDir . '/app/Models/MaterialActivity.php',

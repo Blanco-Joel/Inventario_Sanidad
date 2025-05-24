@@ -1,0 +1,17 @@
+.content-wrapper {
+        padding: 2rem;
+        width: 100%;
+        margin: 0 auto;
+        background: var(--bg-100);
+        border-radius: var(--border-radius-md);
+        box-shadow:  var(--shadow-md);
+    }
+
+    .alert-error-uspas {
+        background-color: #fed7d7;
+        color: #c53030;
+        padding: 1rem;
+        border-radius: var(--radius);
+        margin-top: 1rem;
+        font-weight: bold;
+    }

@@ -4,12 +4,17 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/update.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
 @endpush
 
 @section('content')
-<div class="">
-    <div class="">
-        <h2>Actualizar Datos de Almacenamiento</h2>
+{{-- <div id="loader-overlay">
+    <div class="spinner"></div>
+</div> --}}
+<div class="container">
+    <div class="content-wrapper">
+        <h2>Gestionar Almacenamiento</h2>
         
         <!-- Paginación -->
         <form>
@@ -28,6 +33,7 @@
         <label><input type="radio" name="filtro" value="5">Armario</label>
         <label><input type="radio" name="filtro" value="6">Balda</label>
 
+<div class="table-wrapper">
 
         <table class="table">
             <thead>
@@ -46,7 +52,7 @@
                 
             </tbody>
         </table>
-                <div id="paginacion" class="pagination-controls">
+        <div id="paginacion" class="pagination-controls">
             <!-- Aquí se inyectarán los botones de paginación desde JS -->
         </div>
     </div>

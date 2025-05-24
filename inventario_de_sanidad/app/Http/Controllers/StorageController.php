@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+use App\Mail\LowStockAlert;
+use Illuminate\Support\Facades\Mail;
+
 class StorageController extends Controller
 {
     public function updateView()
@@ -105,10 +108,12 @@ class StorageController extends Controller
                         'cabinet'      => $validated['reserve_cabinet'],
                         'shelf'        => $validated['reserve_shelf'],
                     ]);
-            
+
                     // Registrar modificación.
                     $this->storeEditInModification($material->material_id, 'reserve', $differenceReserve);
                 });
+
+                $this->comprobateUnits($material, 'reserve');
 
                 return back()->with('success','Se ha actualizado correctamente el almacenamiento de reserva.');
             }
@@ -167,6 +172,9 @@ class StorageController extends Controller
                     $this->storeEditInModification($material->material_id, 'use', -$differenceReserve);
                 }
             });
+
+            $this->comprobateUnits($material, 'use');
+            $this->comprobateUnits($material, 'reserve');
     
             return back()->with('success','Almacenamiento actualizado correctamente.');
         } catch (\Exception $e) {
@@ -217,9 +225,21 @@ class StorageController extends Controller
                 $this->storeEditInModification($material->material_id, 'use', -$modifiedUnits);
             });
 
+            $this->comprobateUnits($material, 'use');
+
             return back()->with('success',"Se han restado {$modifiedUnits} unidades.");
         } catch (\Exception $e) {
             return back()->with('error', 'Error al modificar los registros: ' . $e->getMessage());
+        }
+    }
+
+    private function comprobateUnits($material, $storage_type)
+    {
+        //$typeRecord = $material->storage->where('storage_type', $storage_type)->first();
+        $typeRecord = Storage::where('material_id', $material->material_id)->where('storage_type', $storage_type)->first();
+        //dd($typeRecord);
+        if ($typeRecord->units < $typeRecord->min_units) {
+            Mail::to('docente@instituto.com')->send(new LowStockAlert($typeRecord, $material->name));
         }
     }
 

@@ -16,6 +16,18 @@
                 @csrf
                 <input type="password" id="newPassword" name="newPassword" placeholder="Nueva contraseña">
                 <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirma la nueva contraseña">
+
+                {{-- Mensajes de error --}}
+                @if ($errors->any())
+                    <div class="alert-error">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <button class="btn btn-primary" type="submit">Cambiar Contraseña</button>
             </form>
         </div>

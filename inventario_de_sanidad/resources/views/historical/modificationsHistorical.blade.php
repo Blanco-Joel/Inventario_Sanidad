@@ -4,11 +4,12 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modifications.css') }}">
 @endpush
 
 @section('content')
-    <div class="">
-        <h1 class="">Historial de modificaciones</h1>
+    <div class="history-container">
+        <h1 class="history-title">Historial de modificaciones</h1>
         <form>
             <input type="text" id="buscarId" placeholder="Buscar..." >
             <label><input type="radio" name="regs" value="10" checked>10 registros</label>
@@ -27,6 +28,7 @@
         <label><input type="radio" name="filtro" value="7">Tipo de almacenamiento</label>
         <label><input type="radio" name="filtro" value="8">Fecha de modificación</label>
         <div class="">
+        <div class="table-wrapper">
             <table class="table">
                 <thead>
                     <tr>
@@ -41,10 +43,28 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    <?php 
+                    // @foreach ($modifications as $modification)
+                    //     <tr>
+                    //         <td data-label="Nombre">{{ $modification->first_name }}</td>
+                    //         <td data-label="Apellidos">{{ $modification->last_name }}</td>
+                    //         <td data-label="Email">{{ $modification->email }}</td>
+                    //         <td data-label="Tipo de usuario">{{ $modification->user_type }}</td>
+                    //         <td data-label="Fecha de alta">{{ $modification->action_datetime }}</td>
+                    //         <td data-label="Fecha de creación">{{ $modification->created_at }}</td>
+                    //         <td data-label="Nombre del material">{{ $modification->material_name }}</td>
+                    //         <td data-label="Unidades modificadas">{{ $modification->units }}</td>
+                    //         <td data-label="Fecha de acción">{{ $modification->action_datetime }}</td>
+                    //         <td data-label="Tipo de almacenamiento">{{ $modification->storage_type == "reserve"? "reserva" : "uso" }}</td>
+                    //     </tr>
+                    // @endforeach
+                    ?>
                 </tbody>
             </table>
         </div>
+        <div id="paginacion" class="pagination-controls">
+        <!-- Aquí se inyectarán los botones de paginación desde JS -->
+    </div>
     </div>
 @endsection
 
