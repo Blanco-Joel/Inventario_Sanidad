@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage as StorageFacade;
 use App\Models\User;
 
 
@@ -44,6 +45,7 @@ class LoginController extends Controller
         Cookie::queue(Cookie::forget('USERPASS'));
         Cookie::queue(Cookie::forget('NAME'));
         Cookie::queue(Cookie::forget('TYPE'));
+        StorageFacade::disk('public')->deleteDirectory('temp');
         return redirect()->route('login.form');
     }
 }

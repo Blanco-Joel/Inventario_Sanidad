@@ -527,6 +527,7 @@ class ComposerStaticInitc61ff82cbf0142a401a48a8161e1595a
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Mail\\LowStockAlert' => __DIR__ . '/../..' . '/app/Mail/LowStockAlert.php',
         'App\\Models\\Activity' => __DIR__ . '/../..' . '/app/Models/Activity.php',
         'App\\Models\\Material' => __DIR__ . '/../..' . '/app/Models/Material.php',
         'App\\Models\\MaterialActivity' => __DIR__ . '/../..' . '/app/Models/MaterialActivity.php',
