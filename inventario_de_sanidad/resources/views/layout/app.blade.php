@@ -66,13 +66,6 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('materials.delete') }}"
-                                class="{{ request()->routeIs('materials.delete') ? 'active' : '' }}">
-                                    <i class="fa-solid fa-minus"></i>
-                                    <span class="link-text">Baja de material</span>
-                                </a>
-                            </li>
-                            <li>
                                 <a href="{{ route('materials.edit') }}"
                                 class="{{ request()->routeIs('materials.edit') ? 'active' : '' }}">
                                     <i class="fa-solid fa-minus"></i>

@@ -22,7 +22,6 @@
                 <table class="table custom-scroll">
                     <thead>
                         <tr>
-                            <th>ID Material</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Imagen</th>
@@ -34,7 +33,6 @@
                             <tr>
                                 <form action="{{ route('materials.update', $material) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    <td>{{ $material->material_id }}</td>
                                     <td>
                                         <input type="text" name="name" id="name" value="{{ $material->name }}">
                                     </td>
