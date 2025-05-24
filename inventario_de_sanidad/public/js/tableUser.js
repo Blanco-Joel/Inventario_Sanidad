@@ -3,86 +3,82 @@ if (document.addEventListener)
 else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
-var allData = [];
-var currentLimit = 10;
-var paginaActual = 0;
-var currentSort = { key: '', direction: 'asc' };
+
 
 async function inicio () {
-    // Esperamos a que USERDATA esté disponible
     while (typeof window.USERDATA === 'undefined') {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
-
+    currentLimit = 10;
+    paginaActual = 0;
     allData = window.USERDATA;
 
     document.getElementById("buscarId").addEventListener("keyup", filtrarTabla);
-    document.getElementsByName("filtro").forEach(radio => {
-        radio.addEventListener("change", filtrarTabla);
-    });
+    document.getElementsByName("filtro").forEach(
+        radio => {
+            radio.addEventListener("change", filtrarTabla);
+        }
+    );
+
+    document.getElementsByName("regs").forEach(
+        radio => {
+            radio.addEventListener("change", event => {
+                currentLimit = parseInt(event.target.value);
+                paginaActual = 0;
+                renderTable(currentLimit);
+            });
+        }
+    );
 
     renderTable(currentLimit);
 }
-function sortTable(columnIndex) {
-    let table = document.getElementById("tabla-usuarios");
-    let switching = true;
-    let dir = "asc";
-    let switchcount = 0;
 
-    while (switching) {
-        switching = false;
-        let rows = table.rows;
-        let swapIndex = -1;
+// function sortTable(columnIndex) {
+//     let table = document.getElementById("tabla-usuarios");
+//     let switching = true;
+//     let dir = "asc";
+//     let switchcount = 0;
 
-        for (let i = 1; i < (rows.length - 1); i++) {
-            let linea = rows[i].getElementsByTagName("TD")[columnIndex];
-            let lineaSiguiente = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+//     while (switching) {
+//         switching = false;
+//         let rows = table.rows;
+//         let swapIndex = -1;
 
-            let lineaContent = linea.textContent.trim().toLowerCase();
-            let lineaSiguienteContent = lineaSiguiente.textContent.trim().toLowerCase();
+//         for (let i = 1; i < (rows.length - 1); i++) {
+//             let linea = rows[i].getElementsByTagName("TD")[columnIndex];
+//             let lineaSiguiente = rows[i + 1].getElementsByTagName("TD")[columnIndex];
 
-            if ((dir ==  "asc" && lineaContent > lineaSiguienteContent) ||
-                (dir ==  "desc" && lineaContent < lineaSiguienteContent)) {
-                if (swapIndex ==  -1) {
-                    swapIndex = i;
-                }
-            }
-        }
+//             let lineaContent = linea.textContent.trim().toLowerCase();
+//             let lineaSiguienteContent = lineaSiguiente.textContent.trim().toLowerCase();
 
-        if (swapIndex !== -1) {
-            rows[swapIndex].parentNode.insertBefore(rows[swapIndex + 1], rows[swapIndex]);
-            switching = true;
-            switchcount++;
-        } else if (switchcount ==  0 && dir ==  "asc") {
-            dir = "desc";
-            switching = true;
-        }
-    }
-}
+//             if ((dir == "asc" && lineaContent > lineaSiguienteContent) ||
+//                 (dir == "desc" && lineaContent < lineaSiguienteContent)) {
+//                 if (swapIndex == -1) {
+//                     swapIndex = i;
+//                 }
+//             }
+//         }
+
+//         if (swapIndex !== -1) {
+//             rows[swapIndex].parentNode.insertBefore(rows[swapIndex + 1], rows[swapIndex]);
+//             switching = true;
+//             switchcount++;
+//         } else if (switchcount == 0 && dir == "asc") {
+//             dir = "desc";
+//             switching = true;
+//         }
+//     }
+// }
+
 function filtrarTabla(event) {
-
-    console.log(event.target.type);
-    if (event.target.type == "radio" || event.target.type == "text" && (event.key.length ==  1 || event.key ==  "Backspace" || event.key ==  "Delete")) {
-        let input = document.getElementById("buscarId").value.toLowerCase();
-        let filas = document.querySelectorAll("#tabla-usuarios tbody tr");
-        let index = document.querySelector('input[name="filtro"]:checked').value;
-
-        filas.forEach(fila => {
-            let id = fila.querySelector("td:nth-child("+index+")").textContent.toLowerCase();
-            if (id.includes(input)) {
-                fila.style.display = "";
-            } else {
-                fila.style.display = "none";
-            }
-        });
-
+    if (event.target.type == "radio" || event.target.type == "text" && (event.key.length == 1 || event.key == "Backspace" || event.key == "Delete")) {
+        renderTable(currentLimit);
     }
-
 }
-// Renderiza la tabla con paginación y filtros
+
 function renderTable(limit) {
     let tbody = document.querySelector("#tabla-usuarios tbody");
-    tbody.innerHTML = "";
+    while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
     let filtrados = aplicarFiltro();
     let inicio = paginaActual * limit;
@@ -96,8 +92,7 @@ function renderTable(limit) {
         let tdApellidos = crearTD(usuario.last_name);
         let tdEmail = crearTD(usuario.email);
         let tdTipo = crearTD(usuario.user_type);
-        let tdFecha = crearTD(formatearFecha(usuario.created_at)
-    );
+        let tdFecha = crearTD(usuario.created_at);
 
         tr.appendChild(tdNombre);
         tr.appendChild(tdApellidos);
@@ -105,7 +100,6 @@ function renderTable(limit) {
         tr.appendChild(tdTipo);
         tr.appendChild(tdFecha);
 
-        // Botón ver contraseña
         let tdVer = document.createElement("td");
         let formVer = document.createElement("form");
         formVer.id = `btn-ver-${usuario.user_id}`;
@@ -122,7 +116,6 @@ function renderTable(limit) {
         tdVer.appendChild(formVer);
         tr.appendChild(tdVer);
 
-        // Botón eliminar
         let tdDel = document.createElement("td");
         if (usuario.user_id != getUserIdFromCookie()) {
             let formDel = document.createElement("form");
@@ -160,19 +153,21 @@ function renderTable(limit) {
     renderPaginationButtons(filtrados.length, limit);
     rebindDynamicEvents();
 }
-function formatearFecha(fechaISO) {
-    const fecha = new Date(fechaISO);
 
-    const dia = String(fecha.getDate()).padStart(2, '0');
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-    const anio = fecha.getFullYear();
+// function formatearFecha(fechaISO) {
+//     let fecha = new Date(fechaISO);
 
-    const horas = String(fecha.getHours()).padStart(2, '0');
-    const minutos = String(fecha.getMinutes()).padStart(2, '0');
-    const segundos = String(fecha.getSeconds()).padStart(2, '0');
+//     let dia = String(fecha.getDate()).padStart(2, '0');
+//     let mes = String(fecha.getMonth() + 1).padStart(2, '0');
+//     let anio = fecha.getFullYear();
 
-    return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
-}
+//     let horas = String(fecha.getHours()).padStart(2, '0');
+//     let minutos = String(fecha.getMinutes()).padStart(2, '0');
+//     let segundos = String(fecha.getSeconds()).padStart(2, '0');
+
+//     return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+// }
+
 function crearTD(texto) {
     let td = document.createElement("td");
     td.textContent = texto;
@@ -186,7 +181,7 @@ function renderPaginationButtons(total, limit) {
         paginacion.id = "paginacion";
         document.querySelector("#tab2").appendChild(paginacion);
     }
-    paginacion.innerHTML = "";
+    while (paginacion.firstChild) paginacion.removeChild(paginacion.firstChild);
 
     let totalPaginas = Math.ceil(total / limit);
     for (let i = 0; i < totalPaginas; i++) {
@@ -223,7 +218,6 @@ function rebindDynamicEvents() {
         form.addEventListener("submit", mostrarDialogConfirmacion);
     });
 }
-
 
 function getCSRFToken() {
     let tokenMeta = document.querySelector('meta[name="csrf-token"]');

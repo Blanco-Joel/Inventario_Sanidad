@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
                 'hashed_password'=> Hash::make('clave1'),
                 'first_log'      => false,
                 'user_type'      => 'teacher',
+                'created_at'     => Carbon::now('Europe/Madrid')
             ],
             [
                 'first_name'     => 'Carlos',
@@ -30,7 +31,7 @@ class DatabaseSeeder extends Seeder
                 'hashed_password'=> Hash::make('clave2'),
                 'first_log'      => false,
                 'user_type'      => 'student',
-
+                'created_at'     => Carbon::now('Europe/Madrid')
             ],
             [
                 'first_name'     => 'Lucía',
@@ -40,7 +41,7 @@ class DatabaseSeeder extends Seeder
                 'hashed_password'=> Hash::make('clave3'),
                 'first_log'      => false,
                 'user_type'      => 'admin',
-
+                'created_at'     => Carbon::now('Europe/Madrid')
             ],
         ]);
 

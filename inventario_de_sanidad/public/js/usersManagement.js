@@ -11,7 +11,6 @@
     function inicio(){
         
         userDataRetrieve();
-        // let formBaja = document.getElementById("registrar");
         let botonesVer = document.querySelectorAll("[id^='btn-ver-']") 
         let botonesBaja = document.querySelectorAll("[id^='btn-delete-']") 
 

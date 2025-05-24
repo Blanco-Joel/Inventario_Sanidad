@@ -46,7 +46,7 @@ class UsersManagementController extends Controller
         $usuario->hashed_password      =  Hash::make($password);
         $usuario->user_type            =  $request->input('user_type');
         $usuario->first_log            =  false;
-        $usuario->created_at           =  false;
+        $usuario->created_at           =  Carbon::now('Europe/Madrid');
         $usuario->save(); 
         
         return back()->with([

@@ -63,7 +63,33 @@
         @if (session('mensaje') && session('tab') == 'tab2')
             <p>{{ session('mensaje') }}</p>
         @endif
+        <form>
+            <input type="text" id="buscarId" placeholder="Buscar..." >
+            
+            <label>
+                <input type="radio" name="regs" value="10" checked>10 registros
+            </label>
 
+            <label>
+                <input type="radio" name="regs" value="20">20 registros
+            </label>
+            
+            <label>
+                <input type="radio" name="regs" value="30">30 registros
+            </label>
+
+            <label>
+                <input type="radio" name="regs" value="40">40 registros
+            </label>
+            
+            <label>
+                <input type="radio" name="regs" value="50">50 registros
+            </label>
+            
+            <label>
+                <input type="radio" name="regs" value="60">60 registros
+            </label>
+        </form>
         <form class="search-form">
             <div class="search-container">
                 <input type="text" id="buscarId" placeholder="Buscar...">
@@ -85,43 +111,16 @@
         <table id="tabla-usuarios" class="table">
             <thead>
                 <tr>
-                    <th onclick="sortTable(0)">Nombre</th>
-                    <th onclick="sortTable(1)">Apellidos</th>
-                    <th onclick="sortTable(2)">Email</th>
-                    <th onclick="sortTable(3)">Tipo de usuario</th>
-                    <th onclick="sortTable(4)">Fecha de alta</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Tipo de usuario</th>
+                    <th>Fecha de alta</th>
                     <th colspan="2">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $usuario)
-                    <tr>
-                        <td>{{ $usuario->first_name }}</td>
-                        <td>{{ $usuario->last_name }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->user_type }}</td>
-                        <td>{{ $usuario->created_at }}</td>
-                        <td>
-                            <form id="btn-ver-{{$usuario->user_id}}">
-                                <b>************</b>
-                                <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                    <i class="fa fa-eye"></i>
-                                </button>
-                            </form>
-                        </td>
-                        <td>
-                            @if ($usuario->user_id != Cookie::get('USERPASS'))
-                                <form action="{{ route('bajaUsers.process') }}" method="POST" id="btn-delete-{{$usuario->user_id}}">
-                                    @csrf
-                                    <input type="hidden" name="user_id" value="{{ $usuario->user_id }}">
-                                    <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </form>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
+               
             </tbody>
         </table>
         <div id="paginacion" class="pagination-controls">

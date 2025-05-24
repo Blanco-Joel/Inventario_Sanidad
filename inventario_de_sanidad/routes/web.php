@@ -62,12 +62,18 @@ Route::middleware('check.admin.cookie')->group(function () {
     Route::get('/users/usersManagementData', function () {return response()->json(\App\Models\User::all());});
     
     /* MATERIALES EN RESERVA */
+    Route::prefix('historical')->group(function ()
+    {
+        Route::get('/modificationsHistoricalData', [HistoricalManagementController::class, 'modificationsHistoricalData']);
+    
+        Route::get('/historicalSubmenu', [HistoricalManagementController::class, 'showHistoricalSubmenu'])->name('historical.historicalSubmenu');
+        Route::get('/historialModificaciones', [HistoricalManagementController::class, 'showModificationsHistorical'])->name('historical.modificationsHistorical');
+        Route::get('/{type}', [HistoricalManagementController::class, 'index'])
+            ->where('type', 'reserve|use')
+            ->name('historical.type');
 
-    Route::get('/historical/historicalSubmenu', [HistoricalManagementController::class, 'showHistoricalSubmenu'])->name('historical.historicalSubmenu');
-    Route::get('/historical/historialModificaciones', [HistoricalManagementController::class, 'showModificationsHistorical'])->name('historical.modificationsHistorical');
-    Route::get('/historical/{type}', [HistoricalManagementController::class, 'index'])
-        ->where('type', 'reserve|use')
-        ->name('historical.type');
+
+    });
     Route::prefix('storages')->group(function () {
 
         Route::get('/update', [StorageController::class, 'updateView'])->name('storages.updateView');

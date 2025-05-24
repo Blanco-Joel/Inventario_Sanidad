@@ -24,7 +24,8 @@ class User extends Model
         'password',
         'hashed_password',
         'user_type',
-        'first_log'
+        'first_log',
+        'created_at'
     ];
 
     public function modifications()

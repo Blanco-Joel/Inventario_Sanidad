@@ -20,14 +20,14 @@
                 $useRecord = $material->storage->where('storage_type', 'use')->first();
             @endphp
 
-            <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '-' }}" readonly>
+            <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '0' }}" readonly>
             @error('use_units')
                 <div class="alert-error-uspas">{{ $message }}</div>
             @enderror
             
             <h3>Unidades a restar</h3>
              
-            <input type="number" placeholder="Cantidad a restar" name="subtract_units" class="form-control" value="0" min="0" max="{{ $useRecord->units ?? '-' }}" required>
+            <input type="number" placeholder="Cantidad a restar" name="subtract_units" class="form-control" value="0" min="0" max="{{ $useRecord->units ?? '0' }}" required>
             @error('subtract_units')
                 <div class="alert-error-uspas">{{ $message }}</div>
             @enderror

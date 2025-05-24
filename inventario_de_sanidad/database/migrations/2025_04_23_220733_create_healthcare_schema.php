@@ -19,7 +19,7 @@ class CreateHealthcareSchema extends Migration
             $table->string('hashed_password', 255);
             $table->boolean('first_log')->default(false);
             $table->enum('user_type', ['student', 'teacher', 'admin']);
-            $table->timestamp('created_at')->useCurrent();
+            $table->dateTime('created_at');
         });
 
         // materials

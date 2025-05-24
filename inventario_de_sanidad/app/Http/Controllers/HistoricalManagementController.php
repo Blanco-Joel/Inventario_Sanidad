@@ -11,7 +11,7 @@ class HistoricalManagementController extends Controller
     {
         return view('historical.historicalSubmenu');
     }
-    public function showModificationsHistorical(Request $request)
+    public function modificationsHistoricalData()
     {
         $modifications = DB::table('modifications')
         ->join('users', 'modifications.user_id', '=', 'users.user_id')
@@ -19,8 +19,11 @@ class HistoricalManagementController extends Controller
         ->select('users.first_name', 'users.last_name', 'users.email', 'users.user_type', 'users.created_at',
                  'materials.name as material_name', 'modifications.units', 'modifications.action_datetime', 'modifications.storage_type')
         ->get();
-    
-        return view('historical.modificationsHistorical', ['modifications' => $modifications]);
+        return response()->json($modifications);
+    }
+    public function showModificationsHistorical(Request $request)
+    {
+        return view('historical.modificationsHistorical');
     }
     public function index(Request $request, $type)
     {
