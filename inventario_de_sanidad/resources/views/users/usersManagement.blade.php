@@ -63,34 +63,31 @@
         @if (session('mensaje') && session('tab') == 'tab2')
             <p>{{ session('mensaje') }}</p>
         @endif
-        <form>
-            <input type="text" id="buscarId" placeholder="Buscar..." >
-            
-            <label>
-                <input type="radio" name="regs" value="10" checked>10 registros
-            </label>
-
-            <label>
-                <input type="radio" name="regs" value="20">20 registros
-            </label>
-            
-            <label>
-                <input type="radio" name="regs" value="30">30 registros
-            </label>
-
-            <label>
-                <input type="radio" name="regs" value="40">40 registros
-            </label>
-            
-            <label>
-                <input type="radio" name="regs" value="50">50 registros
-            </label>
-            
-            <label>
-                <input type="radio" name="regs" value="60">60 registros
-            </label>
-        </form>
         <form class="search-form">
+            
+            <label>
+                <input type="radio" name="regs" value="10" checked>10 
+            </label>
+
+            <label>
+                <input type="radio" name="regs" value="20">20 
+            </label>
+            
+            <label>
+                <input type="radio" name="regs" value="30">30 
+            </label>
+
+            <label>
+                <input type="radio" name="regs" value="40">40 
+            </label>
+            
+            <label>
+                <input type="radio" name="regs" value="50">50 
+            </label>
+            
+            <label>
+                <input type="radio" name="regs" value="60">60 
+            </label>
             <div class="search-container">
                 <input type="text" id="buscarId" placeholder="Buscar...">
                 <div class="dropdown-container">
