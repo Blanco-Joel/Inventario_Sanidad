@@ -81,49 +81,50 @@
                 </div>
             </div>
         </form>
-
-        <table id="tabla-usuarios" class="table">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Nombre</th>
-                    <th onclick="sortTable(1)">Apellidos</th>
-                    <th onclick="sortTable(2)">Email</th>
-                    <th onclick="sortTable(3)">Tipo de usuario</th>
-                    <th onclick="sortTable(4)">Fecha de alta</th>
-                    <th colspan="2">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $usuario)
+        <div class="table-wrapper">
+            <table id="tabla-usuarios" class="table">
+                <thead>
                     <tr>
-                        <td>{{ $usuario->first_name }}</td>
-                        <td>{{ $usuario->last_name }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->user_type }}</td>
-                        <td>{{ $usuario->created_at }}</td>
-                        <td>
-                            <form id="btn-ver-{{$usuario->user_id}}">
-                                <b>************</b>
-                                <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                    <i class="fa fa-eye"></i>
-                                </button>
-                            </form>
-                        </td>
-                        <td>
-                            @if ($usuario->user_id != Cookie::get('USERPASS'))
-                                <form action="{{ route('bajaUsers.process') }}" method="POST" id="btn-delete-{{$usuario->user_id}}">
-                                    @csrf
-                                    <input type="hidden" name="user_id" value="{{ $usuario->user_id }}">
+                        <th onclick="sortTable(0)">Nombre</th>
+                        <th onclick="sortTable(1)">Apellidos</th>
+                        <th onclick="sortTable(2)">Email</th>
+                        <th onclick="sortTable(3)">Tipo de usuario</th>
+                        <th onclick="sortTable(4)">Fecha de alta</th>
+                        <th colspan="2">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $usuario)
+                        <tr>
+                            <td>{{ $usuario->first_name }}</td>
+                            <td>{{ $usuario->last_name }}</td>
+                            <td>{{ $usuario->email }}</td>
+                            <td>{{ $usuario->user_type }}</td>
+                            <td>{{ $usuario->created_at }}</td>
+                            <td>
+                                <form id="btn-ver-{{$usuario->user_id}}">
+                                    <b>************</b>
                                     <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                        <i class="fa fa-trash"></i>
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                 </form>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                            </td>
+                            <td>
+                                @if ($usuario->user_id != Cookie::get('USERPASS'))
+                                    <form action="{{ route('bajaUsers.process') }}" method="POST" id="btn-delete-{{$usuario->user_id}}">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{ $usuario->user_id }}">
+                                        <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         <div id="paginacion" class="pagination-controls">
             <!-- Aquí se inyectarán los botones de paginación desde JS -->
         </div>

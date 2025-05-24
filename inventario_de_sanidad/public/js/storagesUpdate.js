@@ -40,27 +40,35 @@ function renderTable(limit) {
         let tdMaterial = document.createElement("td");
         tdMaterial.rowSpan = 2;
         tdMaterial.textContent = material.name;
+        tdMaterial.setAttribute("data-label", "Material");
 
         let tdTipoUso = document.createElement("td");
         tdTipoUso.textContent = "Uso";
+        tdTipoUso.setAttribute("data-label", "Tipo");
 
         let tdCantidadUso = document.createElement("td");
         tdCantidadUso.textContent = use.units ?? "-";
+        tdCantidadUso.setAttribute("data-label", "Cantidad");
 
         let tdMinUso = document.createElement("td");
         tdMinUso.textContent = use.min_units ?? "-";
+        tdMinUso.setAttribute("data-label", "Mínimo");
 
         let tdArmarioUso = document.createElement("td");
         tdArmarioUso.textContent = use.cabinet ?? "-";
+        tdArmarioUso.setAttribute("data-label", "Armario");
 
         let tdBaldaUso = document.createElement("td");
         tdBaldaUso.textContent = use.shelf ?? "-";
+        tdBaldaUso.setAttribute("data-label", "Balda");
 
         let tdAcciones = document.createElement("td");
         tdAcciones.rowSpan = 2;
+        tdAcciones.setAttribute("data-label", "Acciones");
+
         let enlace = document.createElement("a");
         enlace.href = getEditUrl(material.id);
-        enlace.className = "btn btn-warning";
+        enlace.className = "btn btn-outine";
         enlace.textContent = "Editar";
         tdAcciones.appendChild(enlace);
 
@@ -77,18 +85,23 @@ function renderTable(limit) {
 
         let tdTipoReserva = document.createElement("td");
         tdTipoReserva.textContent = "Reserva";
+        tdTipoReserva.setAttribute("data-label", "Tipo");
 
         let tdCantidadReserva = document.createElement("td");
         tdCantidadReserva.textContent = reserve.units ?? "-";
+        tdCantidadReserva.setAttribute("data-label", "Cantidad");
 
         let tdMinReserva = document.createElement("td");
         tdMinReserva.textContent = reserve.min_units ?? "-";
+        tdMinReserva.setAttribute("data-label", "Mínimo");
 
         let tdArmarioReserva = document.createElement("td");
         tdArmarioReserva.textContent = reserve.cabinet ?? "-";
+        tdArmarioReserva.setAttribute("data-label", "Armario");
 
         let tdBaldaReserva = document.createElement("td");
         tdBaldaReserva.textContent = reserve.shelf ?? "-";
+        tdBaldaReserva.setAttribute("data-label", "Balda");
 
         row2.appendChild(tdTipoReserva);
         row2.appendChild(tdCantidadReserva);

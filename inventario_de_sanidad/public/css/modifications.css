@@ -1,0 +1,16 @@
+.history-container {
+    background-color: var(--bg-100);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+}
+
+.history-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    text-align: center;
+}

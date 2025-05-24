@@ -32,6 +32,10 @@ class WelcomeController extends Controller
         $request->validate([
             'newPassword' => 'required|min:6',
             'confirmPassword' => 'required|same:newPassword',
+        ], [
+            'newPassword.required' => 'La nueva contraseña es obligatoria.',
+            'newPassword.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'confirmPassword.same' => 'Las contraseñas no coinciden.',
         ]);
 
         $userId = Cookie::get('USERPASS');

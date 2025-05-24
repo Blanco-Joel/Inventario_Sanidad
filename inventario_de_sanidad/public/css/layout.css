@@ -176,7 +176,7 @@ html, body {
     justify-content: flex-start;
     gap: 10px;
     width: 70px;
-    background-color: var(--primary-100);
+    background-color: var(--primary-300);
     box-shadow: 10px 0px 10px 0px rgba(0,0,0,0.1);
     z-index: 999;
     transition: width 0.3s ease;
@@ -216,7 +216,7 @@ html, body {
 }
 
 .sidebar a.active {
-    background-color: var(--primary-300);
+    background-color: var(--primary-200);
     border-left: 4px solid white;
     color: white;
     font-weight: 600;

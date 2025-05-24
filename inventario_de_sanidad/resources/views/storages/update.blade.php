@@ -4,12 +4,17 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/update.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
 @endpush
 
 @section('content')
-<div class="">
-    <div class="">
-        <h2>Actualizar Datos de Almacenamiento</h2>
+{{-- <div id="loader-overlay">
+    <div class="spinner"></div>
+</div> --}}
+<div class="container">
+    <div class="content-wrapper">
+        <h2>Gestionar Almacenamiento</h2>
         
         <!-- Paginación -->
         <form>
@@ -40,23 +45,24 @@
             </label>
         </form>
 
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Material</th>
-                    <th>Tipo</th>
-                    <th>Cantidad</th>
-                    <th>Cantidad mínima</th>
-                    <th>Armario</th>
-                    <th>Balda</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Cantidad mínima</th>
+                        <th>Armario</th>
+                        <th>Balda</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        <div>
     </div>
 </div>
 @endsection

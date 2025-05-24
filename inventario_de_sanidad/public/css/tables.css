@@ -1,38 +1,42 @@
-/* Estilo base para todas las tablas */
-/* Responsive table wrapper */
 .table-wrapper {
     overflow-x: auto;
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
     background-color: var(--bg-200);
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     /* overflow: hidden; */
     /* table-layout: fixed; */
 }
 
 /* Encabezados */
 .table thead th {
-    background-color: var(--primary-300);
-    color: var(--text-200);
+    background-color: var(--primary-400);
+    color: var(--text-300);
     font-weight: bold;
-    padding: 0.5rem 1rem;
-    border-bottom: 2px solid var(--primary-500);
+    text-transform: uppercase;
+    padding: 1.25rem 1rem;
+    border-bottom: 2px solid var(--primary-200);
     text-align: center;
 }
 
-/* Celdas */
+/* .table tbody tr:hover {
+    background-color: var(--bg-100);
+    transition: background-color 0.2s ease-in-out;
+} */
+
 .table td {
-    /* vertical-align: top; */
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--bg-100);
+    vertical-align: middle;
+    padding: 0.5rem 1rem;
     text-align: center;
     color: var(--text-200);
+}
+
+.table td:last-of-type {
+    border-bottom: none;
 }
 
 /* Descripción o celdas amplias */
@@ -47,12 +51,10 @@
     overflow: auto;
 }
 
-/* Estilo de scroll personalizado reutilizable */
+/* Estilo de scroll personalizado */
 .custom-scroll {
-    scrollbar-width: thin;               /* Firefox */
+    scrollbar-width: thin;
     scrollbar-color: #a0aec0 transparent;
-
-    /* Estilo base */
     overflow: auto;
 }
 
@@ -88,4 +90,46 @@
 /* Columnas amplias: ej. descripción */
 .table td.wide, .table th.wide {
     width: 40%;
+}
+
+@media (max-width: 1024px) {
+    .table-wrapper {
+        box-shadow: none;
+    }
+
+    .table {
+        background-color: var(--bg-100);
+    }
+
+    .table thead {
+        display: none; /* Esconde encabezados en móviles */
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-200);
+        padding: 1rem;
+        border-radius: 8px;
+        background: var(--primary-600);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .table td {
+        text-align: left;
+        padding: 0.5rem;
+        position: relative;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.25rem;
+        color: var(--text-100);
+    }
 }

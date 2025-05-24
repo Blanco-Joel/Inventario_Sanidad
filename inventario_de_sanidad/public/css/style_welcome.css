@@ -42,3 +42,21 @@
   gap: 1rem;
 }
 
+.alert-error {
+    background-color: #fed7d7;
+    color: var(--error);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.alert-error ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.alert-error li {
+    text-align: left;
+    list-style: disc;
+    font-size: 0.8rem;
+}

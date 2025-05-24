@@ -4,13 +4,14 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modifications.css') }}">
 @endpush
 
 @section('content')
-    <div class="">
-        <h1 class="">Historial de modificaciones</h1>
+    <div class="history-container">
+        <h1 class="history-title">Historial de modificaciones</h1>
 
-        <div class="">
+        <div class="table-wrapper">
             <table class="table">
                 <thead>
                     <tr>
@@ -29,16 +30,16 @@
                 <tbody>
                     @foreach ($modifications as $modification)
                         <tr>
-                            <td>{{ $modification->first_name }}</td>
-                            <td>{{ $modification->last_name }}</td>
-                            <td>{{ $modification->email }}</td>
-                            <td>{{ $modification->user_type }}</td>
-                            <td>{{ $modification->action_datetime }}</td>
-                            <td>{{ $modification->created_at }}</td>
-                            <td>{{ $modification->material_name }}</td>
-                            <td>{{ $modification->units }}</td>
-                            <td>{{ $modification->action_datetime }}</td>
-                            <td>{{ $modification->storage_type == "reserve"? "reserva" : "uso" }}</td>
+                            <td data-label="Nombre">{{ $modification->first_name }}</td>
+                            <td data-label="Apellidos">{{ $modification->last_name }}</td>
+                            <td data-label="Email">{{ $modification->email }}</td>
+                            <td data-label="Tipo de usuario">{{ $modification->user_type }}</td>
+                            <td data-label="Fecha de alta">{{ $modification->action_datetime }}</td>
+                            <td data-label="Fecha de creación">{{ $modification->created_at }}</td>
+                            <td data-label="Nombre del material">{{ $modification->material_name }}</td>
+                            <td data-label="Unidades modificadas">{{ $modification->units }}</td>
+                            <td data-label="Fecha de acción">{{ $modification->action_datetime }}</td>
+                            <td data-label="Tipo de almacenamiento">{{ $modification->storage_type == "reserve"? "reserva" : "uso" }}</td>
                         </tr>
                     @endforeach
                 </tbody>
