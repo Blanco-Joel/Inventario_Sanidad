@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UsersManagementController extends Controller
 {
+    public function showCreateUser()
+    {
+        return view('users.createUser');
+    }
+
     public function showUsersManagement()
     {
         return view('users.usersManagement',);
     }
+
     public function gestionUsuarios(Request $request) {
         if ($request->input('action') == 'alta') {
             $this->altaUsers($request);
@@ -19,6 +26,7 @@ class UsersManagementController extends Controller
             $this->bajaUsers($request);
         }
     }
+
     public function usersManagementData()
     {
         return response()->json(User::orderBy('created_at')->get());
@@ -58,6 +66,7 @@ class UsersManagementController extends Controller
             'tab' => 'tab1'
         ]);
     }
+
     public function bajaUsers(Request $request)
     {
 

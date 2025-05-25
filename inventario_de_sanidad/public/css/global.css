@@ -76,6 +76,34 @@ body {
   color: var(--text-100);
 }
 
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--text-100);
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-100);
+}
+
+fieldset {
+    border: 1.8px solid var(--primary-300);
+    border-radius: 8px;
+    padding: 20px 25px 30px 25px;
+    margin-bottom: 30px;
+    background-color: var(--primary-600);
+}
+
+legend {
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 0 10px;
+    color: var(--primary-300);
+}
+
 /* === INPUTS Y CAMPOS DE TEXTO === */
 input[type="email"],
 input[type="password"],
@@ -178,6 +206,27 @@ a {
 .btn-danger:hover {
   background-color: #dc2626;
 }
+
+/* === Mensajes flash === */
+.alert-success {
+    margin-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    background-color: #e6f5ea;
+    border-left: 4px solid #3bb54a;
+    color: #2e7d32;
+    border-radius: 0.5rem;
+}
+
+.alert-error-uspas {
+    margin-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    background-color: #fdecea;
+    border-left: 4px solid #e53935;
+    color: #c62828;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+}
+
 
 /* ANIMACIONES DE ENTRADA Y DE SALIDA */
 .fade-in {

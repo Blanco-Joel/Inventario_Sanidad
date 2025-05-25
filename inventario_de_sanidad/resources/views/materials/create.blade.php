@@ -3,14 +3,15 @@
 @section('title', 'Alta de materiales')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/style_createMaterial.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/createMaterial.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
 @endpush
 
 @section('content')
 <div class="material-form-wrapper">
-    <h1 class="form-title">Alta de Materiales</h1>
+    <h1>Alta de Materiales</h1>
 
+    {{-- Boton de agregar a la cesta --}}
     <div class="basket-toggle">
         <button id="toggleBasketBtn" class="btn btn-outline btn-notifications" type="button">
             <i class="fa-solid fa-cart-shopping"></i>
@@ -79,12 +80,13 @@
         </fieldset>
 
         <div class="form-group file-upload">
+            {{-- Botón de subir imagen --}}
             <label for="image" class="btn btn-primary">Subir Imagen</label>
             <input type="file" name="image" id="image" class="btn btn-primary file-upload-input" onchange="previewImage(event, '#imgPreview')">
             
+            {{-- Imagen previsualizada --}}
             <img id="imgPreview" src="" alt="">
             <span id="file-name" class="file-name-display">Ningún archivo seleccionado</span>
-            
         </div>
 
         <div class="form-actions">
@@ -99,9 +101,11 @@
     </form>
 
     {{-- Flash messages --}}
-    {{-- @if (session('success'))
+    @if (session('success'))
         <p class="alert-success">{{ session('success') }}</p>
-    @endif --}}
+    @endif
+
+    {{-- Mensajes de error --}}
     @if (session('error'))
         <p class="alert-error-uspas">{{ session('error') }}</p>
     @endif

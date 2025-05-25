@@ -4,7 +4,7 @@ else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
 var allData = [];
-var currentLimit = 10;
+var currentLimit = 5;
 var paginaActual = 0;   
 
 async function inicio() {
@@ -23,12 +23,10 @@ async function inicio() {
         radio.addEventListener("change", filtrarTabla);
     });
 
-    document.getElementsByName("regs").forEach(radio => {
-        radio.addEventListener("change", event => {
-            currentLimit = parseInt(event.target.value);
-            paginaActual = 0;
-            renderTable(currentLimit);
-        });
+    document.getElementById("regsPorPagina").addEventListener("change", event => {
+        currentLimit = parseInt(event.target.value);
+        paginaActual = 0;
+        renderTable(currentLimit);
     });
 
     renderTable(currentLimit);
@@ -118,7 +116,7 @@ function aplicarFiltro() {
 }
 
 function renderPaginationButtons(total, limit) {
-    let paginacion = document.getElementById("paginacion");
+    let paginacion = document.querySelector(".pagination-buttons");
     if (!paginacion) return;
 
     while (paginacion.firstChild) paginacion.removeChild(paginacion.firstChild);
@@ -137,6 +135,7 @@ function renderPaginationButtons(total, limit) {
         paginacion.appendChild(btn);
     }
 }
+
 function getEditUrl(id) {
     let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
     return isAdmin ? `/storages/update/${id}/edit` : `/storages/update/${id}/teacher/edit`;

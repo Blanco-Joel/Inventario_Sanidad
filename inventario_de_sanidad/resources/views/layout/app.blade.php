@@ -42,8 +42,15 @@
                         </a>
                         <ul class="submenu">
                             <li>
-                                <a href="{{ route('users.usersManagement') }}"
-                                class="{{ request()->routeIs('users.usersManagement') ? 'active' : '' }}">
+                                <a href="{{ route('users.createUser') }}"
+                                class="{{ request()->routeIs('users.createUser') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    <span class="link-text">Alta de usuario</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('users.management') }}"
+                                class="{{ request()->routeIs('users.management') ? 'active' : '' }}">
                                     <i class="fa-solid fa-users-gear"></i>
                                     <span class="link-text">Gestión de usuarios</span>
                                 </a>
@@ -142,10 +149,10 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('historical.historicalSubmenu') }}"
-                        class="{{ request()->routeIs('historical.historicalSubmenu') ? 'active' : '' }}">
-                            <i class="fa-solid fa-book-bookmark"></i>
-                            <span class="link-text">Reservas de materiales</span>
+                        <a href="{{ route('historical.type', ['type' => 'use']) }}"
+                        class="{{ request()->fullUrlIs(route('historical.type', ['type' => 'use'])) ? 'active' : '' }}">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span class="link-text">Materiales en uso</span>
                         </a>
                     </li>
                 @endif
@@ -234,7 +241,9 @@
         
         <!-- Contenido principal (cambia según la ruta) -->
         <main class="main-content">
-            @yield('content')
+            <div class="container">
+                @yield('content')
+            </div>
         </main>
     </div>
     

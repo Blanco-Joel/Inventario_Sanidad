@@ -1,28 +1,4 @@
-/* Contenedor principal */
-.historical-container {
-    width: 100%;
-    background-color: var(--bg-100);
-    box-shadow: var(--shadow-md);
-    border-radius: var(--border-radius-md);
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* Título */
-.historical-title {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-/* Alerta tipo info */
-.historical-alert {
-    color: var(--error);
-    font-size: 0.8rem;
-}
-
-/* Formulario de búsqueda + botones */
+/* Contenedor de busqueda + botones de vista */
 .search-form {
     display: flex;
     justify-content: space-between;
@@ -32,23 +8,21 @@
     gap: 1rem;
 }
 
-/* Contenedor del input + botón buscar */
 .search-container {
-    display: flex;
-    flex: 1;
-    max-width: 500px;
+    display: flex;  
+    max-width: 600px;
     gap: 0.5rem;
 }
 
 .btn-outline.active {
-  background-color: var(--primary-500); /* Azul, puedes cambiarlo */
+  background-color: var(--primary-500);
 }
 
-/* Botones de vista */
 .view-toggle {
     display: flex;
     gap: 0.5rem;
 }
+
 
 /* Vista en tarjetas */
 .card-grid {
@@ -57,7 +31,6 @@
     gap: 1rem;
 }
 
-/* Tarjeta de material */
 .material-card {
     border: 1px solid var(--bg-300);
     border-radius: var(--border-radius-md);

@@ -3,22 +3,22 @@
 @section('title', 'Edicion de materiales')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/editStorage.css') }}">
 @endpush
 
 @section('content')
-<div class="container">
+<div class="">
     <form action="{{ route('storages.updateBatch', $material) }}" method="POST">
         @csrf
 
-        <h2>Editar Almacenamiento para: {{ $material->name }}</h2>
+        <h2>Editar Almacenamiento para: <span class="material-name">{{ $material->name }}</span></h2>
 
         @php
             $useRecord = $material->storage->where('storage_type', 'use')->first();
             $currentLocation = $useRecord->storage ?? ''; // 'CAE' o 'odontologia'
         @endphp
 
-        <div class="form-group">
+        <div class="location-container">
             <label for="storage">Localización:</label>
             <select name="storage" id="storage">
                 <option value="CAE" {{ $currentLocation == 'CAE' ? 'selected' : '' }}>CAE</option>
@@ -28,82 +28,94 @@
                 <div class="alert-error-uspas">{{ $message }}</div>
             @enderror
         </div>
-        
-        <h3>Datos para Uso</h3>
-        @php
-            $useRecord = $material->storage->where('storage_type', 'use')->first();
-        @endphp
-        <div class="form-group">
-            <label>Cantidad:</label>
-            <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '-' }}" required>
-            @error('use_units')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Cantidad Mínima:</label>
-            <input type="number" name="use_min_units" class="form-control" value="{{ $useRecord->min_units ?? '-' }}" required>
-            @error('use_min_units')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Armario:</label>
-            <input type="number" name="use_cabinet" class="form-control" value="{{ $useRecord->cabinet ?? '-' }}" required>
-            @error('use_cabinet')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Balda:</label>
-            <input type="number" name="use_shelf" class="form-control" value="{{ $useRecord->shelf ?? '-' }}" required>
-            @error('use_shelf')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Cajón:</label>
-            <input type="number" name="drawer" class="form-control" value="{{ $useRecord->drawer ?? '-' }}" required>
-            @error('drawer')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        
-        <hr>
-        
-        <!-- Sección para almacenar datos de "Reserva" -->
-        <h3>Datos para Reserva</h3>
-        @php
-            $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
-        @endphp
-        <div class="form-group">
-            <label>Cantidad:</label>
-            <input type="number" name="reserve_units" class="form-control" value="{{ $reserveRecord->units ?? '' }}" required>
-            @error('reserve_units')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Cantidad Mínima:</label>
-            <input type="number" name="reserve_min_units" class="form-control" value="{{ $reserveRecord->min_units ?? '' }}" required>
-            @error('reserve_min_units')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Armario:</label>
-            <input type="text" name="reserve_cabinet" class="form-control" value="{{ $reserveRecord->cabinet ?? '' }}" required>
-            @error('reserve_cabinet')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Balda:</label>
-            <input type="number" name="reserve_shelf" class="form-control" value="{{ $reserveRecord->shelf ?? '' }}" required>
-            @error('reserve_shelf')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
-        </div>
+
+        <fieldset>
+            <legend>Datos para Uso</legend>
+
+            @php
+                $useRecord = $material->storage->where('storage_type', 'use')->first();
+            @endphp
+
+            <div class="form-grid">
+                <div class="">
+                    <label>Cantidad</label>
+                    <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '-' }}" required>
+                    @error('use_units')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label>Cantidad Mínima</label>
+                    <input type="number" name="use_min_units" class="form-control" value="{{ $useRecord->min_units ?? '-' }}" required>
+                    @error('use_min_units')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label>Armario</label>
+                    <input type="number" name="use_cabinet" class="form-control" value="{{ $useRecord->cabinet ?? '-' }}" required>
+                    @error('use_cabinet')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label>Balda</label>
+                    <input type="number" name="use_shelf" class="form-control" value="{{ $useRecord->shelf ?? '-' }}" required>
+                    @error('use_shelf')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label>Cajón</label>
+                    <input type="number" name="drawer" class="form-control" value="{{ $useRecord->drawer ?? '-' }}" required>
+                    @error('drawer')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Datos para Reserva</legend>
+
+            @php
+                $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
+            @endphp
+
+            <div class="form-grid">
+                <div class="">
+                    <label>Cantidad</label>
+                    <input type="number" name="reserve_units" class="form-control" value="{{ $reserveRecord->units ?? '' }}" required>
+                    @error('reserve_units')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label>Cantidad Mínima</label>
+                    <input type="number" name="reserve_min_units" class="form-control" value="{{ $reserveRecord->min_units ?? '' }}" required>
+                    @error('reserve_min_units')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label>Armario</label>
+                    <input type="text" name="reserve_cabinet" class="form-control" value="{{ $reserveRecord->cabinet ?? '' }}" required>
+                    @error('reserve_cabinet')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label>Balda</label>
+                    <input type="number" name="reserve_shelf" class="form-control" value="{{ $reserveRecord->shelf ?? '' }}" required>
+                    @error('reserve_shelf')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    
+                </div>
+            </div>
+        </fieldset>
         
         <div>
             <br>

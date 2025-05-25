@@ -9,10 +9,10 @@
 
 @section('content')
 <div class="historical-container">
-    <h1 class="historical-title">Materiales en reserva</h1>
+    <h1>Materiales en reserva</h1>
 
     @if($materials->isEmpty())
-        <div class="historical-alert">No hay materiales en reserva actualmente.</div>
+        <div>No hay materiales en reserva actualmente.</div>
     @else
         <div class="search-form">
             <div class="search-container">
