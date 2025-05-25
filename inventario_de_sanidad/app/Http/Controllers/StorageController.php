@@ -50,12 +50,20 @@ class StorageController extends Controller
             $useRecord = $material->storage->where('storage_type', 'use')->first();
             $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
 
+            if (empty($useRecord)) {
+                return back()->with('error', 'El material no esta añadido en el alamcenamiento de uso.');
+            } else if (empty($reserveRecord)) {
+                return back()->with('error', 'El material no esta añadido en el alamcenamiento de uso.');
+            }
+            
+
             // Nuevos valores.
             $newStorage = $validated['storage'];
             $newUseUnits    = $validated['use_units'];
             $newUseMin         = $validated['use_min_units'];
             $newUseCabinet     = $validated['use_cabinet'];
             $newUseShelf       = $validated['use_shelf'];
+            $newUseDrawer       = $validated['drawer'];
 
             $newReserveUnits = $validated['reserve_units'];
             $newReserveMin     = $validated['reserve_min_units'];
@@ -70,6 +78,7 @@ class StorageController extends Controller
                 $newUseMin         == $useRecord->min_units && 
                 $newUseCabinet     == $useRecord->cabinet && 
                 $newUseShelf       == $useRecord->shelf && 
+                $newUseDrawer       ==  $useRecord->drawer &&
                 $newReserveUnits == $reserveRecord->units && 
                 $newReserveMin     == $reserveRecord->min_units && 
                 $newReserveCabinet == $reserveRecord->cabinet && 
@@ -150,6 +159,7 @@ class StorageController extends Controller
                     'min_units' => $validated['use_min_units'],
                     'cabinet'      => $validated['use_cabinet'],
                     'shelf'        => $validated['use_shelf'],
+                    'drawer'        =>  $validated['drawer']
                 ]);
     
                 // Actualizar reserva.
