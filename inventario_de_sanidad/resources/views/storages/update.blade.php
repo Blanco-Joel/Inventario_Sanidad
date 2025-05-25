@@ -9,16 +9,16 @@
 @endpush
 
 @section('content')
-{{-- <div id="loader-overlay">
+<div id="loader-overlay">
     <div class="spinner"></div>
-</div> --}}
+</div>
 <div class="container">
     <div class="content-wrapper">
         <h2>Gestionar Almacenamiento</h2>
         
         <!-- Paginación -->
         <form>
-            <input type="text" id="buscarId" placeholder="Buscar..." >
+            <input type="text" id="buscarId" placeholder="Buscar..." autocomplete="off" >
             <label><input type="radio" name="regs" value="10" checked>10 registros</label>
             <label><input type="radio" name="regs" value="20">20 registros</label>
             <label><input type="radio" name="regs" value="30">30 registros</label>
@@ -61,6 +61,7 @@
 
 @push('scripts')
     <script src="{{ asset('js/storagesUpdate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/tableStorage.js') }}" type="text/javascript"></script>
 @endpush
 

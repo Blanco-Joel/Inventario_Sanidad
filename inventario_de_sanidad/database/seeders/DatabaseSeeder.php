@@ -43,8 +43,27 @@ class DatabaseSeeder extends Seeder
                 'user_type'      => 'admin',
                 'created_at'     => Carbon::now('Europe/Madrid')
             ],
+            
         ]);
-
+        $roles = ['teacher', 'student', 'admin'];
+        for ($i = 4; $i <= 100; $i++) {
+            $nombre = "Usuario$i";
+            $apellido = "Apellido$i";
+            $email = "usuario$i@example.com";
+            $clave = "clave$i";
+            $rol = $roles[($i - 1) % count($roles)];
+    
+            DB::table('users')->insert([
+                'first_name'     => $nombre,
+                'last_name'      => $apellido,
+                'email'          => $email,
+                'password'       => $clave,
+                'hashed_password'=> Hash::make($clave),
+                'first_log'      => false,
+                'user_type'      => $rol,
+                'created_at'     => Carbon::now('Europe/Madrid')
+            ]);
+        }
         // Seed Materials
         DB::table('materials')->insert([
             [

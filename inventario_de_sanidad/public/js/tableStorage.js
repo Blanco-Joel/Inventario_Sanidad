@@ -12,9 +12,10 @@ async function inicio() {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
 
+    hideLoader()
+
     allData = window.STORAGEDATA;
     paginaActual = 0;
-    console.log(allData)
 
     document.getElementById("buscarId").addEventListener("keyup", filtrarTabla);
 
@@ -51,15 +52,15 @@ function renderTable(limit) {
         let use = item.storage.find(s => s.storage_type === 'use') || {};
         let reserve = item.storage.find(s => s.storage_type === 'reserve') || {};
         let tr = document.createElement("tr");
-        let nametd = crearTD(item.name ?? "-") 
+        let nametd = crearDataLabel(crearTD(item.name ?? "-"),"Material"); 
         nametd.rowSpan =document.querySelector(".user-role").textContent.includes("admin") ? 2 : 1;
         tr.appendChild(nametd);
-        tr.appendChild(crearTD("uso"));
-        tr.appendChild(crearTD(use.units ?? "-"));
-        tr.appendChild(crearTD(use.min_units ?? "-"));
-        tr.appendChild(crearTD(use.cabinet ?? "-"));
-        tr.appendChild(crearTD(use.shelf ?? "-"));
-        tr.appendChild(crearTD(use.drawer ?? "-"));
+        tr.appendChild(crearDataLabel(crearTD("uso"),"Tipo"));
+        tr.appendChild(crearDataLabel(crearTD(use.units ?? "-"),"Cantidad"));
+        tr.appendChild(crearDataLabel(crearTD(use.min_units ?? "-"),"Cantidad mínima"));
+        tr.appendChild(crearDataLabel(crearTD(use.cabinet ?? "-"),"Armario"));
+        tr.appendChild(crearDataLabel(crearTD(use.shelf ?? "-"),"Balda"));
+        tr.appendChild(crearDataLabel(crearTD(use.drawer ?? "-"),"Cajón"));
 
 
         let tdAcciones = document.createElement("td");
@@ -78,12 +79,12 @@ function renderTable(limit) {
         tr = document.createElement("tr");
         if (document.querySelector(".user-role").textContent.includes("admin"))
         {
-            tr.appendChild(crearTD("reserva"));
-            tr.appendChild(crearTD(reserve.units ?? "-"));
-            tr.appendChild(crearTD(reserve.min_units ?? "-"));
-            tr.appendChild(crearTD(reserve.cabinet ?? "-"));
-            tr.appendChild(crearTD(reserve.shelf ?? "-"));
-            tr.appendChild(crearTD(reserve.drawer ?? "-"));
+            tr.appendChild(crearDataLabel(crearTD("reserva"),"Tipo"));
+            tr.appendChild(crearDataLabel(crearTD(reserve.units ?? "-"),"Cantidad"));
+            tr.appendChild(crearDataLabel(crearTD(reserve.min_units ?? "-"),"Cantidad mínima"));
+            tr.appendChild(crearDataLabel(crearTD(reserve.cabinet ?? "-"),"Armario"));
+            tr.appendChild(crearDataLabel(crearTD(reserve.shelf ?? "-"),"Balda"));
+            tr.appendChild(crearDataLabel(crearTD(reserve.drawer ?? "-"),"Cajón"));
 
         }
         tbody.appendChild(tr);
@@ -95,6 +96,10 @@ function renderTable(limit) {
 function crearTD(texto) {
     let td = document.createElement("td");
     td.textContent = texto;
+    return td;
+}
+function crearDataLabel(td,label) {
+    td.setAttribute("data-label",label);
     return td;
 }
 

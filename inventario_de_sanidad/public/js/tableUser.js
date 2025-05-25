@@ -9,6 +9,7 @@ async function inicio () {
     while (typeof window.USERDATA === 'undefined') {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
+    hideLoader();
     currentLimit = 10;
     paginaActual = 0;
     allData = window.USERDATA;
@@ -33,42 +34,6 @@ async function inicio () {
     renderTable(currentLimit);
 }
 
-// function sortTable(columnIndex) {
-//     let table = document.getElementById("tabla-usuarios");
-//     let switching = true;
-//     let dir = "asc";
-//     let switchcount = 0;
-
-//     while (switching) {
-//         switching = false;
-//         let rows = table.rows;
-//         let swapIndex = -1;
-
-//         for (let i = 1; i < (rows.length - 1); i++) {
-//             let linea = rows[i].getElementsByTagName("TD")[columnIndex];
-//             let lineaSiguiente = rows[i + 1].getElementsByTagName("TD")[columnIndex];
-
-//             let lineaContent = linea.textContent.trim().toLowerCase();
-//             let lineaSiguienteContent = lineaSiguiente.textContent.trim().toLowerCase();
-
-//             if ((dir == "asc" && lineaContent > lineaSiguienteContent) ||
-//                 (dir == "desc" && lineaContent < lineaSiguienteContent)) {
-//                 if (swapIndex == -1) {
-//                     swapIndex = i;
-//                 }
-//             }
-//         }
-
-//         if (swapIndex !== -1) {
-//             rows[swapIndex].parentNode.insertBefore(rows[swapIndex + 1], rows[swapIndex]);
-//             switching = true;
-//             switchcount++;
-//         } else if (switchcount == 0 && dir == "asc") {
-//             dir = "desc";
-//             switching = true;
-//         }
-//     }
-// }
 
 function filtrarTabla(event) {
     if (event.target.type == "radio" || event.target.type == "text" && (event.key.length == 1 || event.key == "Backspace" || event.key == "Delete")) {
@@ -85,20 +50,14 @@ function renderTable(limit) {
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
 
-    datosPagina.forEach((usuario, index) => {
+    datosPagina.forEach((usuario) => {
         let tr = document.createElement("tr");
 
-        let tdNombre = crearTD(usuario.first_name);
-        let tdApellidos = crearTD(usuario.last_name);
-        let tdEmail = crearTD(usuario.email);
-        let tdTipo = crearTD(usuario.user_type);
-        let tdFecha = crearTD(usuario.created_at);
-
-        tr.appendChild(tdNombre);
-        tr.appendChild(tdApellidos);
-        tr.appendChild(tdEmail);
-        tr.appendChild(tdTipo);
-        tr.appendChild(tdFecha);
+        tr.appendChild(crearDataLabel(crearTD(usuario.first_name),"Nombre"));
+        tr.appendChild(crearDataLabel(crearTD(usuario.last_name),"Apellidos"));
+        tr.appendChild(crearDataLabel(crearTD(usuario.email),"Email"));
+        tr.appendChild(crearDataLabel(crearTD(usuario.user_type),"Tipo de usuario"));
+        tr.appendChild(crearDataLabel(crearTD(usuario.created_at),"Fecha de alta"));
 
         let tdVer = document.createElement("td");
         let formVer = document.createElement("form");
@@ -114,10 +73,10 @@ function renderTable(limit) {
         formVer.appendChild(b);
         formVer.appendChild(btnVer);
         tdVer.appendChild(formVer);
-        tr.appendChild(tdVer);
+        tr.appendChild(crearDataLabel(tdVer,"Acciones"));
 
         let tdDel = document.createElement("td");
-        if (usuario.user_id != getUserIdFromCookie()) {
+        if ((usuario.first_name + " " + usuario.last_name) != document.getElementsByClassName("user-name")[0].textContent) {
             let formDel = document.createElement("form");
             formDel.method = "POST";
             formDel.action = "/users/baja";
@@ -173,6 +132,10 @@ function crearTD(texto) {
     td.textContent = texto;
     return td;
 }
+function crearDataLabel(td,label) {
+    td.setAttribute("data-label",label);
+    return td;
+}
 
 function renderPaginationButtons(total, limit) {
     let paginacion = document.getElementById("paginacion");
@@ -222,14 +185,4 @@ function rebindDynamicEvents() {
 function getCSRFToken() {
     let tokenMeta = document.querySelector('meta[name="csrf-token"]');
     return tokenMeta ? tokenMeta.getAttribute("content") : "";
-}
-
-function getUserIdFromCookie() {
-    let name = "USERPASS=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
-    }
-    return "";
 }

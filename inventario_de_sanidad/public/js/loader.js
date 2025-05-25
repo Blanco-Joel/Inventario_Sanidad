@@ -8,5 +8,5 @@ function hideLoader() {
         loader.addEventListener("animationend", () => {
             loader.style.display = "none";
         }, { once: true });
-    }, 2000);
+    });
 }

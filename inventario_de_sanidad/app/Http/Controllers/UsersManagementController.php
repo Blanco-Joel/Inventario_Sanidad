@@ -10,8 +10,7 @@ class UsersManagementController extends Controller
 {
     public function showUsersManagement()
     {
-        $users = User::select('user_id','first_name', 'last_name', 'email', 'password', 'user_type','created_at')->get();
-        return view('users.usersManagement',['users' => $users]);
+        return view('users.usersManagement',);
     }
     public function gestionUsuarios(Request $request) {
         if ($request->input('action') == 'alta') {
@@ -20,6 +19,11 @@ class UsersManagementController extends Controller
             $this->bajaUsers($request);
         }
     }
+    public function usersManagementData()
+    {
+        return response()->json(User::orderBy('created_at')->get());
+    } 
+
     public function altaUsers(Request $request)
     {
         $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{}|;:,.<>?';

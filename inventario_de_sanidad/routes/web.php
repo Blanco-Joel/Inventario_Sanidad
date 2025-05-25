@@ -59,8 +59,7 @@ Route::middleware('check.admin.cookie')->group(function () {
     Route::get('/users/usersManagement', [UsersManagementController::class, 'showUsersManagement'])->name('users.usersManagement');
     Route::post('/users/usersManagement/alta', [UsersManagementController::class, 'altaUsers'])->name('altaUsers.process');
     Route::post('/users/usersManagement/baja', [UsersManagementController::class, 'bajaUsers'])->name('bajaUsers.process');
-    Route::get('/users/usersManagementData', function () {return response()->json(\App\Models\User::all());});
-    
+    Route::get('/users/usersManagementData',  [UsersManagementController::class, 'usersManagementData']);
     /* MATERIALES EN RESERVA */
     Route::prefix('historical')->group(function ()
     {

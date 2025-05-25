@@ -5,9 +5,14 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/style_userManagement.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+    
 @endpush
 
 @section('content')
+<div id="loader-overlay">
+    <div class="spinner"></div>
+</div> 
 <div class="container">
     <div class="tabs">
         <button class="tab {{ session('tab', 'tab1') == 'tab1' ? 'active' : '' }}" data-tab="tab1">Alta de usuarios </button>
@@ -89,7 +94,7 @@
                 <input type="radio" name="regs" value="60">60 
             </label>
             <div class="search-container">
-                <input type="text" id="buscarId" placeholder="Buscar...">
+                <input type="text" id="buscarId" placeholder="Buscar..." autocomplete="off">
                 <div class="dropdown-container">
                     
                     <button type="button" id="filterToggle"><i class="fa-solid fa-filter"></i></button>
@@ -130,7 +135,9 @@
 
 @push('scripts')
     <script src="{{ asset('js/tabs.js') }}"></script>
+    <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/usersManagement.js') }}"></script>
+    <script src="{{ asset('js/tableUser.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -149,5 +156,4 @@
             });
         });
     </script>
-    <script src="{{ asset('js/tableUser.js') }}"></script>
 @endpush

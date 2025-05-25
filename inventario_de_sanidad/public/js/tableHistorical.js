@@ -12,9 +12,10 @@ async function inicio() {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
 
+    hideLoader();
+
     allData = window.MODIFICATIONSDATA;
     paginaActual = 0;
-    console.log(allData)
 
     document.getElementById("buscarId").addEventListener("keyup", filtrarTabla);
 
@@ -49,14 +50,14 @@ function renderTable(limit) {
 
     datosPagina.forEach(item => {
         let tr = document.createElement("tr");
-        tr.appendChild(crearTD(item.first_name ?? "-"));
-        tr.appendChild(crearTD(item.last_name ?? "-"));
-        tr.appendChild(crearTD(item.email ?? "-"));
-        tr.appendChild(crearTD(item.user_type ?? "-"));
-        tr.appendChild(crearTD(item.material_name ?? "-"));
-        tr.appendChild(crearTD(item.units ?? "-"));
-        tr.appendChild(crearTD(item.storage_type == "reserve" ? "reserva" : "uso"));
-        tr.appendChild(crearTD(item.action_datetime ?? "-"));
+        tr.appendChild(crearDataLabel((crearTD(item.first_name ?? "-")),"Nombre"));
+        tr.appendChild(crearDataLabel((crearTD(item.last_name ?? "-")),"Apellidos"));
+        tr.appendChild(crearDataLabel((crearTD(item.email ?? "-")),"Email"));
+        tr.appendChild(crearDataLabel((crearTD(item.user_type ?? "-")),"Tipo de usuario"));
+        tr.appendChild(crearDataLabel((crearTD(item.material_name ?? "-")),"Material"));
+        tr.appendChild(crearDataLabel((crearTD(item.units ?? "-")),"Unidades modificadas"));
+        tr.appendChild(crearDataLabel((crearTD(item.storage_type == "reserve" ? "reserva" : "uso")),"Tipo de almacenamiento"));
+        tr.appendChild(crearDataLabel((crearTD(item.action_datetime ?? "-")),"Fecha de modificación"));
         tbody.appendChild(tr);
 
     });
@@ -67,6 +68,11 @@ function renderTable(limit) {
 function crearTD(texto) {
     let td = document.createElement("td");
     td.textContent = texto;
+    return td;
+}
+
+function crearDataLabel(td,label) {
+    td.setAttribute("data-label",label);
     return td;
 }
 

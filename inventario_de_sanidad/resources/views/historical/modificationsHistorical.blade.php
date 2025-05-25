@@ -5,13 +5,18 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modifications.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+    
 @endpush
 
 @section('content')
+<div id="loader-overlay">
+    <div class="spinner"></div>
+</div> 
     <div class="history-container">
         <h1 class="history-title">Historial de modificaciones</h1>
         <form>
-            <input type="text" id="buscarId" placeholder="Buscar..." >
+            <input type="text" id="buscarId" placeholder="Buscar..." autocomplete="off">
             <label><input type="radio" name="regs" value="10" checked>10 registros</label>
             <label><input type="radio" name="regs" value="20">20 registros</label>
             <label><input type="radio" name="regs" value="30">30 registros</label>
@@ -43,22 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                    // @foreach ($modifications as $modification)
-                    //     <tr>
-                    //         <td data-label="Nombre">{{ $modification->first_name }}</td>
-                    //         <td data-label="Apellidos">{{ $modification->last_name }}</td>
-                    //         <td data-label="Email">{{ $modification->email }}</td>
-                    //         <td data-label="Tipo de usuario">{{ $modification->user_type }}</td>
-                    //         <td data-label="Fecha de alta">{{ $modification->action_datetime }}</td>
-                    //         <td data-label="Fecha de creación">{{ $modification->created_at }}</td>
-                    //         <td data-label="Nombre del material">{{ $modification->material_name }}</td>
-                    //         <td data-label="Unidades modificadas">{{ $modification->units }}</td>
-                    //         <td data-label="Fecha de acción">{{ $modification->action_datetime }}</td>
-                    //         <td data-label="Tipo de almacenamiento">{{ $modification->storage_type == "reserve"? "reserva" : "uso" }}</td>
-                    //     </tr>
-                    // @endforeach
-                    ?>
+
                 </tbody>
             </table>
         </div>
@@ -70,5 +60,7 @@
 
 @push('scripts')
     <script src="{{ asset('js/historicalFunctions.js') }}"></script>
+    <script src="{{ asset('js/loader.js') }}"></script>
+
     <script src="{{ asset('js/tableHistorical.js') }}"></script>
 @endpush

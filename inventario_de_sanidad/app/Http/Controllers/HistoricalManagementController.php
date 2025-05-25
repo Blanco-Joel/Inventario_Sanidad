@@ -18,6 +18,7 @@ class HistoricalManagementController extends Controller
         ->join('materials', 'modifications.material_id', '=', 'materials.material_id')
         ->select('users.first_name', 'users.last_name', 'users.email', 'users.user_type', 'users.created_at',
                  'materials.name as material_name', 'modifications.units', 'modifications.action_datetime', 'modifications.storage_type')
+        ->orderBy("action_datetime")
         ->get();
         return response()->json($modifications);
     }
