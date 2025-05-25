@@ -20,9 +20,11 @@ function inicio() {
         }
     }
 
+    // Actualizar la tabla de materiales
     updateTable();
 }
 
+/* Función para obtener el valor de la cookie */
 function getCookieValue(name) {
     let cookieString = document.cookie;
     let cookies = cookieString.split(";");
@@ -34,6 +36,7 @@ function getCookieValue(name) {
         let cookie = cookies[index].trim();
         if (cookie.startsWith(name + '=')) {
             try {
+                /* Parsear el valor de la cookie */
                 value = JSON.parse(decodeURIComponent(cookie.substring(name.length + 1)));
             } catch (error) {
                 console.error("Error al parsear la cookie:", error);
@@ -46,21 +49,33 @@ function getCookieValue(name) {
     return value ?? [];
 }
 
+/* Función para guardar el valor de la cookie */
 function setCookieValue(basket) {
     let dateExpiration = new Date();
+
+    /* Definir la fecha de expiración en 2 días */
     dateExpiration.setDate(dateExpiration.getDate() + 2);
+
+    /* Obtener la fecha de expiración en formato UTC */
     let expiration = dateExpiration.toUTCString();
+
+    /* Guardar el valor de la cookie */
     document.cookie = "materialsBasket=" + encodeURIComponent(JSON.stringify(basket)) + "; expires=" + expiration + "; path=/";
 }
 
+/* Función para actualizar la tabla de materiales */
 function updateTable() {
     let tbody = document.querySelector("table tbody");
+
+    /* Obtener la cesta de materiales */
     let basket = getCookieValue("materialsBasket");
 
+    /* Eliminar filas innecesarias */
     while (tbody.rows.length > 1) {
         tbody.deleteRow(1);
     }
 
+    /* Agregar filas para cada material */
     for (let i = 0; i < basket.length; i++) {
         let newTr = document.createElement("tr");
         let nameTd = document.createElement("td");
@@ -68,7 +83,7 @@ function updateTable() {
         let buttonTd = document.createElement("td");
         let deleteButton = document.createElement("button");
 
-        deleteButton.setAttribute("class", "btn btn-warning delete");
+        deleteButton.setAttribute("class", "btn btn-danger delete");
         deleteButton.setAttribute("data-id", basket[i].material_id);
         deleteButton.setAttribute("type", "button");
         deleteButton.textContent = "Eliminar";
@@ -89,11 +104,13 @@ function updateTable() {
         tbody.appendChild(newTr);
     }
 
+    /* Limpiar campos de texto */
     document.getElementById("materialName").value = "";
     document.getElementById("units").value = "";
     document.getElementById('materialsBasketInput').value = JSON.stringify(basket);
 }
 
+/* Función para agregar materiales a la cesta */
 function addMaterialDataCookie() {
     let list = document.getElementById("materials");
     let options = list.getElementsByTagName("option");
@@ -103,6 +120,7 @@ function addMaterialDataCookie() {
     let next = true;
     let index = options.length - 1;
 
+    /* Comprobar que el material existe */
     if (materialName != "" && materialUnits != "") {
         while (next || index >= 0) {
             if (options[index].value === materialName) {
@@ -113,23 +131,28 @@ function addMaterialDataCookie() {
             index -= 1;
         }
     
+        /* Agregar material a la cesta mientras no se encuentre el material */
         if (!materialId) {
             alert("Material no encontrado");
         } else {
+            /* Crear objeto con los datos del material */
             let materialData = {
                 material_id: materialId,
                 name: materialName,
                 units: materialUnits
             };
+
             let basket = getCookieValue("materialsBasket");
     
+            /* Comprobar si el material ya está en la cesta. Si ya está, mostrar un mensaje de error */
             let exists = basket.some(item => item.material_id === materialId);
             if (exists) {
                 alert("El material ya está añadido");
                 return;
+            /* Si no, agregar material a la cesta */
             } else {
                 basket.push(materialData);
-                console.log("Nuevo basket:", basket);
+                //console.log("Nuevo basket:", basket);
                 setCookieValue(basket);
                 updateTable();
             }
@@ -137,6 +160,7 @@ function addMaterialDataCookie() {
     }
 }
 
+/* Función para eliminar materiales de la cesta */
 function deleteMaterialDataCookie(event) {
     let button = event.target;
     let materialId = button.getAttribute("data-id");

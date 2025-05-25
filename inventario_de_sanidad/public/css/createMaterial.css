@@ -1,24 +1,13 @@
+.container {
+    padding: 0 2rem;
+}
+
 .material-form-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: var(--bg-100);
-    border-radius: 1rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.material-form,
-.basket-section {
+.material-form, .basket-section {
     flex: 1;
-}
-
-.form-title {
-    font-size: 1.75rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    color: var(--primary-100);
 }
 
 .basket-toggle {
@@ -33,7 +22,7 @@
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .file-upload{
@@ -57,20 +46,8 @@
     grid-template-columns: repeat(5, 1fr);
 }
 
-.fieldset {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    border: 1px solid var(--primary-300);
-    border-radius: 0.5rem;
-}
-
-.fieldset legend {
-    font-weight: bold;
-    color: var(--primary-200);
-}
-
 .form-actions {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .file-upload-input {
@@ -78,7 +55,6 @@
 }
 
 .file-name-display {
-    margin-left: 1rem;
     color: var(--text-200);
     font-size: 0.875rem;
     display: inline-block;
@@ -86,13 +62,14 @@
 }
 
 .form-actions input[type="submit"] {
+    background-color: var(--warning);
     padding: 0.5rem 1.5rem;
     font-size: 0.9rem;
     font-weight: 600;
 }
 
 .material-form:last-of-type {
-    margin-top: 3rem;
+    margin: 0.4rem 0 1rem 0;
     text-align: center;
 }
 
@@ -108,7 +85,7 @@
 }
 
 .basket-section {
-    margin-top: 2rem;
+    margin: 2rem 1rem;
 }
 
 .basket-title {
@@ -116,9 +93,4 @@
     font-weight: bold;
     margin-bottom: 1rem;
     color: var(--primary-100);
-}
-
-.alert-error-uspas{
-    font-size: 0.8rem;
-    color: var(--error);
 }

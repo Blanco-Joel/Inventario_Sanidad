@@ -1,0 +1,57 @@
+/* Estilos específicos para la vista Alta de Usuarios */
+.alta-usuarios-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: var(--primary-500);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    font-family: Arial, sans-serif;
+}
+
+.alta-usuarios-container h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.8rem;
+    text-align: center;
+    color: var(--primary-300);
+}
+
+.alta-usuarios-container h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-300);
+    text-align: center;
+}
+
+.alta-usuarios-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+
+}
+
+.alta-usuarios-container form input[type="text"],
+.alta-usuarios-container form select {
+    width: 80%;
+    background-color: var(--bg-200);
+    color: var(--text-100);
+}
+
+dialog#confirmacion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* centra el diálogo completamente */ 
+    padding: 20px;
+    border: none;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    max-width: 400px;
+    text-align: center;
+    font-size: 16px;
+    background-color: var(--bg-100); /* asegúrate de definir un fondo visible */
+    z-index: 1000; /* por si se solapa con otros elementos */
+}
+

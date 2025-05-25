@@ -55,11 +55,17 @@ Route::prefix('activities')->group(function () {
 Route::middleware('check.admin.cookie')->group(function () {
 
     /* GESTION DE USUARIOS */
+        // Rutas de alta de usuarios
+    Route::get('/users/create', [UsersManagementController::class, 'showCreateUser'])->name('users.createUser');
+    Route::post('/users/create', [UsersManagementController::class, 'altaUsers'])->name('altaUsers.process');
 
-    Route::get('/users/usersManagement', [UsersManagementController::class, 'showUsersManagement'])->name('users.usersManagement');
-    Route::post('/users/usersManagement/alta', [UsersManagementController::class, 'altaUsers'])->name('altaUsers.process');
-    Route::post('/users/usersManagement/baja', [UsersManagementController::class, 'bajaUsers'])->name('bajaUsers.process');
+        // Rutas de gestión de usuarios
+    Route::get('/users/management', [UsersManagementController::class, 'showUsersManagement'])->name('users.management');
+    Route::post('/users/management/delete', [UsersManagementController::class, 'bajaUsers'])->name('bajaUsers.process');
+
+        // Rutas de gestión de usuarios
     Route::get('/users/usersManagementData',  [UsersManagementController::class, 'usersManagementData']);
+
     /* MATERIALES EN RESERVA */
     Route::prefix('historical')->group(function ()
     {
@@ -73,8 +79,10 @@ Route::middleware('check.admin.cookie')->group(function () {
 
 
     });
-    Route::prefix('storages')->group(function () {
 
+    /* GESTION DE ALMACENAMIENTO */
+    Route::prefix('storages')->group(function ()
+    {
         Route::get('/update', [StorageController::class, 'updateView'])->name('storages.updateView');
         Route::get('/updateData',function () {return response()->json(\App\Models\Material::with('storage')->get());});
     
@@ -88,11 +96,14 @@ Route::middleware('check.admin.cookie')->group(function () {
 
         Route::get('qr/{cabinet}/{shelf}', [StorageController::class, 'show'])->name('storages.show');
     });
+
+    /* GESTION DE MATERIALES */
     Route::get('/bajaMaterial', [MaterialManagementController::class, 'showBajaMateriales'])->name('bajaMaterial.view');
     Route::post('/bajaMaterial/add', [MaterialManagementController::class, 'agregarMaterialACestaBaja'])->name('add.process');
     Route::post('/bajaMaterial/process', [MaterialManagementController::class, 'bajaMaterial'])->name('bajaMaterial.process');
     
-    Route::prefix('materials')->group(function () {
+    Route::prefix('materials')->group(function ()
+    {
         Route::get('/dashboard', [MaterialManagementController::class, 'dashboard'])->name('materials.dashboard');
         /* GESTION DE MATERIALES */
         //Route::get('/gestionMateriales', [MaterialManagementController::class, 'showGestionMateriales'])->name('gestionMateriales');

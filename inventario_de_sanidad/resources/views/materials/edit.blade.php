@@ -4,11 +4,11 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/editMaterial.css') }}">
 @endpush
 
 @section('content')
-<div class="container">
+
     <div class="content-wrapper">
         <h2>Edición de materiales</h2>
         
@@ -68,16 +68,16 @@
         </div>
 
         <!-- Mensajes flash -->
-        {{-- @if (session('success'))
+        @if (session('success'))
             <p class="alert-success">{{ session('success') }}</p>
-        @endif --}}
+        @endif
 
         @if (session('error'))
             <p class="alert-error-uspas">{{ session('error') }}</p>
         @endif
 
     </div>
-</div>
+
 @endsection
 
 @push('scripts')

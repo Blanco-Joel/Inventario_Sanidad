@@ -10,7 +10,7 @@ async function inicio () {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
     hideLoader();
-    currentLimit = 10;
+    currentLimit = 5;
     paginaActual = 0;
     allData = window.USERDATA;
 
@@ -21,15 +21,11 @@ async function inicio () {
         }
     );
 
-    document.getElementsByName("regs").forEach(
-        radio => {
-            radio.addEventListener("change", event => {
-                currentLimit = parseInt(event.target.value);
-                paginaActual = 0;
-                renderTable(currentLimit);
-            });
-        }
-    );
+    document.getElementById("regsPorPagina").addEventListener("change", event => {
+        currentLimit = parseInt(event.target.value);
+        paginaActual = 0;
+        renderTable(currentLimit);
+    });
 
     renderTable(currentLimit);
 }
@@ -138,12 +134,9 @@ function crearDataLabel(td,label) {
 }
 
 function renderPaginationButtons(total, limit) {
-    let paginacion = document.getElementById("paginacion");
-    if (!paginacion) {
-        paginacion = document.createElement("div");
-        paginacion.id = "paginacion";
-        document.querySelector("#tab2").appendChild(paginacion);
-    }
+    let paginacion = document.querySelector(".pagination-buttons");
+    if (!paginacion) return;
+
     while (paginacion.firstChild) paginacion.removeChild(paginacion.firstChild);
 
     let totalPaginas = Math.ceil(total / limit);
@@ -160,6 +153,7 @@ function renderPaginationButtons(total, limit) {
         paginacion.appendChild(btn);
     }
 }
+
 
 function aplicarFiltro() {
     let input = document.getElementById("buscarId").value.toLowerCase();
