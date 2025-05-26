@@ -15,7 +15,6 @@ class User extends Model
     protected $keyType = 'int';
     protected $casts = [
         'created_at' => 'datetime',
-        'last_modified' => 'date',
     ];
     protected $fillable = [
         'first_name',

@@ -64,6 +64,7 @@ Route::middleware('check.admin.cookie')->group(function () {
     Route::prefix('historical')->group(function ()
     {
         Route::get('/modificationsHistoricalData', [HistoricalManagementController::class, 'modificationsHistoricalData']);
+        Route::get('/historicalData', [HistoricalManagementController::class, 'historicalData']);
     
         Route::get('/historicalSubmenu', [HistoricalManagementController::class, 'showHistoricalSubmenu'])->name('historical.historicalSubmenu');
         Route::get('/historialModificaciones', [HistoricalManagementController::class, 'showModificationsHistorical'])->name('historical.modificationsHistorical');
@@ -96,7 +97,8 @@ Route::middleware('check.admin.cookie')->group(function () {
         Route::get('/dashboard', [MaterialManagementController::class, 'dashboard'])->name('materials.dashboard');
         /* GESTION DE MATERIALES */
         //Route::get('/gestionMateriales', [MaterialManagementController::class, 'showGestionMateriales'])->name('gestionMateriales');
-    
+        Route::get('/materialsData',  [MaterialManagementController::class, 'materialsData']); 
+
         Route::get('/create', [MaterialManagementController::class, 'createForm'])->name('materials.create');
     
         Route::post('/basket/create', [MaterialManagementController::class, 'addToCreationBasket'])->name('materials.basket.create');

@@ -242,9 +242,12 @@ class MaterialManagementController extends Controller
 
     public function edit()
     {
-        return view('materials.edit')->with('materials', Material::simplePaginate(5));
+        return view('materials.edit');
     }
-
+    public function materialsData()
+    {
+        return response()->json(Material::All());
+    }
     public function update(Material $material, Request $request)
     {
         $validated = $request->validate([
