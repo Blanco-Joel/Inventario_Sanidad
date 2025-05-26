@@ -3,7 +3,7 @@
 @section('title', 'Bienvenido')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/style_welcome.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 @endpush
 
 @section('content')
@@ -19,7 +19,7 @@
 
                 {{-- Mensajes de error --}}
                 @if ($errors->any())
-                    <div class="alert-error">
+                    <div class="alert-error-uspas">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>

@@ -1,0 +1,65 @@
+/* === Layout general de la página === */
+.activity-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* === Formulario === */
+form {
+    background-color: var(--primary-500);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+form label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-100);
+}
+
+textarea {
+    background-color: var(--bg-100);
+    resize: vertical;
+}
+
+input[type="datetime-local"] {
+    padding: 0.6rem;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--bg-300);
+    font-size: 1rem;
+}
+
+table input[type="number"]{
+    padding: 0.5rem;
+    width: 60px;
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-100);
+    border: 1px solid var(--bg-300);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+table input[list] {
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--bg-300);
+    font-size: 0.95rem;
+}
+
+table input[type="number"]:focus,
+table input[list]:focus {
+    outline: none;
+    border-color: var(--primary-400);
+}
+
+#addButton {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}

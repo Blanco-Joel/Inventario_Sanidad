@@ -13,21 +13,17 @@ use Illuminate\Support\Facades\Storage as StorageFacade;
 class MaterialManagementController extends Controller
 {
     /**
-     * Muestra la vista principal de gestión de materiales.
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function dashboard()
-    {
-        return view('materials.dashboard');
-    }
-    
-    /**
      * Muestra la vista para dar de alta (agregar) nuevos materiales.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function createForm()
     {
         return view('materials.create');
+    }
+
+    public function edit()
+    {
+        return view('materials.edit')->with('materials', Material::simplePaginate(5));
     }
 
     /**
@@ -181,16 +177,6 @@ class MaterialManagementController extends Controller
             ]);
         }
     }
-    
-    /**
-     * Muestra la vista para dar de baja (eliminar) materiales.
-     * @return mixed|\Illuminate\Contracts\View\View
-     */
-    public function deleteForm()
-    {
-        //return view('materials.delete')->with('materials', Material::all())->paginate(10);
-        return view('materials.delete')->with('materials', Material::simplePaginate(5));
-    }
 
     /**
      * Agrega un material a la cesta para dar de baja, almacenando su ID.
@@ -240,14 +226,6 @@ class MaterialManagementController extends Controller
         }
     }
 
-    public function edit()
-    {
-        return view('materials.edit');
-    }
-    public function materialsData()
-    {
-        return response()->json(Material::All());
-    }
     public function update(Material $material, Request $request)
     {
         $validated = $request->validate([

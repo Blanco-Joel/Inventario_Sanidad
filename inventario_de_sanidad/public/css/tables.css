@@ -1,3 +1,54 @@
+input[type="text"], form select {
+    padding: 0.5rem 1rem;
+    width: 300px;
+}
+
+.search-form {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.dropdown-container {
+    position: relative;
+}
+
+#filterToggle {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--primary-300);
+    background-color: var(--bg-200);
+    cursor: pointer;
+}
+
+.filter-options {
+    width: 175px;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 35px;
+    background-color: var(--bg-200);
+    border: 1px solid var(--primary-300);
+    padding: 0.5rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 10;
+}
+
+.filter-options label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
 .table-wrapper {
     overflow-x: auto;
     border-radius: var(--border-radius-md);
@@ -51,33 +102,30 @@
     overflow: auto;
 }
 
-/* Estilo de scroll personalizado */
+/* Estilo de scroll */
 .custom-scroll {
     scrollbar-width: thin;
     scrollbar-color: #a0aec0 transparent;
     overflow: auto;
 }
-
 /* Webkit: Chrome, Edge, Safari */
 .custom-scroll::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
-
 .custom-scroll::-webkit-scrollbar-track {
     background: transparent;
 }
-
 .custom-scroll::-webkit-scrollbar-thumb {
-    background-color: #a0aec0;   /* Gris elegante */
+    background-color: #a0aec0;
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: content-box;
 }
-
 .custom-scroll::-webkit-scrollbar-thumb:hover {
     background-color: #718096;  /* Más oscuro al pasar el mouse */
 }
+
 
 /* Imagen dentro de celda */
 .table .cell-img {
@@ -87,11 +135,60 @@
     border-radius: 4px;
 }
 
+
 /* Columnas amplias: ej. descripción */
 .table td.wide, .table th.wide {
     width: 40%;
 }
 
+
+/* Estilos de paginación */
+.pagination-controls {
+    border-top: 2px solid var(--primary-200);
+    background-color: var(--primary-400);
+    color: var(--text-300);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+}
+
+.pagination-select select {
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-100);
+    cursor: pointer;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.pagination-buttons button {
+    padding: 0.4rem 0.75rem;
+    background-color: var(--primary-400);
+    color: var(--text-300);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.pagination-buttons button:hover {
+    background-color: var(--primary-300);
+}
+
+.pagination-buttons button.active {
+    background-color: var(--primary-500);
+    font-weight: bold;
+    box-shadow: inset 0 0 0 2px var(--bg-100);
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
     .table-wrapper {
         box-shadow: none;

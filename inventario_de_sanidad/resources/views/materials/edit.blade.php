@@ -4,6 +4,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+<<<<<<< HEAD
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
     
@@ -14,6 +15,13 @@
     <div class="spinner"></div>
 </div> 
 <div class="container">
+=======
+    <link rel="stylesheet" href="{{ asset('css/editMaterial.css') }}">
+@endpush
+
+@section('content')
+
+>>>>>>> c56680498bdc42b6999a00abfabfd2401a49f661
     <div class="content-wrapper">
         <h2>Edición de materiales</h2>
         <form>
@@ -85,9 +93,9 @@
         </div>
 
         <!-- Mensajes flash -->
-        {{-- @if (session('success'))
+        @if (session('success'))
             <p class="alert-success">{{ session('success') }}</p>
-        @endif --}}
+        @endif
 
         @if (session('error'))
             <p class="alert-error-uspas">{{ session('error') }}</p>

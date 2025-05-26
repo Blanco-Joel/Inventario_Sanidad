@@ -8,7 +8,7 @@
     <title> Login </title>
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style_login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 <body>
     <div class="bg-login">
