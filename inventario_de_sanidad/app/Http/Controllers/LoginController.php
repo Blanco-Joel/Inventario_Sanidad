@@ -45,6 +45,8 @@ class LoginController extends Controller
         Cookie::queue(Cookie::forget('USERPASS'));
         Cookie::queue(Cookie::forget('NAME'));
         Cookie::queue(Cookie::forget('TYPE'));
+        Cookie::queue(Cookie::forget('materialsAddBasket'));
+        Cookie::queue(Cookie::forget('materialsBasket'));
         StorageFacade::disk('public')->deleteDirectory('temp');
         return redirect()->route('login.form');
     }

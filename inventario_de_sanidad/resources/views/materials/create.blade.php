@@ -19,7 +19,7 @@
     </div>
 
     {{-- Formulario para agregar a la cesta --}}
-    <form action="{{ route('materials.basket.create') }}" method="POST" enctype="multipart/form-data" class="material-form">
+    <form action="{{ route('materials.store') }}" method="POST" enctype="multipart/form-data" class="material-form" name="form">
         @csrf
 
         <div class="form-group">
@@ -90,13 +90,11 @@
         </div>
 
         <div class="form-actions">
-            <input type="submit" value="Añadir" class="btn btn-primary">
+            <input type="button" value="Añadir" class="btn btn-primary" name="add">
         </div>
-    </form>
 
-    {{-- Confirmar alta --}}
-    <form action="{{ route('materials.store') }}" method="POST" class="material-form">
-        @csrf
+        <input type="hidden" name="materialsAddBasket" id="materialsAddBasket">
+
         <input type="submit" value="Alta" class="btn btn-success">
     </form>
 
@@ -116,7 +114,10 @@
     @endphp
 
     @if ($basket)
-        <div class="basket-section hidden">
+        
+    @endif
+
+    <div class="basket-section hidden">
             <h4 class="basket-title">Cesta de Materiales</h4>
             <div class="table-wrapper">
                 <table class="table">
@@ -124,15 +125,19 @@
                         <tr>
                             <th rowspan="2">Nombre</th>
                             <th class="wide" rowspan="2">Descripción</th>
+                            <th rowspan="2">Localización</th>
                             <th colspan="5">Uso</th>
                             <th colspan="5">Reserva</th>
                         </tr>
                         <tr>
                             <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Cajón</th>
-                            <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Imagen</th>
+                            <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th><th rowspan="2">Imagen</th><th></th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                        /*
+                        
                         @foreach ($basket as $item)
                             <tr>
                                 <td>{{ $item['name'] }}</td>
@@ -149,11 +154,12 @@
                                 <td><img class="cell-img" src="{{ asset('storage/' . ($item['image_temp'] ?? 'no_image.jpg')) }}" class="basket-img" alt=""></td>
                             </tr>
                         @endforeach
+                        */
+                        @endphp
                     </tbody>
                 </table>
             </div>
         </div>
-    @endif
 </div>
 @endsection
 
@@ -189,4 +195,6 @@
             });
         });
     </script>
+
+    <script src="{{ asset('js/material.js') }}"></script>
 @endpush

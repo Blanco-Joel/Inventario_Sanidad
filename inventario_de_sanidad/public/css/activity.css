@@ -30,6 +30,8 @@ textarea {
 input[type="datetime-local"] {
     padding: 0.6rem;
     border-radius: var(--border-radius-md);
+    background-color: var(--bg-100);
+    color: var(--text-200);
     border: 1px solid var(--bg-300);
     font-size: 1rem;
 }
@@ -48,6 +50,7 @@ table input[list] {
     padding: 0.5rem;
     width: 100%;
     border-radius: var(--border-radius-md);
+    background-color: var(--bg-100);
     border: 1px solid var(--bg-300);
     font-size: 0.95rem;
 }

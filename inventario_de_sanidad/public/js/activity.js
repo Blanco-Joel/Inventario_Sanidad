@@ -8,20 +8,24 @@ function inicio() {
     let addButton = document.getElementById("addButton");
     let deleteButtons = document.getElementsByClassName("delete");
 
-    if (document.addEventListener) {
-        addButton.addEventListener("click", addMaterialDataCookie);
-        for (let i = 0; i < deleteButtons.length; i++) {
-            deleteButtons[i].addEventListener("click", deleteMaterialDataCookie);
-        }
-    } else if (document.attachEvent) {
-        addButton.attachEvent("onclick", addMaterialDataCookie);
-        for (let i = 0; i < deleteButtons.length; i++) {
-            deleteButtons[i].attachEvent("onclick", deleteMaterialDataCookie);
+    if(addButton){
+        if (document.addEventListener) {
+            addButton.addEventListener("click", addMaterialDataCookie);
+            for (let i = 0; i < deleteButtons.length; i++) {
+                deleteButtons[i].addEventListener("click", deleteMaterialDataCookie);
+            }
+        } else if (document.attachEvent) {
+            addButton.attachEvent("onclick", addMaterialDataCookie);
+            for (let i = 0; i < deleteButtons.length; i++) {
+                deleteButtons[i].attachEvent("onclick", deleteMaterialDataCookie);
+            }
         }
     }
 
     // Actualizar la tabla de materiales
-    updateTable();
+    if (document.getElementById("materialsBasketInput")) {
+        updateTable();
+    }
 }
 
 /* Función para obtener el valor de la cookie */
@@ -174,9 +178,9 @@ function deleteMaterialDataCookie(event) {
     let deleted = false;
     let index = basket.length - 1;
 
-    while (!deleted || index >= 0) {
+    while (!deleted && index >= 0) {
         if (basket[index].material_id == materialId) {
-            basket.splice(i, 1);
+            basket.splice(index, 1);
             deleted = true;
         }
         index -= 1;

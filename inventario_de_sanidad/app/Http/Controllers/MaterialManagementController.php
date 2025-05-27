@@ -27,91 +27,19 @@ class MaterialManagementController extends Controller
     }
 
     /**
-     * Agrega un nuevo material a la cesta para dar de alta.
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function addToCreationBasket(Request $request)
-    {
-        $validated = $request->validate([
-            'name'                  => 'required',
-            'description'           => 'required',
-            'storage'               => 'required',
-            'units_use'             => 'required|integer|min:1',
-            'min_units_use'         => 'required|integer|min:1',
-            'cabinet_use'           => 'required|integer|min:1',
-            'shelf_use'             => 'required|integer|min:1',
-            'drawer'                => 'required|integer|min:1',
-            'units_reserve'         => 'required|integer|min:1',
-            'min_units_reserve'     => 'required|integer|min:1',
-            'cabinet_reserve'       => 'required|string',
-            'shelf_reserve'         => 'required|integer|min:1',
-            'image'                 => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ], [
-            'name.required'               => 'Debe introducir el nombre del material.',
-            'description.required'        => 'Debe introducir la descripción del material.',
-            'storage.required'            => 'Debe introducir la localización.',
-            'units_use.required'          => 'Debe introducir la cantidad para uso.',
-            'min_units_use.required'      => 'Debe introducir la cantidad mínima para uso.',
-            'cabinet_use.required'        => 'Debe introducir el armario para uso.',
-            'shelf_use.required'          => 'Debe introducir la balda para uso.',
-            'drawer.required'             => 'Debe introducir el cajón para uso.',
-            'units_reserve.required'      => 'Debe introducir la cantidad para reserva.',
-            'min_units_reserve.required'  => 'Debe introducir la cantidad mínima para reserva.',
-            'cabinet_reserve.required'    => 'Debe introducir el armario para reserva.',
-            'shelf_reserve.required'      => 'Debe introducir la balda para reserva.',
-            'image.image'                 => 'El fichero debe ser una imagen.',
-            'image.mimes'                 => 'Sólo se aceptan imágenes jpeg, png, jpg, gif o svg.',
-            'image.max'                   => 'La imagen no puede superar 2 MB.',
-        ]);
-
-        $tempPath = null;
-
-        if ($request->hasFile('image')) {
-            $tempPath = $request->file('image')->store('temp', 'public');
-        }
-
-        $basket = Cookie::get('materialsAddBasket', '[]');
-        $basket = json_decode($basket, true);
-
-        if (!is_array($basket)) {
-            $basket = [];
-        }
-
-        $basket[] = [
-            'name'          => $validated['name'],
-            'description'   => $validated['description'],
-            'storage'       => $validated['storage'],
-            'image_temp'    => $tempPath,
-            'use' => [
-                'units'         => $validated['units_use'],
-                'min_units'     => $validated['min_units_use'],
-                'cabinet'       => $validated['cabinet_use'],
-                'shelf'         => $validated['shelf_use'],
-                'drawer'        => $validated['drawer']
-            ],
-            'reserve' => [
-                'units'         => $validated['units_reserve'],
-                'min_units'     => $validated['min_units_reserve'],
-                'cabinet'       => $validated['cabinet_reserve'],
-                'shelf'         => $validated['shelf_reserve'],
-                'drawer'        => null
-            ],
-        ];
-
-        Cookie::queue('materialsAddBasket', json_encode($basket), 1440);
-
-        return back()->with('success', 'Material agregado a la cesta.');
-    }
-
-    /**
      * Da de alta los materiales que se han almacenado temporalmente en la cookie 
      * 'materialsAddBasket'. Si ocurre un error no se da de alta ningún material.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function storeBatch()
+    public function storeBatch(Request $request)
     {
-        $basket = json_decode(Cookie::get('materialsAddBasket', '[]'), true);
+        $validated = $request->validate([
+            'materialsAddBasket' => 'required'
+        ], [
+            'materialsAddBasket.required' => 'Debe introducir datos a la cesta'
+        ]);
+
+        $basket = json_decode($validated['materialsAddBasket'], true) ?? [];
     
         if (empty($basket) || !is_array($basket)) {
             return back()->with('error', 'No hay materiales en la cesta para dar de alta.');
@@ -268,5 +196,12 @@ class MaterialManagementController extends Controller
 
             return back()->with('error', 'Error al editar el material: ' . $e->getMessage());
         }
+    }
+
+    public function uploadTemp(Request $request)
+    {
+        $request->validate(['image'=>'required|image|max:2048']);
+        $tempPath = $request->file('image')->store('temp','public');
+        return response()->json(['tempPath'=>$tempPath ?? null]);
     }
 }
