@@ -32,14 +32,13 @@ class HistoricalManagementController extends Controller
     {
         // Consulta base
 
-
         // Vista dinámica: historical.use o historical.reserve
         return view("historical.$type");
     }
 
     public function historicalData()
     {
-
+        $type = explode("=",url()->full())[1];
         $materials = DB::table('storages')
             ->join('materials', 'storages.material_id', '=', 'materials.material_id')
             ->select(
@@ -52,7 +51,7 @@ class HistoricalManagementController extends Controller
                 'storages.units',
                 'storages.min_units'
             )
-            ->where('storages.storage_type', explode("=",url()->path()))
+            ->where('storages.storage_type',$type )
             ->get();
         return response()->json($materials);
 

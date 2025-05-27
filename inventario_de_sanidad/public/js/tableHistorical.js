@@ -73,7 +73,46 @@ function crearDataLabel(td,label) {
     td.setAttribute("data-label",label);
     return td;
 }
+function crearLi(label, valor) {
+    const li = document.createElement("li");
+    const strong = document.createElement("strong");
+    strong.textContent = `${label}: `;
+    li.appendChild(strong);
+    li.appendChild(document.createTextNode(valor ?? "-"));
+    return li;
+}
 
+function crearMaterialCard(material) {
+    const card = document.createElement("div");
+    card.className = "material-card";
+
+    const img = document.createElement("img");
+    img.src = material.image_path ? `/storage/${material.image_path}` : "/storage/no_image.jpg";
+    img.alt = material.name || "Sin nombre";
+    card.appendChild(img);
+
+    const body = document.createElement("div");
+    body.className = "material-card-body";
+
+    const h5 = document.createElement("h5");
+    h5.textContent = material.name ?? "-";
+    body.appendChild(h5);
+
+    const p = document.createElement("p");
+    p.textContent = material.description ?? "-";
+    body.appendChild(p);
+
+    const ul = document.createElement("ul");
+    ul.appendChild(crearLi("Armario", material.cabinet));
+    ul.appendChild(crearLi("Balda", material.shelf));
+    ul.appendChild(crearLi("Unidades", material.units));
+    ul.appendChild(crearLi("Mínimo", material.min_units));
+
+    body.appendChild(ul);
+    card.appendChild(body);
+
+    return card;
+}
 function aplicarFiltro() {
     let input = document.getElementById("buscarId").value.trim().toLowerCase();
     if (input === "") return allData;

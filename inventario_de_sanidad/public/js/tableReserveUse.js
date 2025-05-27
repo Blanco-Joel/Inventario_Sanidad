@@ -23,12 +23,10 @@ async function inicio() {
         radio.addEventListener("change", filtrarTabla);
     });
 
-    document.getElementsByName("regs").forEach(radio => {
-        radio.addEventListener("change", event => {
-            currentLimit = parseInt(event.target.value);
-            paginaActual = 0;
-            renderTable(currentLimit);
-        });
+    document.getElementById("regsPorPagina").addEventListener("change", event => {
+        currentLimit = parseInt(event.target.value);
+        paginaActual = 0;
+        renderTable(currentLimit);
     });
 
     renderTable(currentLimit);
@@ -50,14 +48,13 @@ function renderTable(limit) {
 
     datosPagina.forEach(item => {
         let tr = document.createElement("tr");
-        tr.appendChild(crearDataLabel((crearTD(item.first_name ?? "-")),"Nombre"));
-        tr.appendChild(crearDataLabel((crearTD(item.last_name ?? "-")),"Apellidos"));
-        tr.appendChild(crearDataLabel((crearTD(item.email ?? "-")),"Email"));
-        tr.appendChild(crearDataLabel((crearTD(item.user_type ?? "-")),"Tipo de usuario"));
-        tr.appendChild(crearDataLabel((crearTD(item.material_name ?? "-")),"Material"));
-        tr.appendChild(crearDataLabel((crearTD(item.units ?? "-")),"Unidades modificadas"));
-        tr.appendChild(crearDataLabel((crearTD(item.storage_type == "reserve" ? "reserva" : "uso")),"Tipo de almacenamiento"));
-        tr.appendChild(crearDataLabel((crearTD(item.action_datetime ?? "-")),"Fecha de modificación"));
+        tr.appendChild(crearDataLabel((crearTD(item.image_path ?? "No hay imagen")),"Imagen"));
+        tr.appendChild(crearDataLabel((crearTD(item.name ?? "-")),"Nombre"));
+        tr.appendChild(crearDataLabel((crearTD(item.description ?? "-")),"Descripción"));
+        tr.appendChild(crearDataLabel((crearTD(item.cabinet ?? "-")),"Armario"));
+        tr.appendChild(crearDataLabel((crearTD(item.shelf ?? "-")),"Balda"));
+        tr.appendChild(crearDataLabel((crearTD(item.units ?? "-")),"Unidades"));
+        tr.appendChild(crearDataLabel((crearTD(item.min_units ?? "-")),"Mínimo"));
         tbody.appendChild(tr);
 
     });
@@ -81,7 +78,7 @@ function aplicarFiltro() {
     if (input === "") return allData;
 
     let filtro = document.querySelector('input[name="filtro"]:checked');
-    let campos = ["first_name", "last_name", "email", "user_type", "action_datetime", "material_name","units","storage_type"];
+    let campos = ["name", "description", "cabinet", "shelf", "units", "min_units"];
     let campo = filtro ? campos[parseInt(filtro.value) - 1] : "name";
 
     return allData.filter(item => {
@@ -91,25 +88,53 @@ function aplicarFiltro() {
 }
 
 function renderPaginationButtons(total, limit) {
-    let paginacion = document.getElementById("paginacion");
-    if (!paginacion) return;
-
-    while (paginacion.firstChild) paginacion.removeChild(paginacion.firstChild);
-
-    let totalPaginas = Math.ceil(total / limit);
-    for (let i = 0; i < totalPaginas; i++) {
-        let btn = document.createElement("button");
-        btn.textContent = i + 1;
-        if (i === paginaActual) btn.classList.add("active");
-
+    let pagContainer = document.querySelector(".pagination-buttons");
+    if (!pagContainer) return;
+    pagContainer.innerHTML = "";
+  
+    let totalPages = Math.ceil(total / limit);
+    let startIdx = paginaActual * limit + 1;
+    let endIdx = Math.min((paginaActual + 1) * limit, total);
+  
+    // 1. Texto resumen
+    let summary = document.createElement("span");
+    summary.classList.add("pagination-summary");
+    summary.textContent = startIdx +  " – "+ endIdx+ " of "+ total;
+    pagContainer.appendChild(summary);
+  
+    // Helper para crear botón
+    let makeBtn = (text, targetPage, disabled) => {
+      let btn = document.createElement("button");
+      btn.textContent = text;
+      if (disabled) {
+        btn.disabled = true;
+      } else {
         btn.addEventListener("click", () => {
-            paginaActual = i;
-            renderTable(currentLimit);
+          paginaActual = targetPage;
+          renderTable(currentLimit);
         });
-
-        paginacion.appendChild(btn);
-    }
-}
+      }
+      return btn;
+    };
+  
+    // 2. Botones de navegación
+    // « Primero
+    pagContainer.appendChild(
+      makeBtn("«", 0, paginaActual === 0)
+    );
+    // ‹ Anterior
+    pagContainer.appendChild(
+      makeBtn("‹", paginaActual - 1, paginaActual === 0)
+    );
+    // › Siguiente
+    pagContainer.appendChild(
+      makeBtn("›", paginaActual + 1, paginaActual >= totalPages - 1)
+    );
+    // » Último
+    pagContainer.appendChild(
+      makeBtn("»", totalPages - 1, paginaActual >= totalPages - 1)
+    );
+  }
 function getEditUrl(id) {
     let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
     return isAdmin ? `/storages/update/${id}/edit` : `/storages/update/teacher/${id}/edit`;
