@@ -21,7 +21,7 @@
                         {{ $activity->created_at->format('d/m/Y H:i') }}  
                     </div>
                     <div class="">
-                        <p><strong>Descripción:</strong> {{ $activity->description }}</p>
+                        <p><strong>Descripción:</strong> {{ $activity->title }}</p>
 
                         @if($activity->materials->isEmpty())
                             <p><em>No se usaron materiales.</em></p>
@@ -68,7 +68,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('js/activity.js') }}" type="text/javascript"></script>
-@endpush

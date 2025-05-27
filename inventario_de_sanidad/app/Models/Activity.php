@@ -17,7 +17,7 @@ class Activity extends Model
         'created_at' => 'datetime',
     ];
     protected $fillable = [
-        'user_id', 'description', 'created_at',
+        'user_id', 'title', 'created_at',
     ];
 
     public function user()

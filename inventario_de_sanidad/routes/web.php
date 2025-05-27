@@ -110,19 +110,15 @@ Route::middleware('check.admin.cookie')->group(function () {
     
         Route::get('/create', [MaterialManagementController::class, 'createForm'])->name('materials.create');
     
-        Route::post('/basket/create', [MaterialManagementController::class, 'addToCreationBasket'])->name('materials.basket.create');
-    
         Route::post('/store', [MaterialManagementController::class, 'storeBatch'])->name('materials.store');
-    
-        Route::get('/delete', [MaterialManagementController::class, 'deleteForm'])->name('materials.delete');
-    
-        Route::post('/basket/delete', [MaterialManagementController::class, 'addToDeletionBasket'])->name('materials.basket.delete');
     
         Route::post('{material}/destroy', [MaterialManagementController::class, 'destroy'])->name('materials.destroy');
 
         Route::get('/edit', [MaterialManagementController::class, 'edit'])->name('materials.edit');
 
         Route::post('{material}/update', [MaterialManagementController::class, 'update'])->name('materials.update');
+
+        Route::post('/upload-temp', [MaterialManagementController::class,'uploadTemp'])->name('materials.uploadTemp');
     });
     
 });

@@ -30,7 +30,7 @@ class ActivityController extends Controller
             'materialsBasketInput.required' => 'Debe introducir datos a la cesta'
         ]);
     
-        $basket = json_decode($validated['materialsBasketInput'], true) ?: [];
+        $basket = json_decode($validated['materialsBasketInput'], true) ?? [];
 
         if (!is_array($basket)) {
             $basket = [];
@@ -42,7 +42,7 @@ class ActivityController extends Controller
             DB::transaction(function () use ($basket, $validated, $user_id) {
                 $activity = new Activity();
                 $activity->user_id = $user_id;
-                $activity->description = $validated['description'];
+                $activity->title = $validated['description'];
                 $activity->created_at = $validated['activity_datetime'];
                 $activity->save();
         
