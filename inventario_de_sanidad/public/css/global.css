@@ -76,6 +76,10 @@ body {
   color: var(--text-100);
 }
 
+html {
+  font-size: 1rem;
+}
+
 h1 {
     font-size: 2rem;
     font-weight: bold;
@@ -245,4 +249,40 @@ a {
 @keyframes fadeOut {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+
+
+/* Pantallas pequeñas (teléfonos en modo vertical) */
+@media (max-width: 480px) {
+  html {
+    font-size: 70%; /* 13.6px */
+  }
+}
+
+/* Pantallas medianas (teléfonos grandes y tablets en vertical) */
+@media (max-width: 768px) {
+  html {
+    font-size: 80%; /* 14.4px */
+  }
+}
+
+/* Tablets grandes o laptops pequeños */
+@media (min-width: 769px) and (max-width: 1024px) {
+  html {
+    font-size: 90%; /* 15.2px */
+  }
+}
+
+/* Escritorios normales (default ya es 100%) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  html {
+    font-size: 100%; /* 16px */
+  }
+}
+
+/* Pantallas muy grandes (4K o zoom alto) */
+@media (min-width: 1441px) {
+  html {
+    font-size: 112.5%; /* 18px */
+  }
 }

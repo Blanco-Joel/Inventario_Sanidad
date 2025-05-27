@@ -23,6 +23,8 @@
         <p>{{ session('mensaje') }}</p>
     @endif
 
+    <h1>Gestion de usuarios</h1>
+
     <form class="search-form">
 
         <!-- Buscador -->

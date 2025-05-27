@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Carbon\Carbon;
-
 class UsersManagementController extends Controller
 {
     public function showCreateUser()
@@ -29,7 +28,7 @@ class UsersManagementController extends Controller
 
     public function usersManagementData()
     {
-        return response()->json(User::orderBy('created_at')->get());
+        return response()->json(User::orderBy('created_at','desc')->get());
     } 
 
     public function altaUsers(Request $request)
@@ -49,17 +48,17 @@ class UsersManagementController extends Controller
             'apellidos.required' => 'Debe introducir los apellidos.',
             'email.required' => 'Debe introducir el email.'
         ]);
+        User::create([
+           'first_name'           =>  $credentials["nombre"],
+           'last_name'            =>  $credentials["apellidos"],
+           'email'                =>  $credentials["email"],
+           'password'             =>  $password,
+           'hashed_password'      =>  Hash::make($password),
+           'user_type'            =>  $request->input('user_type'),
+           'first_log'            =>  false,
+           'created_at'           =>  Carbon::now('Europe/Madrid'),
+        ]);
 
-        $usuario = new User();
-        $usuario->first_name           =  $credentials["nombre"];
-        $usuario->last_name            =  $credentials["apellidos"];
-        $usuario->email                =  $credentials["email"];
-        $usuario->password             =  $password;
-        $usuario->hashed_password      =  Hash::make($password);
-        $usuario->user_type            =  $request->input('user_type');
-        $usuario->first_log            =  false;
-        $usuario->created_at           =  Carbon::now('Europe/Madrid');
-        $usuario->save(); 
         
         return back()->with([
             'mensaje' => ' Usuario '.  $credentials["nombre"]. ' ' .  $credentials["apellidos"]. ' creado con exito.',

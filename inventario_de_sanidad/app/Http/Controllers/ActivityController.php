@@ -71,7 +71,10 @@ class ActivityController extends Controller
     public function historyView()
     {
         $user = User::find(Cookie::get('USERPASS'));
-        $activities = $user->activities()->with('materials')->get();
+        $activities = $user->activities()
+            ->with('materials')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('activities.history')->with('activities', $activities);
     }
 }

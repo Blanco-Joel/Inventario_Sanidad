@@ -166,10 +166,10 @@
         <header class="header">
             <div class="header-right">
                 <!-- DarkMode Toggle -->
-                <button class="btn btn-primary btn-notifications" id="theme-switch" type="button">
+                {{-- <button class="btn btn-primary btn-notifications" id="theme-switch" type="button">
                     <i class="fa-solid fa-sun"></i>
                     <i class="fa-solid fa-moon"></i>
-                </button>
+                </button> --}}
 
                 <!-- Notificaciones de alerta -->
                 @php
@@ -190,6 +190,8 @@
                 @endphp
 
                 <!-- Notificaciones -->
+
+                @if(Cookie::get('TYPE') === 'admin')
                 <div>
                     <div class="notifications-alert">
                         <button id="btn-notifications" class="btn btn-primary btn-notifications">
@@ -212,6 +214,7 @@
                         @endif
                     </div>
                 </div>
+                @endif
 
                 <!-- Contenedor del usuario -->
                 <div class="user-dropdown">
@@ -222,7 +225,7 @@
                     </div>
 
                     <!-- Logout oculto por defecto -->
-                    <div class="logout" id="logout-section" style="display: none;">
+                    <div class="logout fade-in" id="logout-section" style="display: none;">
                         <div class="user-details">
                             <p class="user-name">{{ Cookie::get('NAME') }}</p>
                             <p class="user-email">{{ Cookie::get('EMAIL') }}</p>

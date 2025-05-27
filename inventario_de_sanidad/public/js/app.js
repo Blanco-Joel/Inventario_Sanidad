@@ -61,6 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Inicializa el botón de notificaciones para mostrar/ocultar la lista
     function initNotifications() {
+        if (!btnNotifications || !notificationsList) return;
+        
         // Al hacer click en el botón de notificaciones:
         btnNotifications.addEventListener("click", (e) => {
             e.stopPropagation();
