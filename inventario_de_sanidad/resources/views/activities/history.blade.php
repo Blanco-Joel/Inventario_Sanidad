@@ -3,31 +3,27 @@
 @section('title', 'Historial de actividades')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/activityHistory.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
 @endpush
 
 @section('content')
     <div class="">
-        <h1>Historial de actividades</h1>
-
-        <div class="">
-
-            <h2>Mis Actividades</h2>
-
+        <h1 class="activities-title">Historial de actividades</h1>
+        <div class="activities-section">
             @forelse($activities as $activity)
-                <div class="">
-                    <div class="">
+                <div class="activity-card">
+                    <div class="activity-header">
                         {{ $activity->created_at->format('d/m/Y H:i') }}  
                     </div>
                     <div class="">
-                        <p><strong>Descripción:</strong> {{ $activity->description }}</p>
+                        <p><strong>Descripción:</strong> {{ $activity->title }}</p>
 
                         @if($activity->materials->isEmpty())
                             <p><em>No se usaron materiales.</em></p>
                         @else
                             <div class="table-wrapper">
-                                <table class="table">
+                                <table class="table activity-table">
                                     <thead>
                                     <tr>
                                         <th>Material</th>

@@ -269,7 +269,7 @@ html, body {
 /* Contenido principal que ocupa el resto */
 .main-content {
     flex: 1 1 auto;
-    padding: 2rem;
+    padding: 1rem;
     background-color: var(--primary-600);
 
     display: flex;

@@ -42,7 +42,7 @@ class ActivityController extends Controller
             DB::transaction(function () use ($basket, $validated, $user_id) {
                 $activity = new Activity();
                 $activity->user_id = $user_id;
-                $activity->description = $validated['description'];
+                $activity->title = $validated['description'];
                 $activity->created_at = $validated['activity_datetime'];
                 $activity->save();
         
@@ -71,7 +71,10 @@ class ActivityController extends Controller
     public function historyView()
     {
         $user = User::find(Cookie::get('USERPASS'));
-        $activities = $user->activities()->with('materials')->get();
+        $activities = $user->activities()
+            ->with('materials')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('activities.history')->with('activities', $activities);
     }
 }
