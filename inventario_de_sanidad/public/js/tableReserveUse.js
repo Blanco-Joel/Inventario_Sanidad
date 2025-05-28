@@ -27,10 +27,12 @@ async function inicio() {
         currentLimit = parseInt(event.target.value);
         paginaActual = 0;
         renderTable(currentLimit);
+        renderTableCards(currentLimit);
+
     });
 
     renderTable(currentLimit);
-        renderTableCards(currentLimit);
+    renderTableCards(currentLimit);
 
 }
 
