@@ -4,7 +4,7 @@ else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
 var allData = [];
-var currentLimit = 10;
+var currentLimit = 5;
 var paginaActual = 0;   
 
 async function inicio() {
@@ -30,13 +30,71 @@ async function inicio() {
     });
 
     renderTable(currentLimit);
+        renderTableCards(currentLimit);
+
 }
 
 function filtrarTabla() {
     paginaActual = 0;
     renderTable(currentLimit);
+    renderTableCards(currentLimit);
 }
+function renderTableCards(limit) {
+    let container = document.querySelector("#cardView");
+    if (!container) return;
 
+    container.innerHTML = ""; // Limpia las tarjetas actuales
+
+    let filtrados = aplicarFiltro();
+    let inicio = paginaActual * limit;
+    let fin = inicio + limit;
+    let datosPagina = filtrados.slice(inicio, fin);
+
+    datosPagina.forEach(material => {
+        container.appendChild(crearMaterialCard(material));
+    });
+
+    renderPaginationButtons(filtrados.length, limit);
+}
+function crearMaterialCard(material) {
+    let card = document.createElement("div");
+    card.className = "material-card";
+
+    let img = document.createElement("img");
+    img.src = material.image_path ? `/storage/${material.image_path}` : "/storage/no_image.jpg";
+    img.alt = material.name ?? "Sin nombre";
+    card.appendChild(img);
+
+    let body = document.createElement("div");
+    body.className = "material-card-body";
+
+    let h5 = document.createElement("h5");
+    h5.textContent = material.name ?? "-";
+    body.appendChild(h5);
+
+    let p = document.createElement("p");
+    p.textContent = material.description ?? "-";
+    body.appendChild(p);
+
+    let ul = document.createElement("ul");
+    ul.appendChild(crearLi("Armario", material.cabinet));
+    ul.appendChild(crearLi("Balda", material.shelf));
+    ul.appendChild(crearLi("Unidades", material.units));
+    ul.appendChild(crearLi("Mínimo", material.min_units));
+    body.appendChild(ul);
+
+    card.appendChild(body);
+    return card;
+
+  }
+  function crearLi(label, valor) {
+    let li = document.createElement("li");
+    let strong = document.createElement("strong");
+    strong.textContent = `${label}: `;
+    li.appendChild(strong);
+    li.appendChild(document.createTextNode(valor ?? "-"));
+    return li;
+}
 function renderTable(limit) {
     let tbody = document.querySelector("table tbody");
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
@@ -81,7 +139,7 @@ function aplicarFiltro() {
     let campos = ["name", "description", "cabinet", "shelf", "units", "min_units"];
     let campo = filtro ? campos[parseInt(filtro.value) - 1] : "name";
 
-    return allData.filter(item => {
+        return allData.filter(item => {
         let valor = item[campo];
         return valor && valor.toString().toLowerCase().includes(input);
     });
@@ -112,6 +170,7 @@ function renderPaginationButtons(total, limit) {
         btn.addEventListener("click", () => {
           paginaActual = targetPage;
           renderTable(currentLimit);
+          renderTableCards(currentLimit);
         });
       }
       return btn;

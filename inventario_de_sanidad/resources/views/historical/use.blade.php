@@ -15,7 +15,7 @@
     <div class="spinner"></div>
 </div> 
 <div class="historical-container">
-    <h1 class="historical-title">Materiales en uso</h1>
+    <h1>Materiales en Uso</h1>
     <form class="search-form">
         <!-- Buscador -->
         <div class="search-container">
@@ -29,7 +29,6 @@
                     <label><input type="radio" name="filtro" value="4">Balda</label>
                     <label><input type="radio" name="filtro" value="5">Unidades</label>
                     <label><input type="radio" name="filtro" value="6">Mínimo</label>
-                    <label><input type="radio" name="filtro" value="7">Fecha de modificación</label>
                 </div>
             </div>
         </div>
@@ -40,26 +39,8 @@
                 <button id="tableViewBtn" class="btn btn-outline btn-notifications"><i class="fa-solid fa-table"></i> </button>
             </div>
         </div>
-
-        <div id="cardView" class="card-grid">
-            <?php
-            // @foreach($materials as $material)
-            //     <div class="material-card">
-            //         <img src="{{ asset($material->image_path ?? 'storage/no_image.jpg') }}" alt="{{ $material->name }}">
-            //         <div class="material-card-body">
-            //             <h5>{{ $material->name }}</h5>
-            //             <p>{{ $material->description }}</p>
-            //             <ul>
-            //                 <li><strong>Armario:</strong> {{ $material->cabinet }}</li>
-            //                 <li><strong>Balda:</strong> {{ $material->shelf }}</li>
-            //                 <li><strong>Unidades:</strong> {{ $material->units }}</li>
-            //                 <li><strong>Mínimo:</strong> {{ $material->min_units }}</li>
-            //             </ul>
-            //         </div>
-            //     </div>
-            // @endforeach
-            ?>
-        </div>
+<div id="cardView"  class="card-grid"></div>
+       
 
         <div id="tableView" class="table-wrapper" style="display: none;">
             <table class="table">
@@ -90,7 +71,8 @@
                     ?>
                 </tbody>
             </table>
-            <div id="paginacion" class="pagination-controls">
+        </div>
+        <div id="paginacion" class="pagination-controls">
             <div class="pagination-select">
                 <label for="regsPorPagina"></label>
                 <select id="regsPorPagina">
@@ -104,8 +86,7 @@
             <div class="pagination-buttons">
                 <!-- Botones de paginación se insertarán aquí -->
             </div>
-        </div>
-        </div>
+
 </div>
 @endsection
 
@@ -126,7 +107,6 @@
         });
     </script>
 <script>
-    
 document.addEventListener('DOMContentLoaded', () => {
     const cardViewBtn = document.getElementById('cardViewBtn');
     const tableViewBtn = document.getElementById('tableViewBtn');
@@ -159,26 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Filtro en tiempo real
-    searchInput.addEventListener('input', () => {
-        const filter = searchInput.value.toLowerCase();
 
-        // Filtrar tarjetas
-        const cards = cardView.querySelectorAll('.material-card');
-        cards.forEach(card => {
-            const name = card.querySelector('h5').textContent.toLowerCase();
-            card.style.display = name.includes(filter) ? '' : 'none';
-        });
-
-        // Filtrar filas tabla
-        const rows = tableView.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            const name = row.cells[1].textContent.toLowerCase();
-            row.style.display = name.includes(filter) ? '' : 'none';
-        });
-    });
 
     activateCardView();
-
 });
 </script>
     <script src="{{ asset('js/historicalFunctions.js') }}"></script>

@@ -39,22 +39,8 @@
                 <button id="tableViewBtn" class="btn btn-outline btn-notifications"><i class="fa-solid fa-table"></i> </button>
             </div>
         </div>
-
-        <div id="cardView" class="card-grid">
-           
-               <div class="material-card">
-                   <div class="material-card-body">
-                       
-                       <ul>
-                           <li><strong>Armario:</strong> </li>
-                           <li><strong>Balda:</strong> </li>
-                           <li><strong>Unidades:</strong> </li>
-                           <li><strong>Mínimo:</strong> </li>
-                       </ul>
-                   </div>
-                 </div>
-            
-        </div>
+<div id="cardView"  class="card-grid"></div>
+       
 
         <div id="tableView" class="table-wrapper" style="display: none;">
             <table class="table">
