@@ -14,7 +14,7 @@ class User extends Model
     public $incrementing = true;
     protected $keyType = 'int';
     protected $casts = [
-        'created_at' => 'datetime',
+        'created_at' => 'datetime:Y-m-d H:i:s',
     ];
     protected $fillable = [
         'first_name',

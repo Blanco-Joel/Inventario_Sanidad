@@ -105,7 +105,7 @@ Route::middleware('check.admin.cookie')->group(function () {
     
     Route::prefix('materials')->group(function ()
     {
-        Route::get('/dashboard', [MaterialManagementController::class, 'dashboard'])->name('materials.dashboard');
+        Route::get('/index', [MaterialManagementController::class, 'index'])->name('materials.index');
         /* GESTION DE MATERIALES */
         //Route::get('/gestionMateriales', [MaterialManagementController::class, 'showGestionMateriales'])->name('gestionMateriales');
         Route::get('/materialsData',  [MaterialManagementController::class, 'materialsData']); 
@@ -116,7 +116,7 @@ Route::middleware('check.admin.cookie')->group(function () {
     
         Route::post('{material}/destroy', [MaterialManagementController::class, 'destroy'])->name('materials.destroy');
 
-        Route::get('/edit', [MaterialManagementController::class, 'edit'])->name('materials.edit');
+        Route::get('{material}/edit', [MaterialManagementController::class, 'edit'])->name('materials.edit');
 
         Route::post('{material}/update', [MaterialManagementController::class, 'update'])->name('materials.update');
 

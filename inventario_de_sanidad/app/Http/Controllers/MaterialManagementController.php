@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Storage as StorageFacade;
 
 class MaterialManagementController extends Controller
 {
+    public function index()
+    {
+        return view('materials.index')->with('materials', Material::simplePaginate(5));
+    }
+
     /**
      * Muestra la vista para dar de alta (agregar) nuevos materiales.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -21,9 +26,9 @@ class MaterialManagementController extends Controller
         return view('materials.create');
     }
 
-    public function edit()
+    public function edit(Material $material)
     {
-        return view('materials.edit')->with('materials', Material::simplePaginate(5));
+        return view('materials.edit')->with('material', $material);
     }
 
     /**

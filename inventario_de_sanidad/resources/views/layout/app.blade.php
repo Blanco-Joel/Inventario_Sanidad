@@ -73,10 +73,10 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('materials.edit') }}"
-                                class="{{ request()->routeIs('materials.edit') ? 'active' : '' }}">
+                                <a href="{{ route('materials.index') }}"
+                                class="{{ request()->routeIs('materials.index') ? 'active' : '' }}">
                                     <i class="fa-solid fa-minus"></i>
-                                    <span class="link-text">Editar material</span>
+                                    <span class="link-text">Gestionar materiales</span>
                                 </a>
                             </li>
                             <li>
