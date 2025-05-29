@@ -14,7 +14,7 @@ class MaterialManagementController extends Controller
 {
     public function index()
     {
-        return view('materials.index')->with('materials', Material::simplePaginate(5));
+        return view('materials.index');
     }
 
     /**
@@ -26,6 +26,10 @@ class MaterialManagementController extends Controller
         return view('materials.create');
     }
 
+    public function materialsData()
+    {
+        return response()->json(Material::orderBy('material_id')->get());
+    }
     public function edit(Material $material)
     {
         return view('materials.edit')->with('material', $material);

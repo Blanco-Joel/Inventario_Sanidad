@@ -115,26 +115,56 @@ function aplicarFiltro() {
     });
 }
 
+
 function renderPaginationButtons(total, limit) {
-    let paginacion = document.querySelector(".pagination-buttons");
-    if (!paginacion) return;
-
-    while (paginacion.firstChild) paginacion.removeChild(paginacion.firstChild);
-
-    let totalPaginas = Math.ceil(total / limit);
-    for (let i = 0; i < totalPaginas; i++) {
-        let btn = document.createElement("button");
-        btn.textContent = i + 1;
-        if (i === paginaActual) btn.classList.add("active");
-
+    let pagContainer = document.querySelector(".pagination-buttons");
+    if (!pagContainer) return;
+    pagContainer.innerHTML = "";
+  
+    let totalPages = Math.ceil(total / limit);
+    let startIdx = paginaActual * limit + 1;
+    let endIdx = Math.min((paginaActual + 1) * limit, total);
+  
+    // 1. Texto resumen
+    let summary = document.createElement("span");
+    summary.classList.add("pagination-summary");
+    summary.textContent = startIdx +  " – "+ endIdx+ " of "+ total;
+    pagContainer.appendChild(summary);
+  
+    // Helper para crear botón
+    let makeBtn = (text, targetPage, disabled) => {
+      let btn = document.createElement("button");
+      btn.textContent = text;
+      if (disabled) {
+        btn.disabled = true;
+      } else {
         btn.addEventListener("click", () => {
-            paginaActual = i;
-            renderTable(currentLimit);
+          paginaActual = targetPage;
+          renderTable(currentLimit);
+          renderTableCards(currentLimit);
         });
-
-        paginacion.appendChild(btn);
-    }
-}
+      }
+      return btn;
+    };
+  
+    // 2. Botones de navegación
+    // « Primero
+    pagContainer.appendChild(
+      makeBtn("«", 0, paginaActual === 0)
+    );
+    // ‹ Anterior
+    pagContainer.appendChild(
+      makeBtn("‹", paginaActual - 1, paginaActual === 0)
+    );
+    // › Siguiente
+    pagContainer.appendChild(
+      makeBtn("›", paginaActual + 1, paginaActual >= totalPages - 1)
+    );
+    // » Último
+    pagContainer.appendChild(
+      makeBtn("»", totalPages - 1, paginaActual >= totalPages - 1)
+    );
+  }
 
 function getEditUrl(id) {
     let isAdmin = document.querySelector(".user-role").textContent.includes("admin");

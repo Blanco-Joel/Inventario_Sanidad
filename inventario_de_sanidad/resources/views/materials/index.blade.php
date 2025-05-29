@@ -5,9 +5,8 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
-    @php
-    //<link rel="stylesheet" href="{{ asset('css/loader.css') }}">
-    @endphp
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+    
     
 @endpush
 
@@ -18,18 +17,21 @@
 <div class="container">
     <div class="content-wrapper">
         <h2>Gestión de materiales</h2>
-        <form>
+        <form class="search-form">
+        <!-- Buscador -->
+        <div class="search-container">
             <input type="text" id="buscarId" placeholder="Buscar..." autocomplete="off">
-            <label><input type="radio" name="regs" value="10" checked>10 registros</label>
-            <label><input type="radio" name="regs" value="20">20 registros</label>
-            <label><input type="radio" name="regs" value="30">30 registros</label>
-            <label><input type="radio" name="regs" value="40">40 registros</label>
-            <label><input type="radio" name="regs" value="50">50 registros</label>
-            <label><input type="radio" name="regs" value="60">60 registros</label>
-        </form>
-        <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
-        <label><input type="radio" name="filtro" value="2">Descripción</label>
-        <label><input type="radio" name="filtro" value="3">Imagen</label>
+            <div class="dropdown-container">
+                <button type="button" id="filterToggle"><i class="fa-solid fa-filter"></i></button>
+                <div id="filterOptions" class="filter-options">
+                    <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
+                    <label><input type="radio" name="filtro" value="2">Descripción</label>
+                    <label><input type="radio" name="filtro" value="3">Imagen</label>
+
+                </div>
+            </div>
+        </div>
+    </form>
 
         <div class="">
             <dialog id="confirmacion">
@@ -48,28 +50,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($materials as $material)
-                            <tr>
-                                <td>{{ $material->name }}</td>
-                                <td>{{ $material->description }}</td>
-                                <td>
-                                    <img src="{{ asset('storage/' . ($material->image_path ?? 'no_image.jpg')) }}" style="max-width:100px" alt="">
-                                </td>
-                                <td>
-                                    <a href="{{ route('materials.edit', $material->material_id) }}" class="btn btn-primary">Editar</a>
-                                    <form action="{{ route('materials.destroy', $material->material_id) }}" method="POST">
-                                        @csrf
-                                        <input type="submit" value="Eliminar" class="btn btn-danger">
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
                     </tbody>
                 </table>
+        <div id="paginacion" class="pagination-controls">
+            <div class="pagination-select">
+                <label for="regsPorPagina"></label>
+                <select id="regsPorPagina">
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
             </div>
-            <div class="mt-4">
-                {{ $materials->links() }}
+
+            <div class="pagination-buttons">
+                <!-- Botones de paginación se insertarán aquí -->
             </div>
+            </div>
+
         </div>
 
         <!-- Mensajes flash -->
@@ -88,10 +86,10 @@
 @endsection
 
 @push('scripts')
-    @php
-    //<script src="{{ asset('js/materialEdit.js') }}"></script>
-    //<script src="{{ asset('js/loader.js') }}"></script>
-    //<script src="{{ asset('js/tableMaterial.js') }}"></script>
-    @endphp
+
+        <script src="{{ asset('js/materialEdit.js') }}"></script>
+        <script src="{{ asset('js/loader.js') }}"></script>
+        <script src="{{ asset('js/tableMaterial.js') }}"></script>
+
 @endpush
 

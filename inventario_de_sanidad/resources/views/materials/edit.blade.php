@@ -13,7 +13,6 @@
 
     <form action="{{ route('materials.update', $material->material_id) }}" method="POST" enctype="multipart/form-data" class="material-form">
         @csrf
-        @method('PUT')
 
         <div class="form-group">
             <label for="name">Nombre</label>

@@ -4,7 +4,7 @@ else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
 var allData = [];
-var currentLimit = 10;
+var currentLimit = 5;
 var paginaActual = 0;   
 
 async function inicio() {
@@ -12,10 +12,9 @@ async function inicio() {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
 
-    hideLoader();
+    hideLoader()
 
     allData = window.MATERIALDATA;
-    console.log(allData);
     paginaActual = 0;
 
     document.getElementById("buscarId").addEventListener("keyup", filtrarTabla);
@@ -24,12 +23,10 @@ async function inicio() {
         radio.addEventListener("change", filtrarTabla);
     });
 
-    document.getElementsByName("regs").forEach(radio => {
-        radio.addEventListener("change", event => {
-            currentLimit = parseInt(event.target.value);
-            paginaActual = 0;
-            renderTable(currentLimit);
-        });
+    document.getElementById("regsPorPagina").addEventListener("change", event => {
+        currentLimit = parseInt(event.target.value);
+        paginaActual = 0;
+        renderTable(currentLimit);
     });
 
     renderTable(currentLimit);
@@ -50,79 +47,51 @@ function renderTable(limit) {
     let datosPagina = filtrados.slice(inicio, fin);
 
     datosPagina.forEach(item => {
-        let form     = document.createElement("form");
-        form.method  = "POST";
-        form.action  = "http://127.0.0.1:8000/materials/"+item.material_id+"/update";
-        form.enctype = "multipart/form-data";
-        let token = document.createElement("input");
-        token.type = "hidden";
-        token.name = "_token";
-        token.value = getCSRFToken();
-
-        let hiddenId = document.createElement("input");
-        hiddenId.type = "hidden";
-        hiddenId.name = "user_id";
-        hiddenId.value = item.material_id;
-        form.appendChild(token);
-        form.appendChild(hiddenId);
-
-
         let tr = document.createElement("tr");
-        form.appendChild(crearDataLabel((crearTD(crearInput(item.name ?? "-","name","text"))),"Nombre"));
-        form.appendChild(crearDataLabel((crearTD(crearInput(item.description ?? "-","description","text"))),"Descripción"));
-        form.appendChild(crearDataLabel((crearTD(crearInput("","image","file"))),"Imagen")); 
+        tr.appendChild(crearDataLabel(crearTD(item.name ?? "-"),"Material")); 
+        tr.appendChild(crearDataLabel(crearTD(item.description ?? "-"),"Cantidad mínima"));
+        let td = document.createElement("td");
+        let img = document.createElement("img");
+        img.src = new URL('/storage/', window.location).href + (item.image_path ?? "no_image.jpg");
+        img.style.maxWidth = "100px";
+        td.appendChild(img);
+
+        tr.appendChild(td);
+
         let tdAcciones = document.createElement("td");
         let btnEditar = document.createElement("input");
         btnEditar.type = "submit";
         btnEditar.value = "Editar";
         btnEditar.className = "btn btn-primary";
+        btnEditar.onclick = () => {
+            window.location.href = `/materials/${item.material_id}/edit`;
+        };
 
         tdAcciones.appendChild(btnEditar);
-        form.appendChild(tdAcciones);
-        tr.appendChild(form);
 
-        form     = document.createElement("form");
-        form.method  = "POST";
-        form.action  = "http://127.0.0.1:8000/materials/"+item.material_id+"/update";
-        form.enctype = "multipart/form-data";
-        
-        token = document.createElement("input");
-        token.type = "hidden";
-        token.name = "_token";
-        token.value = getCSRFToken();
+        tr.appendChild(tdAcciones);
 
-        hiddenId = document.createElement("input");
-        hiddenId.type = "hidden";
-        hiddenId.name = "user_id";
-        hiddenId.value = item.material_id;
-
-        form.appendChild(token);
-        form.appendChild(hiddenId);
+        let tdEliminar = document.createElement("td");
         let btnEliminar = document.createElement("input");
         btnEliminar.type = "submit";
         btnEliminar.value = "Eliminar";
         btnEliminar.className = "btn btn-danger";
-        form.appendChild(btnEliminar);
-        tr.appendChild(crearTD(form));
+        btnEliminar.onclick = () => {
+            window.location.href = `/materials/${item.material_id}/destroy`;
+        };
+
+        tdEliminar.appendChild(btnEliminar);
+        tr.appendChild(tdEliminar);
 
         tbody.appendChild(tr);
-
     });
 
     renderPaginationButtons(filtrados.length, limit);
 }
-function crearInput(texto,label,type) {
-    let input = document.createElement("input");
-    input.value = texto;
-    input.name  = label;
-    input.type = type;
-      
-    return input;
-}
 
 function crearTD(texto) {
     let td = document.createElement("td");
-    td.appendChild(texto);
+    td.textContent = texto;
     return td;
 }
 
@@ -136,7 +105,7 @@ function aplicarFiltro() {
     if (input === "") return allData;
 
     let filtro = document.querySelector('input[name="filtro"]:checked');
-    let campos = ["first_name", "last_name", "email", "user_type", "action_datetime", "material_name","units","storage_type"];
+    let campos = ["name", "description", "units", "min_units", "cabinet", "shelf","drawer"];
     let campo = filtro ? campos[parseInt(filtro.value) - 1] : "name";
 
     return allData.filter(item => {
@@ -146,31 +115,52 @@ function aplicarFiltro() {
 }
 
 function renderPaginationButtons(total, limit) {
-    let paginacion = document.getElementById("paginacion");
-    if (!paginacion) return;
-
-    while (paginacion.firstChild) paginacion.removeChild(paginacion.firstChild);
-
-    let totalPaginas = Math.ceil(total / limit);
-    for (let i = 0; i < totalPaginas; i++) {
-        let btn = document.createElement("button");
-        btn.textContent = i + 1;
-        if (i === paginaActual) btn.classList.add("active");
-
+    let pagContainer = document.querySelector(".pagination-buttons");
+    if (!pagContainer) return;
+    pagContainer.innerHTML = "";
+  
+    let totalPages = Math.ceil(total / limit);
+    let startIdx = paginaActual * limit + 1;
+    let endIdx = Math.min((paginaActual + 1) * limit, total);
+  
+    // 1. Texto resumen
+    let summary = document.createElement("span");
+    summary.classList.add("pagination-summary");
+    summary.textContent = startIdx +  " – "+ endIdx+ " of "+ total;
+    pagContainer.appendChild(summary);
+  
+    // Helper para crear botón
+    let makeBtn = (text, targetPage, disabled) => {
+      let btn = document.createElement("button");
+      btn.textContent = text;
+      if (disabled) {
+        btn.disabled = true;
+      } else {
         btn.addEventListener("click", () => {
-            paginaActual = i;
-            renderTable(currentLimit);
+          paginaActual = targetPage;
+          renderTable(currentLimit);
+          renderTableCards(currentLimit);
         });
+      }
+      return btn;
+    };
+  
+    // 2. Botones de navegación
+    // « Primero
+    pagContainer.appendChild(
+      makeBtn("«", 0, paginaActual === 0)
+    );
+    // ‹ Anterior
+    pagContainer.appendChild(
+      makeBtn("‹", paginaActual - 1, paginaActual === 0)
+    );
+    // › Siguiente
+    pagContainer.appendChild(
+      makeBtn("›", paginaActual + 1, paginaActual >= totalPages - 1)
+    );
+    // » Último
+    pagContainer.appendChild(
+      makeBtn("»", totalPages - 1, paginaActual >= totalPages - 1)
+    );
+  }
 
-        paginacion.appendChild(btn);
-    }
-}
-function getEditUrl(id) {
-    let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
-    return isAdmin ? `/storages/update/${id}/edit` : `/storages/update/teacher/${id}/edit`;
-}
-
-function getCSRFToken() {
-    let tokenMeta = document.querySelector('meta[name="csrf-token"]');
-    return tokenMeta ? tokenMeta.getAttribute("content") : "";
-}

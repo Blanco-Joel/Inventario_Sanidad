@@ -108,7 +108,13 @@ function renderTable(limit) {
 
     datosPagina.forEach(item => {
         let tr = document.createElement("tr");
-        tr.appendChild(crearDataLabel((crearTD(item.image_path ?? "No hay imagen")),"Imagen"));
+        let td = document.createElement("td");
+        let img = document.createElement("img");
+        img.src = new URL('/storage/', window.location).href + (item.image_path ?? "no_image.jpg");
+        img.style.maxWidth = "100px";
+        td.appendChild(img);
+        tr.appendChild(td);
+
         tr.appendChild(crearDataLabel((crearTD(item.name ?? "-")),"Nombre"));
         tr.appendChild(crearDataLabel((crearTD(item.description ?? "-")),"Descripción"));
         tr.appendChild(crearDataLabel((crearTD(item.cabinet ?? "-")),"Armario"));
