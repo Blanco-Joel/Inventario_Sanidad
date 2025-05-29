@@ -4,13 +4,12 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modifications.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
-    
 @endpush
 
 @section('content')
 
+{{-- Overlay para cargar --}}
 <div id="loader-overlay">
     <div class="spinner"></div>
 </div> 

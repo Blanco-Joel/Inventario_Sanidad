@@ -9,21 +9,10 @@
     color: var(--text-primary, #222);
 }
 
-/* Centrar título h2 */
-.edit-container h2 {
+.edit-container h1 {
     text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    font-size: 1.8rem;
 }
 
-.edit-container h3 {
-    margin-top: 1.5rem;
-    color: var(--text-secondary, #555);
-    font-weight: 600;
-}
-
-/* Contenedor para cada grupo label + input */
 .form-group {
     display: flex;
     align-items: center;
@@ -31,7 +20,6 @@
     gap: 1rem;
 }
 
-/* Label con ancho fijo para alineación */
 .form-group label {
     flex: 0 0 400px;
     font-weight: 600;
@@ -49,11 +37,35 @@
     cursor: not-allowed;
 }
 
-/* Botón ancho completo con margen */
 .btn.btn-primary {
     display: block;
     width: 100%;
     margin-top: 2rem;
     padding: 0.75rem;
  
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .edit-container {
+    max-width: 90%;
+    padding: 1.5rem 1.5rem;
+  }
+
+  .form-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    flex: none;
+    width: 100%;
+    font-size: 1.1rem;
+  }
+
+  .form-group input {
+    font-size: 1.2rem;
+    width: 100%;
+  }
 }

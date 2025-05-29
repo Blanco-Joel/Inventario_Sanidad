@@ -1,9 +1,10 @@
 /* Estilos específicos para la vista Alta de Usuarios */
 .alta-usuarios-container {
+    width: 90%;
     max-width: 600px;
-    margin: 40px auto;
+    margin: 2rem auto;
     background-color: var(--primary-500);
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
     font-family: Arial, sans-serif;
@@ -34,7 +35,8 @@
 
 .alta-usuarios-container form input[type="text"],
 .alta-usuarios-container form select {
-    width: 80%;
+    width: 100%;
+    max-width: 400px;
     background-color: var(--bg-200);
     color: var(--text-100);
 }
@@ -55,3 +57,20 @@ dialog#confirmacion {
     z-index: 1000; /* por si se solapa con otros elementos */
 }
 
+@media (min-width: 768px) {
+    .alta-usuarios-container {
+        padding: 3rem;
+    }
+
+    .alta-usuarios-container h1 {
+        font-size: 2rem;
+    }
+
+    .alta-usuarios-container h4 {
+        font-size: 1.1rem;
+    }
+
+    .alta-usuarios-container form {
+        gap: 1.25rem;
+    }
+}

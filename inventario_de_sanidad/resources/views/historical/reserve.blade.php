@@ -34,14 +34,12 @@
         </div>
     </form>
 
-            <div class="view-toggle">
-                <button id="cardViewBtn" class="btn btn-outline btn-notifications active"><i class="fa-solid fa-list-ul"></i> </button>
-                <button id="tableViewBtn" class="btn btn-outline btn-notifications"><i class="fa-solid fa-table"></i> </button>
-            </div>
-        </div>
-<div id="cardView"  class="card-grid"></div>
-       
-
+    <div class="view-toggle">
+        <button id="cardViewBtn" class="btn btn-outline btn-notifications active"><i class="fa-solid fa-list-ul"></i> </button>
+        <button id="tableViewBtn" class="btn btn-outline btn-notifications"><i class="fa-solid fa-table"></i> </button>
+    </div>
+</div>
+<div id="cardView" class="card-grid"></div>
         <div id="tableView" class="table-wrapper" style="display: none;">
             <table class="table">
                 <thead>
@@ -91,59 +89,60 @@
 @endsection
 
 @push('scripts')
-<script>
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const toggleBtn = document.getElementById('filterToggle');
+                const optionsBox = document.getElementById('filterOptions');
+                toggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    optionsBox.style.display = optionsBox.style.display === 'block' ? 'none' : 'block';
+                });
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.dropdown-container')) {
+                        optionsBox.style.display = 'none';
+                    }
+                });
+            });
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const toggleBtn = document.getElementById('filterToggle');
-            const optionsBox = document.getElementById('filterOptions');
-            toggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                optionsBox.style.display = optionsBox.style.display === 'block' ? 'none' : 'block';
+            const cardViewBtn = document.getElementById('cardViewBtn');
+            const tableViewBtn = document.getElementById('tableViewBtn');
+            const cardView = document.getElementById('cardView');
+            const tableView = document.getElementById('tableView');
+            const searchInput = document.querySelector('.search-input');
+
+            function activateCardView() {
+                cardView.style.display = 'grid';
+                tableView.style.display = 'none';
+                cardViewBtn.classList.add('active');
+                tableViewBtn.classList.remove('active');
+            }
+
+            function activateTableView() {
+                cardView.style.display = 'none';
+                tableView.style.display = 'block';
+                tableViewBtn.classList.add('active');
+                cardViewBtn.classList.remove('active');
+            }
+
+            cardViewBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                activateCardView();
             });
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.dropdown-container')) {
-                    optionsBox.style.display = 'none';
-                }
+
+            tableViewBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                activateTableView();
             });
+
+            // Filtro en tiempo real
+
+
+            activateCardView();
         });
     </script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const cardViewBtn = document.getElementById('cardViewBtn');
-    const tableViewBtn = document.getElementById('tableViewBtn');
-    const cardView = document.getElementById('cardView');
-    const tableView = document.getElementById('tableView');
-    const searchInput = document.querySelector('.search-input');
 
-    function activateCardView() {
-        cardView.style.display = 'grid';
-        tableView.style.display = 'none';
-        cardViewBtn.classList.add('active');
-        tableViewBtn.classList.remove('active');
-    }
-
-    function activateTableView() {
-        cardView.style.display = 'none';
-        tableView.style.display = 'block';
-        tableViewBtn.classList.add('active');
-        cardViewBtn.classList.remove('active');
-    }
-
-    cardViewBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        activateCardView();
-    });
-
-    tableViewBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        activateTableView();
-    });
-
-    // Filtro en tiempo real
-
-
-    activateCardView();
-});
-</script>
     <script src="{{ asset('js/historicalFunctions.js') }}"></script>
     <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/tableReserveUse.js') }}"></script>

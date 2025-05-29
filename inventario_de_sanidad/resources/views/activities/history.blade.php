@@ -33,8 +33,8 @@
                                     <tbody>
                                     @foreach($activity->materials as $material)
                                         <tr>
-                                        <td>{{ $material->name }}</td>
-                                        <td>{{ $material->pivot->units }}</td>
+                                        <td data-label="Material">{{ $material->name }}</td>
+                                        <td data-label="Cantidad">{{ $material->pivot->units }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

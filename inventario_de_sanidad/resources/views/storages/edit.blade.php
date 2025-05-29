@@ -11,7 +11,7 @@
     <form action="{{ route('storages.updateBatch', $material) }}" method="POST">
         @csrf
 
-        <h2>Editar Almacenamiento para: <span class="material-name">{{ $material->name }}</span></h2>
+        <h1>Editar Almacenamiento para: <span class="material-name">{{ $material->name }}</span></h1>
 
         @php
             $useRecord = $material->storage->where('storage_type', 'use')->first();

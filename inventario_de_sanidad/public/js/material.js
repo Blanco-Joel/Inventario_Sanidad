@@ -56,41 +56,43 @@ function setCookieValue(basket, name) {
     document.cookie = name + "=" + encodeURIComponent(JSON.stringify(basket)) + "; expires=" + expiration + "; path=/";
 }
 
-function createRow(text, tr) {
+function createRow(content, trElement, label) {
     let td = document.createElement("td");
-    td.textContent = text;
-    tr.appendChild(td);
-    return td;
+    td.textContent = content;
+    if (label) {
+        td.setAttribute("data-label", label);
+    }
+    trElement.appendChild(td);
 }
 
 function renderBasket() {
-    console.log("dentro 1");
     let basket = getCookieValue(COOKIE_NAME);
     let tbody = document.querySelector("table tbody");
 
     while (tbody.rows.length > 0) {
-        console.log("dentro 2");
         tbody.deleteRow(0);
     }
 
-    if (tbody.rows.length <= 0) {
+    if (basket && basket.length > 0) {
         for (let i = 0; i < basket.length; i++) {
             let newTr = document.createElement("tr");
 
-            createRow(basket[i].name, newTr);
-            createRow(basket[i].description, newTr);
-            createRow(basket[i].storage, newTr);
-            createRow(basket[i].use.units, newTr);
-            createRow(basket[i].use.min_units, newTr);
-            createRow(basket[i].use.cabinet, newTr);
-            createRow(basket[i].use.shelf, newTr);
-            createRow(basket[i].use.drawer, newTr);
-            createRow(basket[i].reserve.units, newTr);
-            createRow(basket[i].reserve.min_units, newTr);
-            createRow(basket[i].reserve.cabinet, newTr);
-            createRow(basket[i].reserve.shelf, newTr);
+            createRow(basket[i].name, newTr, "Nombre");
+            createRow(basket[i].description, newTr, "Descripción");
+            createRow(basket[i].storage, newTr, "Localización");
+            createRow(basket[i].use.units, newTr, "Cant. Uso");
+            createRow(basket[i].use.min_units, newTr, "Mín. Uso");
+            createRow(basket[i].use.cabinet, newTr, "Armario Uso");
+            createRow(basket[i].use.shelf, newTr, "Balda Uso");
+            createRow(basket[i].use.drawer, newTr, "Cajón Uso");
+            createRow(basket[i].reserve.units, newTr, "Cant. Reserva");
+            createRow(basket[i].reserve.min_units, newTr, "Mín. Reserva");
+            createRow(basket[i].reserve.cabinet, newTr, "Armario Reserva");
+            createRow(basket[i].reserve.shelf, newTr, "Balda Reserva");
 
+            // Imagen
             let imageTd = document.createElement("td");
+            imageTd.setAttribute("data-label", "Imagen");
             let newImg = document.createElement("img");
             newImg.className = "cell-img";
             newImg.src = storageUrl + (basket[i].image_temp || "no_image.jpg");
@@ -98,13 +100,15 @@ function renderBasket() {
             imageTd.appendChild(newImg);
             newTr.appendChild(imageTd);
 
+            // Botón eliminar
             let buttonTd = document.createElement("td");
+            buttonTd.setAttribute("data-label", "Acciones");
             let newButton = document.createElement("input");
             newButton.type = "button";
             newButton.className = "btn btn-primary delete-btn";
             newButton.setAttribute("tempId", basket[i].id);
             newButton.value = "Eliminar";
-            
+
             if (document.addEventListener) {
                 newButton.addEventListener("click", deleteMaterialData);
             } else if (document.attachEvent) {

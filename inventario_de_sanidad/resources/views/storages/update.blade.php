@@ -14,24 +14,27 @@
 </div>
 <div class="">
     <div class="content-wrapper">
-        <h2>Gestionar Almacenamiento</h2>
+        <h1>Gestionar Almacenamiento</h1>
         
         <!-- Buscador -->
-        <div class="search-container">
-            <input type="text" id="buscarId" placeholder="Buscar..." autocomplete="off">
-            <div class="dropdown-container">
-                <button type="button" id="filterToggle"><i class="fa-solid fa-filter"></i></button>
-                <div id="filterOptions" class="filter-options">
-                    <label><input type="radio" name="filtro" value="1" checked>Material</label>
-                    <label><input type="radio" name="filtro" value="2">Tipo</label>
-                    <label><input type="radio" name="filtro" value="3">Cantidad</label>
-                    <label><input type="radio" name="filtro" value="4">Cantidad minima</label>
-                    <label><input type="radio" name="filtro" value="5">Armario</label>
-                    <label><input type="radio" name="filtro" value="6">Balda</label>
-                    <label><input type="radio" name="filtro" value="7">Cajon</label>
+        <form class="search-form">
+            <div class="search-container">
+                <input type="text" id="buscarId" placeholder="Buscar..." autocomplete="off">
+                <div class="dropdown-container">
+                    <button type="button" id="filterToggle"><i class="fa-solid fa-filter"></i></button>
+                    <div id="filterOptions" class="filter-options">
+                        <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
+                        <label><input type="radio" name="filtro" value="2">Apellidos</label>
+                        <label><input type="radio" name="filtro" value="3">Email</label>
+                        <label><input type="radio" name="filtro" value="4">Tipo de usuario</label>
+                        <label><input type="radio" name="filtro" value="5">Material</label>
+                        <label><input type="radio" name="filtro" value="6">Unidades modificadas</label>
+                        <label><input type="radio" name="filtro" value="7">Tipo de almacenamiento</label>
+                        <label><input type="radio" name="filtro" value="8">Fecha de modificación</label>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
 
     <div class="table-wrapper">
         <table class="table">

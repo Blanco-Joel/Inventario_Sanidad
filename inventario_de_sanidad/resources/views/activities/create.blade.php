@@ -43,7 +43,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="cell-description custom-scroll">
+                                <td data-label="Material" class="cell-description custom-scroll">
                                     <input list="materials" name="materialName" id="materialName">
                                     <datalist id="materials">
                                         @foreach ($materials as $material)
@@ -51,7 +51,7 @@
                                         @endforeach
                                     </datalist>
                                 </td>
-                                <td>
+                                <td data-label="Cantidad">
                                     <input type="number" name="units" id="units">
                                 </td>
                                 <td>

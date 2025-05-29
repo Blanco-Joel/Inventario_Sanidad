@@ -12,7 +12,7 @@
         <form action="{{ route('storages.subtract.teacher', $material->material_id) }}" method="POST">
             @csrf
 
-            <h2>Editar Almacenamiento para: {{ $material->name }}</h2>
+            <h1>Editar Almacenamiento para: {{ $material->name }}</h1>
             
             @php
                 $useRecord = $material->storage->where('storage_type', 'use')->first();

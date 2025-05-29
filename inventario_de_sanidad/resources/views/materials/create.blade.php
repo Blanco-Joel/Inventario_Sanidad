@@ -124,16 +124,19 @@
                     <thead>
                         <tr>
                             <th rowspan="2">Nombre</th>
-                            <th class="wide" rowspan="2">Descripción</th>
+                            <th rowspan="2">Descripción</th>
                             <th rowspan="2">Localización</th>
                             <th colspan="5">Uso</th>
-                            <th colspan="5">Reserva</th>
+                            <th colspan="4">Reserva</th>
+                            <th rowspan="2">Imagen</th>
+                            <th rowspan="2">Acciones</th>
                         </tr>
                         <tr>
                             <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Cajón</th>
-                            <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th><th rowspan="2">Imagen</th><th></th>
+                            <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @php
                         /*
