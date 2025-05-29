@@ -58,30 +58,66 @@ function renderTable(limit) {
 
         tr.appendChild(td);
 
-        let tdAcciones = document.createElement("td");
-        let btnEditar = document.createElement("input");
-        btnEditar.type = "submit";
-        btnEditar.value = "Editar";
-        btnEditar.className = "btn btn-primary";
-        btnEditar.onclick = () => {
-            window.location.href = `/materials/${item.material_id}/edit`;
-        };
+          let tdAc = document.createElement("td");
+            let formAc = document.createElement("form");
+            formAc.method = "GET";
+            formAc.action = `/materials/${item.material_id}/edit`;
+            formAc.id = `btn-delete-${item.material_id}`;
 
-        tdAcciones.appendChild(btnEditar);
+            let tokenAc = document.createElement("input");
+            tokenAc.type = "hidden";
+            tokenAc.name = "_token";
+            tokenAc.value = getCSRFToken();
 
-        tr.appendChild(tdAcciones);
+            let hiddenIdAc = document.createElement("input");
+            hiddenIdAc.type = "hidden";
+            hiddenIdAc.name = "material_id";
+            hiddenIdAc.value = item.material_id;
 
-        let tdEliminar = document.createElement("td");
-        let btnEliminar = document.createElement("input");
-        btnEliminar.type = "submit";
-        btnEliminar.value = "Eliminar";
-        btnEliminar.className = "btn btn-danger";
-        btnEliminar.onclick = () => {
-            window.location.href = `/materials/${item.material_id}/destroy`;
-        };
+            let btnAc = document.createElement("button");
+            btnAc.type = "submit";
+            btnAc.className = "btn btn-primary";
 
-        tdEliminar.appendChild(btnEliminar);
-        tr.appendChild(tdEliminar);
+              btnAc.textContent = "Editar";
+
+            formAc.appendChild(tokenAc);
+            formAc.appendChild(hiddenIdAc);
+            formAc.appendChild(btnAc);
+            tdAc.appendChild(formAc);
+        
+
+
+        tr.appendChild(tdAc);
+            let tdDel = document.createElement("td");
+            let formDel = document.createElement("form");
+            formDel.method = "POST";
+            formDel.action = `/materials/${item.material_id}/destroy`;
+            formDel.id = `btn-delete-${item.material_id}`;
+
+            let token = document.createElement("input");
+            token.type = "hidden";
+            token.name = "_token";
+            token.value = getCSRFToken();
+
+            let hiddenId = document.createElement("input");
+            hiddenId.type = "hidden";
+            hiddenId.name = "material_id";
+            hiddenId.value = item.material_id;
+
+
+            let btn = document.createElement("button");
+            btn.type = "submit";
+            btn.className = "btn btn-danger";
+
+            btn.textContent = "Eliminar";
+            
+            formDel.appendChild(token);
+            formDel.appendChild(hiddenId);
+            formDel.appendChild(btn);
+            tdDel.appendChild(formDel);
+        
+
+        tr.appendChild(tdDel);
 
         tbody.appendChild(tr);
     });
@@ -164,3 +200,7 @@ function renderPaginationButtons(total, limit) {
     );
   }
 
+function getCSRFToken() {
+    let tokenMeta = document.querySelector('meta[name="csrf-token"]');
+    return tokenMeta ? tokenMeta.getAttribute("content") : "";
+}
