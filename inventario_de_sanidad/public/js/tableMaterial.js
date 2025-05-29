@@ -94,24 +94,25 @@ function renderTable(limit) {
             formDel.action = `/materials/${item.material_id}/destroy`;
             formDel.id = `btn-delete-${item.material_id}`;
 
-            // let token = document.createElement("input");
-            // token.type = "hidden";
-            // token.name = "_token";
-            // token.value = getCSRFToken();
+            let token = document.createElement("input");
+            token.type = "hidden";
+            token.name = "_token";
+            token.value = getCSRFToken();
 
-            // let hiddenId = document.createElement("input");
-            // hiddenId.type = "hidden";
-            // hiddenId.name = "material_id";
-            // hiddenId.value = item.material_id;
+            let hiddenId = document.createElement("input");
+            hiddenId.type = "hidden";
+            hiddenId.name = "material_id";
+            hiddenId.value = item.material_id;
+
 
             let btn = document.createElement("button");
             btn.type = "submit";
             btn.className = "btn btn-danger";
 
             btn.textContent = "Eliminar";
-
-            // formDel.appendChild(token);
-            // formDel.appendChild(hiddenId);
+            
+            formDel.appendChild(token);
+            formDel.appendChild(hiddenId);
             formDel.appendChild(btn);
             tdDel.appendChild(formDel);
         

@@ -11,6 +11,7 @@
 @endpush
 
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div id="loader-overlay">
     <div class="spinner"></div>
 </div> 
