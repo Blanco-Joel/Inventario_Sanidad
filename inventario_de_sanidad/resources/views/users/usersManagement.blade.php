@@ -57,7 +57,7 @@
             </thead>
             <tbody></tbody>
         </table>
-
+        </div>
         <!-- Paginación -->
         <div id="paginacion" class="pagination-controls">
             <div class="pagination-select">
@@ -73,7 +73,7 @@
             <div class="pagination-buttons">
                 <!-- Botones de paginación se insertarán aquí -->
             </div>
-        </div>
+        
     </div>
 </div>
 @endsection

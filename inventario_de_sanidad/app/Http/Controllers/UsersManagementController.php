@@ -35,35 +35,38 @@ class UsersManagementController extends Controller
     {
         $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{}|;:,.<>?';
         $password = '';
-        
         for ($i = 0; $i < 8; $i++) {
             $password .= $caracteres[rand(0, strlen($caracteres) - 1)];
         }
+
+        // Validar los datos del formulario
         $credentials = $request->validate([
-            'nombre' => 'required',
-            'apellidos' => 'required',
-            'email' => 'required'
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'user_type' => 'required'
         ], [
             'nombre.required' => 'Debe introducir el nombre.',
             'apellidos.required' => 'Debe introducir los apellidos.',
-            'email.required' => 'Debe introducir el email.'
-        ]);
-        User::create([
-           'first_name'           =>  $credentials["nombre"],
-           'last_name'            =>  $credentials["apellidos"],
-           'email'                =>  $credentials["email"],
-           'password'             =>  $password,
-           'hashed_password'      =>  Hash::make($password),
-           'user_type'            =>  $request->input('user_type'),
-           'first_log'            =>  false,
-           'created_at'           =>  Carbon::now('Europe/Madrid'),
+            'email.required' => 'Debe introducir el email.',
+            'email.email' => 'Debe introducir un email válido.',
+            'email.unique' => 'Ese email ya está registrado.',
+            'user_type.required' => 'Debe seleccionar un tipo de usuario.'
         ]);
 
-        
-        return back()->with([
-            'mensaje' => ' Usuario '.  $credentials["nombre"]. ' ' .  $credentials["apellidos"]. ' creado con exito.',
-            'tab' => 'tab1'
+        // Crear el usuario
+        User::create([
+            'first_name'       => $credentials["nombre"],
+            'last_name'        => $credentials["apellidos"],
+            'email'            => $credentials["email"],
+            'password'         => $password,
+            'hashed_password'  => Hash::make($password),
+            'user_type'        => $credentials["user_type"],
+            'first_log'        => false,
+            'created_at'       => Carbon::now('Europe/Madrid'),
         ]);
+
+        return back()->with('mensaje', 'Usuario ' . $credentials["nombre"] . ' ' . $credentials["apellidos"] . ' creado con éxito.');
     }
 
     public function bajaUsers(Request $request)

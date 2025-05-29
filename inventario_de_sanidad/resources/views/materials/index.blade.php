@@ -53,6 +53,7 @@
                     <tbody>
                     </tbody>
                 </table>
+        </div>
         <div id="paginacion" class="pagination-controls">
             <div class="pagination-select">
                 <label for="regsPorPagina"></label>
@@ -67,7 +68,7 @@
             <div class="pagination-buttons">
                 <!-- Botones de paginación se insertarán aquí -->
             </div>
-            </div>
+            
 
         </div>
 

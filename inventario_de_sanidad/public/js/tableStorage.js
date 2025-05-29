@@ -77,12 +77,12 @@ function renderTable(limit) {
         tr = document.createElement("tr");
         if (document.querySelector(".user-role").textContent.includes("admin"))
         {
-            tr.appendChild(crearDataLabel(crearTD("reserva"),"Tipo"));
-            tr.appendChild(crearDataLabel(crearTD(reserve.units ?? "-"),"Cantidad"));
-            tr.appendChild(crearDataLabel(crearTD(reserve.min_units ?? "-"),"Cantidad mínima"));
-            tr.appendChild(crearDataLabel(crearTD(reserve.cabinet ?? "-"),"Armario"));
-            tr.appendChild(crearDataLabel(crearTD(reserve.shelf ?? "-"),"Balda"));
-            tr.appendChild(crearDataLabel(crearTD(reserve.drawer ?? "-"),"Cajón"));
+            tr.appendChild((crearTD("reserva")));
+            tr.appendChild((crearTD(reserve.units ?? "-")));
+            tr.appendChild((crearTD(reserve.min_units ?? "-")));
+            tr.appendChild((crearTD(reserve.cabinet ?? "-")));
+            tr.appendChild((crearTD(reserve.shelf ?? "-")));
+            tr.appendChild((crearTD(reserve.drawer ?? "-")));
 
         }
         tbody.appendChild(tr);
@@ -128,7 +128,7 @@ function renderPaginationButtons(total, limit) {
     // 1. Texto resumen
     let summary = document.createElement("span");
     summary.classList.add("pagination-summary");
-    summary.textContent = startIdx +  " – "+ endIdx+ " of "+ total;
+    summary.textContent = startIdx +  " – "+ endIdx+ " de "+ total;
     pagContainer.appendChild(summary);
   
     // Helper para crear botón

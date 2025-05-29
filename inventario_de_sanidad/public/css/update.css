@@ -1,0 +1,23 @@
+@media (max-width: 1024px) {
+
+    .table {
+        display: table;
+        width: 100%;
+    }
+
+    .table tbody {
+        display: table-row-group;
+    }
+
+    .table tr {
+        display: table-row;
+    }
+
+    .table td {
+        display: table-cell;
+        width: auto;
+        text-align: center;
+        padding: 1rem;
+    }
+
+}

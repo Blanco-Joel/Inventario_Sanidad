@@ -146,7 +146,7 @@ function renderPaginationButtons(total, limit) {
     // 1. Texto resumen
     let summary = document.createElement("span");
     summary.classList.add("pagination-summary");
-    summary.textContent = startIdx +  " – "+ endIdx+ " of "+ total;
+    summary.textContent = startIdx +  " – "+ endIdx+ " de "+ total;
     pagContainer.appendChild(summary);
   
     // Helper para crear botón
