@@ -16,9 +16,9 @@
             <form action="{{ route('activities.store') }}" method="POST">
                 @csrf
                 <div class="">
-                    <label for="description"></label>
-                    <textarea name="description" placeholder="Descripcion de la actividad..." id="description" rows="4" cols="50" required></textarea>
-                    @error('description')
+                    <label for="title"></label>
+                    <textarea name="title" placeholder="Título descriptivo de la actividad..." id="title" rows="4" cols="50" maxlength="100" required></textarea>
+                    @error('title')
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror
                 </div>

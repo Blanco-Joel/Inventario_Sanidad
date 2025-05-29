@@ -21,11 +21,11 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'description'  => 'required',
+            'title'  => 'required',
             'activity_datetime'=> 'required|date',
             'materialsBasketInput' => 'required'
         ], [
-            'description.required'  => 'Debe introducir la descripción de la actividad.',
+            'title.required'  => 'Debe introducir la descripción de la actividad.',
             'activity_datetime.required' => 'Debe introducir la fecha y hora de la actividad.',
             'materialsBasketInput.required' => 'Debe introducir datos a la cesta'
         ]);
@@ -42,7 +42,7 @@ class ActivityController extends Controller
             DB::transaction(function () use ($basket, $validated, $user_id) {
                 $activity = new Activity();
                 $activity->user_id = $user_id;
-                $activity->title = $validated['description'];
+                $activity->title = $validated['title'];
                 $activity->created_at = $validated['activity_datetime'];
                 $activity->save();
         

@@ -106,7 +106,7 @@ function renderBasket() {
             let newButton = document.createElement("input");
             newButton.type = "button";
             newButton.className = "btn btn-primary delete-btn";
-            newButton.setAttribute("tempId", basket[i].id);
+            newButton.setAttribute("data-id", basket[i].id);
             newButton.value = "Eliminar";
 
             if (document.addEventListener) {
@@ -276,7 +276,7 @@ async function uploadTempImage(image) {
 function deleteMaterialData(event) {
     console.log("eliminar");
     let button = event.target;
-    let materialId = button.getAttribute("tempId");
+    let materialId = button.getAttribute("data-id");
 
     if (!materialId) {
         console.error("No se encontró material_id en el botón.");
