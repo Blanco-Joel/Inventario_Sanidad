@@ -306,6 +306,8 @@ function deleteMaterialData(event) {
     } else {
         deleteCookie(COOKIE_NAME);
     }
+
+    renderBasket();
 }
 
 function deleteCookie(name) {
