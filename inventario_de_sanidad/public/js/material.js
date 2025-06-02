@@ -8,6 +8,8 @@ if (document.addEventListener) {
 }
 
 function inicio() {
+    initToggleBasket();
+
     let addButton = document.form.add;
 
     if (document.addEventListener) {
@@ -17,6 +19,26 @@ function inicio() {
     }
 
     renderBasket();
+}
+
+function initToggleBasket() {
+    const toggleBtn = document.getElementById("toggleBasketBtn");
+    const formSections = document.querySelectorAll(".material-form, .form-title, .form-group, fieldset, .form-actions");
+    const basketSection = document.querySelector(".basket-section");
+    let showingBasketOnly = false;
+
+    toggleBtn.addEventListener("click", function () {
+        showingBasketOnly = !showingBasketOnly;
+
+        formSections.forEach(el => el.classList.toggle("hidden", showingBasketOnly));
+
+        if (basketSection) {
+            basketSection.classList.toggle("hidden", !showingBasketOnly);
+        }
+
+        toggleBtn.classList.remove(showingBasketOnly ? "btn-outline" : "btn-primary");
+        toggleBtn.classList.add(showingBasketOnly ? "btn-primary" : "btn-outline");
+    });
 }
 
 function getCookieValue(name) {

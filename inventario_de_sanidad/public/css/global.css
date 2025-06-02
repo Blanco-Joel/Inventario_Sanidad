@@ -38,30 +38,30 @@
 }
 
 .darkmode {
-  /* PRIMARY (Azules adaptados para dark) */
-  --primary-100: #eaf6fd;   /* Muy claro, para detalles */
-  --primary-200: #a3d4f7;   /* Claro, como fondo activo */
-  --primary-300: #4aa3e0;   /* Medio: botones */
-  --primary-400: #1d7fbf;   /* Oscuro, énfasis */
-  --primary-500: #155b8a;   /* Más oscuro */
-  --primary-600: #0f3d57;   /* Muy oscuro */
+  --primary-100: #b3c7dc;
+  --primary-200: #6ca0d1;
+  --primary-300: #397bb3;
+  --primary-400: #2b5d8c;
+  --primary-500: #1d3f66;
+  --primary-600: #14293e;
 
-  /* TEXTOS */
-  --text-100: #ffffff;      /* Texto principal */
-  --text-200: #cfd8df;      /* Texto secundario */
-  --text-300: #94a3b8;      /* Desactivado o auxiliar */
+  --text-100: #e5eaf0;
+  --text-200: #f1f1f1; 
+  --text-300: #c5c5c5; 
 
-  /* BACKGROUND */
-  --bg-100: #0c1c2c;        /* Fondo principal */
-  --bg-200: #152230;        /* Fondo secundario */
-  --bg-300: #1f2f41;        /* Elementos elevados (cards) */
-  --bg-400: #29394d;        /* Separadores, headers oscuros */
+  --bg-100: #0f141a;
+  --bg-200: #1a1f27;
+  --bg-300: #222a35;
+  --bg-400: #2d3744;
 
-  /* ESTADOS */
   --error: #f87171;
-  --success: #34d399;
-  --warning: #fbbf24;
-  --info: #60a5fa;
+  --success: #4ade80;
+  --warning: #facc15;
+  --info: #38bdf8;
+
+  --shadow-sm: 0 1px 2px rgba(255, 255, 255, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.25);
 }
 
 * {
@@ -91,6 +91,10 @@ h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--text-100);
+}
+
+i {
+  color: var(--text-100);
 }
 
 fieldset {

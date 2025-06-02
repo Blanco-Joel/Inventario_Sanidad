@@ -5,8 +5,7 @@
     background: var(--bg-light, var(--primary-500));
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-md);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-primary, #222);
+    color: var(--text-primary);
 }
 
 .edit-container h1 {

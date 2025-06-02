@@ -80,20 +80,5 @@
     <script src="{{ asset('js/historicalFunctions.js') }}"></script>
     <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/tableHistorical.js') }}"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleBtn = document.getElementById('filterToggle');
-            const optionsBox = document.getElementById('filterOptions');
-            toggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                optionsBox.style.display = optionsBox.style.display === 'block' ? 'none' : 'block';
-            });
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.dropdown-container')) {
-                    optionsBox.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('js/filterToggle.js') }}"></script> 
 @endpush

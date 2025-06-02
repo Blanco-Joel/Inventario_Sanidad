@@ -55,7 +55,4 @@
 </div>
 @endsection
 
-@push('scripts')
-    <script src="{{ asset('js/') }}"></script>
-@endpush
 

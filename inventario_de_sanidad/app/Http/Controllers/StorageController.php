@@ -9,16 +9,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
 use App\Mail\LowStockAlert;
 use Illuminate\Support\Facades\Mail;
 
 class StorageController extends Controller
 {
+    // VISTAS
+
     public function updateView()
     {
-        //$storage = Material::with('storage')->get()->first();
-        $storage = Storage::first();  
+        $storage = Storage::first();
         return view('storages.update')->with('storage', $storage);
     }
 
@@ -27,6 +27,27 @@ class StorageController extends Controller
         return view('storages.edit')->with('material', $material);
     }
 
+    public function teacherEditView(Material $material)
+    {
+        return view('storages.teacher.edit')->with('material', $material);
+    }
+
+    public function show($cabinet, $shelf)
+    {
+        $storages = Storage::where('cabinet', $cabinet)
+                           ->where('shelf', $shelf)
+                           ->get();
+
+        return view('storages.show', compact('storages', 'cabinet', 'shelf'));
+    }
+
+    /**
+     * Procesa y actualiza los datos de almacenamiento (uso y/o reserva) de un material.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Material $material
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateBatch(Request $request, Material $material)
     {
         try {
@@ -56,7 +77,6 @@ class StorageController extends Controller
                 return back()->with('error', 'El material no esta añadido en el alamcenamiento de uso.');
             }
             
-
             // Nuevos valores.
             $newStorage = $validated['storage'];
             $newUseUnits    = $validated['use_units'];
@@ -103,6 +123,7 @@ class StorageController extends Controller
 
                 // Calcular la diferencia a registrar.
                 $differenceReserve = $newReserveUnits - $reserveRecord->units;
+
                 // Comprobar stock negativo.
                 if ($newReserveUnits < 0) {
                     return back()->with('error','La cantidad de reserva no puede ser negativa.');
@@ -192,9 +213,18 @@ class StorageController extends Controller
         }
     }
 
+    /**
+     * Registra una modificación en la tabla de historial de cambios.
+     *
+     * @param int $material_id     | ID del material
+     * @param string $storage_type | Tipo de almacenamiento ('use' o 'reserve')
+     * @param int $units           | Cantidad modificada (puede ser negativa)
+     * @return void
+     */
     private function storeEditInModification($material_id, $storage_type, $units)
     {
         $user_id = Cookie::get('USERPASS');
+
         Modification::create([
             'user_id'         => $user_id,
             'material_id'     => $material_id,
@@ -204,16 +234,18 @@ class StorageController extends Controller
         ]);
     }
 
-    public function teacherEditView(Material $material)
-    {
-        return view('storages.teacher.edit')->with('material', $material);
-    }
-
+    /**
+     * Resta unidades al almacenamiento de uso de un material.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Material $material
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function subtractToUse(Request $request, Material $material)
     {
         try {
-            $useRecord     = $material->storage->where('storage_type', 'use')->first();
-            $currentUse      = $useRecord->units;
+            $useRecord  = $material->storage->where('storage_type', 'use')->first();
+            $currentUse = $useRecord->units;
 
             $validated = $request->validate([
                 'subtract_units' => "required|integer|min:1|max:{$currentUse}",
@@ -227,7 +259,6 @@ class StorageController extends Controller
             $modifiedUnits = $validated['subtract_units'];
 
             DB::transaction(function() use ($modifiedUnits, $material) {
-                // decrementa uso
                 Storage::where('material_id',$material->material_id)
                 ->where('storage_type','use')
                 ->decrement('units',$modifiedUnits);
@@ -243,6 +274,14 @@ class StorageController extends Controller
         }
     }
 
+    /**
+     * Comprueba si el número de unidades en el almacenamiento está por debajo del mínimo
+     * y, en tal caso, envía una alerta por correo electrónico.
+     *
+     * @param \App\Models\Material $material
+     * @param string $storage_type Tipo de almacenamiento ('use' o 'reserve')
+     * @return void
+     */
     private function comprobateUnits($material, $storage_type)
     {
         //$typeRecord = $material->storage->where('storage_type', $storage_type)->first();
@@ -253,15 +292,13 @@ class StorageController extends Controller
         }
     }
 
-    public function show($cabinet, $shelf)
+    /**
+     * Devuelve en JSON la lista de todos los materiales.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateData()
     {
-        // Buscar todos los Storage que coincidan con esa ubicación
-        $storages = Storage::where('cabinet', $cabinet)
-                           ->where('shelf',   $shelf)
-                           ->get();
-
-        // Opcional: si lo quieres como un único registro, ->firstOrFail()
-
-        return view('storages.show', compact('storages', 'cabinet', 'shelf'));
+        return response()->json(Material::with('storage')->get());
     }
 }

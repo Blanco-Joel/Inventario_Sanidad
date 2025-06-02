@@ -1,23 +1,46 @@
-console.log("script darkmode.js");
+function addEvent(element, eventName, handler) {
+    if (element.addEventListener) {
+        element.addEventListener(eventName, handler, false);
+    } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, function () {
+            handler.call(element, window.event);
+        });
+    }
+    
+    return;
+}
 
-let darkmode = localStorage.getItem('darkmode');
-const themeSwitch = document.getElementById('theme-switch');
+addEvent(document, "DOMContentLoaded", function () {
+    let darkmode = localStorage.getItem('darkmode');
+    let themeSwitch = document.getElementById('theme-switch');
 
-const enableDarkMode = () => {
+    if (darkmode === "active") {
+        enableDarkMode();
+    }
+
+    addEvent(themeSwitch, "click", toggleTheme);
+
+    return;
+});
+
+function toggleTheme() {
+    darkmode = localStorage.getItem('darkmode');
+    if (darkmode !== "active") 
+        enableDarkMode();
+    else
+        disableDarkMode();
+    
+    return;
+}
+
+function enableDarkMode() {
     document.body.classList.add('darkmode');
     localStorage.setItem('darkmode', 'active');
+    return;
 }
 
-const disableDarkMode = () => {
+function disableDarkMode() {
     document.body.classList.remove('darkmode');
     localStorage.setItem('darkmode', null);
+    return;
 }
-
-if (darkmode === "active") {
-    enableDarkMode();
-}
-
-themeSwitch.addEventListener('click', () => {
-    darkmode = localStorage.getItem('darkmode');
-    darkmode !== "active" ? enableDarkMode() : disableDarkMode();
-})

@@ -3,9 +3,9 @@ if (document.addEventListener)
 else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
-var allData = [];
-var currentLimit = 5;
-var paginaActual = 0;   
+let allData = [];
+let currentLimit = 5;
+let paginaActual = 0;   
 
 async function inicio() {
     while (typeof window.MODIFICATIONSDATA === 'undefined') {

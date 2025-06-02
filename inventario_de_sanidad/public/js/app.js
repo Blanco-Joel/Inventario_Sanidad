@@ -1,118 +1,158 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const sidebar = document.querySelector('.sidebar');
-    const linkTexts = document.querySelectorAll('.link-text');
-    const btnNotifications = document.getElementById("btn-notifications");
-    const notificationsList = document.getElementById("notifications-list");
-    const userInfoToggle = document.getElementById("user-info-toggle");
-    const logoutSection = document.getElementById("logout-section");
-
-    initSidebarToggle();
-    initSubmenus();
-    initNotifications();
-    initLogoutToggle();
-    initActiveLinks();
-
-    // Función que controla la apertura y cierre del sidebar
-    function initSidebarToggle() {
-        document.addEventListener('click', (e) => {
-            // Comprueba si el click fue dentro del sidebar
-            const clickedInsideSidebar = e.target.closest('.sidebar');
-
-            // Comprueba si el sidebar está expandido
-            const isSidebarExpanded = sidebar.classList.contains('expanded');
-
-            // Si se clicó dentro y no está expandido, lo expande
-            if (clickedInsideSidebar && !isSidebarExpanded) {
-                sidebar.classList.add('expanded');
-            // Si se clicó fuera y está expandido, lo colapsa
-            } else if (!clickedInsideSidebar && isSidebarExpanded) {
-                linkTexts.forEach(link => link.classList.remove('show'));
-                sidebar.classList.remove('expanded');
-
-                // Cerrar submenús si los hay abiertos
-                document.querySelectorAll('.has-submenu.open').forEach(item => {
-                    item.classList.remove('open');
-                });
-            }
-        });
-
-        // Cuando termina la transición CSS (ancho), si el sidebar está expandido, hace visibles los textos
-        sidebar.addEventListener('transitionend', (e) => {
-            if (e.propertyName === 'width' && sidebar.classList.contains('expanded')) {
-                linkTexts.forEach(link => link.classList.add('show'));
-            }
+function addEvent(element, eventName, handler) {
+    if (element.addEventListener) {
+        element.addEventListener(eventName, handler, false);
+    } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, function () {
+            handler.call(element, window.event);
         });
     }
+    return;
+}
 
-    // Permite abrir/cerrar submenús con click
-    function initSubmenus() {
-        const submenuParents = document.querySelectorAll(".sidebar .has-submenu");
+addEvent(document, "DOMContentLoaded", function () {
+    let sidebar = document.querySelector('.sidebar');
+    let linkTexts = document.querySelectorAll('.link-text');
+    let btnNotifications = document.getElementById("btn-notifications");
+    let notificationsList = document.getElementById("notifications-list");
+    let userInfoToggle = document.getElementById("user-info-toggle");
+    let logoutSection = document.getElementById("logout-section");
 
-        submenuParents.forEach(parent => {
-            const toggleLink = parent.querySelector("a");
-            if (!toggleLink) return;
+    initSidebarToggle(sidebar, linkTexts);
+    initSubmenus();
+    initNotifications(btnNotifications, notificationsList);
+    initLogoutToggle(userInfoToggle, logoutSection);
+    initActiveLinks();
 
-            toggleLink.addEventListener("click", (e) => {
+    return;
+});
+
+function initSidebarToggle(sidebar, linkTexts) {
+    function handleDocumentClick(e) {
+        let clickedInsideSidebar = e.target.closest('.sidebar');
+        let isSidebarExpanded = sidebar.classList.contains('expanded');
+
+        if (clickedInsideSidebar && !isSidebarExpanded) {
+            sidebar.classList.add('expanded');
+        } else if (!clickedInsideSidebar && isSidebarExpanded) {
+            let i = 0;
+            while (i < linkTexts.length) {
+                linkTexts[i].classList.remove('show');
+                i++;
+            }
+
+            sidebar.classList.remove('expanded');
+
+            let openItems = document.querySelectorAll('.has-submenu.open');
+            let j = 0;
+            while (j < openItems.length) {
+                openItems[j].classList.remove('open');
+                j++;
+            }
+        }
+    }
+
+    function handleTransitionEnd(e) {
+        if (e.propertyName === 'width' && sidebar.classList.contains('expanded')) {
+            let i = 0;
+            while (i < linkTexts.length) {
+                linkTexts[i].classList.add('show');
+                i++;
+            }
+        }
+    }
+
+    addEvent(document, 'click', handleDocumentClick);
+    addEvent(sidebar, 'transitionend', handleTransitionEnd);
+
+    return;
+}
+
+function initSubmenus() {
+    let submenuParents = document.querySelectorAll(".sidebar .has-submenu");
+    let i = 0;
+
+    while (i < submenuParents.length) {
+        let parent = submenuParents[i];
+        let toggleLink = parent.querySelector("a");
+
+        if (toggleLink) {
+            addEvent(toggleLink, "click", function (e) {
                 e.preventDefault();
                 parent.classList.toggle("open");
             });
-        });
+        }
+
+        i++;
     }
 
-    // Inicializa el botón de notificaciones para mostrar/ocultar la lista
-    function initNotifications() {
-        if (!btnNotifications || !notificationsList) return;
-        
-        // Al hacer click en el botón de notificaciones:
-        btnNotifications.addEventListener("click", (e) => {
-            e.stopPropagation();
-            notificationsList.classList.toggle("show");
-        });
+    return;
+}
 
-        // Si se hace click en cualquier parte fuera del botón o la lista, se oculta la lista
-        document.addEventListener("click", (e) => {
-            if (!e.target.closest("#btn-notifications") && !e.target.closest("#notifications-list")) {
-                notificationsList.classList.remove("show");
-            }
-        });
+function initNotifications(btnNotifications, notificationsList) {
+    if (!btnNotifications || !notificationsList) {
+        return;
     }
 
-
-    // Inicializa el toggle del logout dentro del dropdown de usuario
-    function initLogoutToggle() {
-        userInfoToggle.addEventListener("click", (e) => {
-            e.stopPropagation();
-            // Alterna la visibilidad del logout (block o none)
-            logoutSection.style.display =
-                logoutSection.style.display === "none" || logoutSection.style.display === ""
-                    ? "block"
-                    : "none";
-        });
-
-        // Si se hace click fuera del dropdown, oculta el logout
-        document.addEventListener("click", (e) => {
-            if (!e.target.closest(".user-dropdown")) {
-                logoutSection.style.display = "none";
-            }
-        });
+    function toggleNotifications(e) {
+        e.stopPropagation();
+        notificationsList.classList.toggle("show");
     }
 
-    // Inicializa la clase active en los enlaces del sidebar para marcar el seleccionado
-    function initActiveLinks() {
-        const links = document.querySelectorAll('.sidebar a');
-
-        links.forEach(link => {
-            // Solo aplica a enlaces con href válido que no sea vacío
-            const href = link.getAttribute('href');
-            if (href && href !== '') {
-                link.addEventListener('click', function (e) {
-                    // Remueve la clase active de todos
-                    links.forEach(l => l.classList.remove('active'));
-
-                    // Agrega la clase active al actual
-                    this.classList.add('active');
-                });
-            }
-        });
+    function closeNotifications(e) {
+        let isInsideBtn = e.target.closest("#btn-notifications");
+        let isInsideList = e.target.closest("#notifications-list");
+        if (!isInsideBtn && !isInsideList) {
+            notificationsList.classList.remove("show");
+        }
     }
-});
+
+    addEvent(btnNotifications, "click", toggleNotifications);
+    addEvent(document, "click", closeNotifications);
+
+    return;
+}
+
+function initLogoutToggle(userInfoToggle, logoutSection) {
+    function toggleLogout(e) {
+        e.stopPropagation();
+        logoutSection.style.display = (logoutSection.style.display === "none" || logoutSection.style.display === "")
+            ? "block"
+            : "none";
+    }
+
+    function hideLogout(e) {
+        if (!e.target.closest(".user-dropdown")) {
+            logoutSection.style.display = "none";
+        }
+    }
+
+    addEvent(userInfoToggle, "click", toggleLogout);
+    addEvent(document, "click", hideLogout);
+
+    return;
+}
+
+function initActiveLinks() {
+    let links = document.querySelectorAll('.sidebar a');
+    let i = 0;
+
+    while (i < links.length) {
+        let link = links[i];
+        let href = link.getAttribute('href');
+
+        if (href && href !== '') {
+            addEvent(link, 'click', function () {
+                let j = 0;
+                while (j < links.length) {
+                    links[j].classList.remove('active');
+                    j++;
+                }
+                this.classList.add('active');
+            });
+        }
+
+        i++;
+    }
+
+    return;
+}

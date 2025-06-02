@@ -52,7 +52,7 @@
                     <th>Email</th>
                     <th>Tipo de usuario</th>
                     <th>Fecha de alta</th>
-                    <th colspan="2">Acciones</th>
+                    <th colspan="2"></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -82,5 +82,5 @@
     <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/usersManagement.js') }}"></script>
     <script src="{{ asset('js/tableUser.js') }}"></script>
-    <script src="{{ asset('js/filterToggle.js') }}"></script>
+    <script src="{{ asset('js/filterToggle.js') }}"></script> 
 @endpush

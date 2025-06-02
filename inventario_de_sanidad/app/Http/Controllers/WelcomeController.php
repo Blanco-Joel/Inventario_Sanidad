@@ -10,11 +10,21 @@ use App\Models\User;
 
 class WelcomeController extends Controller
 {
+    /**
+     * Muestra la vista de bienvenida.
+     *
+     * @return \Illuminate\View\View
+     */
     public function welcome()
     {
         return view('welcome.welcome');
     }
 
+    /**
+     * Devuelve los datos del usuario basado en la cookie 'USERPASS'.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function firstLogData()
     {
         $userpass = Cookie::get('USERPASS');
@@ -27,6 +37,12 @@ class WelcomeController extends Controller
         return response()->json($user);
     }
 
+    /**
+     * Cambia la contraseña del usuario en su primer inicio de sesión.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function changePasswordFirstLog(Request $request)
     {
         $request->validate([
@@ -48,6 +64,7 @@ class WelcomeController extends Controller
             return redirect()->back()->withErrors(['user' => 'Usuario no encontrado']);
         }
 
+        // Actualizar contraseña y marcar primer inicio de sesión como completado
         $user->password = $request->newPassword;
         $user->hashed_password = Hash::make($request->newPassword);
         $user->first_log = 1;

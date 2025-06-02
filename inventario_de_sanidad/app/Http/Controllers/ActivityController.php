@@ -13,11 +13,41 @@ use Illuminate\Support\Facades\DB;
 
 class ActivityController extends Controller
 {
+    /**
+     * Muestra el formulario de creación de actividades con la lista de materiales disponibles.
+     *
+     * @return \Illuminate\View\View
+     */
     public function createForm()
     {
         return view('activities.create')->with('materials', Material::all());
     }
 
+    /**
+     * Muestra el historial de actividades del usuario autenticado.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function historyView()
+    {
+        $user = User::find(Cookie::get('USERPASS'));
+        if (!$user) {
+            return back()->with('error', 'Usuario no encontrado.');
+        }
+        
+        $activities = $user->activities()
+            ->with('materials')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('activities.history')->with('activities', $activities);
+    }
+
+    /**
+     * Almacena una nueva actividad y sus materiales asociados en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -31,12 +61,11 @@ class ActivityController extends Controller
         ]);
     
         $basket = json_decode($validated['materialsBasketInput'], true) ?? [];
-
-        if (!is_array($basket)) {
-            $basket = [];
-        }
     
         $user_id = Cookie::get('USERPASS');
+        if (!$user_id || !User::find($user_id)) {
+            return back()->with('error', 'Usuario no válido.');
+        }
 
         try {
             DB::transaction(function () use ($basket, $validated, $user_id) {
@@ -57,6 +86,13 @@ class ActivityController extends Controller
         }
     }    
 
+    /**
+     * Almacena la relación entre una actividad y los materiales utilizados.
+     *
+     * @param  \App\Models\Activity  $activity
+     * @param  array  $basket
+     * @return void
+     */
     private function storeMaterialsActivity(Activity $activity, $basket)
     {
         foreach ($basket as $data) {
@@ -66,15 +102,5 @@ class ActivityController extends Controller
                 'units'    => $data['units']
             ]);
         }
-    }
-
-    public function historyView()
-    {
-        $user = User::find(Cookie::get('USERPASS'));
-        $activities = $user->activities()
-            ->with('materials')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        return view('activities.history')->with('activities', $activities);
     }
 }
