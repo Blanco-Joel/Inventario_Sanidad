@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Storage as StorageFacade;
 
 class MaterialManagementController extends Controller
 {
+    /**
+     * Muestra la vista principal de los materiales.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         return view('materials.index');
@@ -26,10 +30,20 @@ class MaterialManagementController extends Controller
         return view('materials.create');
     }
 
+    /**
+     * Devuelve en JSON la lista de todos los materiales ordenados por ID.
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function materialsData()
     {
         return response()->json(Material::orderBy('material_id')->get());
     }
+
+    /**
+     * Muestra la vista para editar un material específico.
+     * @param \App\Models\Material $material
+     * @return mixed|\Illuminate\Contracts\View\View
+     */
     public function edit(Material $material)
     {
         return view('materials.edit')->with('material', $material);
@@ -78,23 +92,41 @@ class MaterialManagementController extends Controller
                 }
             });
 
-            foreach ($imagesMaterials as $imageData) {
-                StorageFacade::disk('public')->move($imageData["image_temp"], $imageData["image_path"]);
-                Material::where('material_id', $imageData["material_id"])->update(['image_path' =>  $imageData["image_path"]]);
-            }
-
-            StorageFacade::disk('public')->deleteDirectory('temp');
-
             Cookie::queue(Cookie::forget('materialsAddBasket'));
-    
-            return back()->with('success', 'Materiales incorporados correctamente.');
         } catch (\Exception $e) {
             return back()->with('error', 'Error al insertar los materiales: ' . $e->getMessage());
         }
-    }    
+
+        $failedMaterials = [];
+
+        foreach ($imagesMaterials as $imageData) {
+            try {
+                $moved = StorageFacade::disk('public')->move($imageData["image_temp"], $imageData["image_path"]);
+
+                if (!$moved) {
+                    $failedMaterials[] = $imageData["material_id"];
+                } else {
+                    Material::where('material_id', $imageData["material_id"])->update(['image_path' =>  $imageData["image_path"]]);
+                }
+            } catch (\Exception $e) {
+                $materialName = Material::where('material_id', $imageData["material_id"])->get('name');
+                $failedMaterials[] = $materialName;
+            }
+        }
+
+        StorageFacade::disk('public')->deleteDirectory('temp');
+
+        if (empty($failedMaterials)) {
+            return back()->with('success', 'Materiales incorporados correctamente.');
+        } else {
+            $failedList = implode(', ', $failedMaterials);
+
+            return back()->with('warning', "Error al mover imágenes para los siguientes materiales: $failedList. Los demás se incorporaron correctamente.");
+        }
+    }
 
     /**
-     * Da de alta o registra el almacenamiento de cada material creado.
+     * Registra el almacenamiento para un material en los tipos 'use' y 'reserve'.
      * @param \App\Models\Material $material
      * @param mixed $materialData
      * @return void
@@ -116,43 +148,21 @@ class MaterialManagementController extends Controller
     }
 
     /**
-     * Agrega un material a la cesta para dar de baja, almacenando su ID.
-     * @param \Illuminate\Http\Request $request
+     * Elimina un material.
+     * @param \App\Models\Material $material
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addToDeletionBasket(Request $request)
-    {
-        $validated = $request->validate([
-            'material' => 'required|exists:materials,material_id'
-        ], [
-            'material.required' => 'Debe seleccionar un material.',
-            'material.exists'   => 'El material seleccionado no existe.'
-        ]);
-
-        $basket = Cookie::get('materialsRemovalBasket', '[]');
-        $basket = json_decode($basket, true);
-        
-        if (!is_array($basket)) {
-            $basket = [];
-        }
-
-        $material = Material::findOrFail($validated['material']);
-
-        $basket[] = [
-            'material_id' => $material->material_id,
-            'name'        => $material->name
-        ];
-        
-        Cookie::queue('materialsRemovalBasket', json_encode($basket), 1440);
-        
-        return back()->with('success', 'Material agregado a la cesta.');
-    }
-
     public function destroy(Material $material)
     {
         try {
             if (!Material::find($material->material_id)) {
                 return back()->with('warning', 'El material no existe o ya ha sido eliminado.');
+            }
+
+            $path = $material->image_path;
+
+            if (!empty($path)) {
+                StorageFacade::disk('public')->delete($path);
             }
 
             $material->delete();
@@ -163,6 +173,13 @@ class MaterialManagementController extends Controller
         }
     }
 
+    /**
+     * Actualiza los datos de un material.
+     * @param \App\Models\Material $material
+     * @param \Illuminate\Http\Request $request
+     * @throws \Exception
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Material $material, Request $request)
     {
         $validated = $request->validate([
@@ -180,26 +197,30 @@ class MaterialManagementController extends Controller
         $oldPath = $material->image_path;
         $newPath = null;
 
-        try {
-            DB::transaction(function() use ($material, $request, $validated, &$newPath, $oldPath) {
-                if ($request->hasFile('image')) {
-                    $newPath = $request->file('image')->store('materials', 'public');
-                }
+        if ($request->hasFile('image')) {
+            $newPath = $request->file('image')->store('materials','public');
+        }
 
+        try {
+            DB::transaction(function() use ($material, $validated, $newPath, $oldPath) {
                 $material->update([
-                    'name'        => $validated['name'],
-                    'description' => $validated['description'],
-                    'image_path'    =>  $newPath ?? $oldPath,
+                    'name'         => $validated['name'],
+                    'description'  => $validated['description'],
+                    'image_path'   => $newPath ?? $oldPath,
                 ]);
 
-                if (!empty($newPath) && !empty($oldPath)) {
-                    StorageFacade::disk('public')->delete($oldPath);
+                if ($newPath && $oldPath) {
+                    $deleted = StorageFacade::disk('public')->delete($oldPath);
+                    
+                    if (!$deleted) {
+                        throw new \Exception("No se pudo eliminar la imagen anterior");
+                    }
                 }
             });
 
             return back()->with('success', 'Material editado correctamente.');
         } catch (\Exception $e) {
-            if (!empty($newPath)) {
+            if (!empty($newPath) && StorageFacade::disk('public')->exists($newPath)) {
                 StorageFacade::disk('public')->delete($newPath);
             }
 
@@ -207,9 +228,14 @@ class MaterialManagementController extends Controller
         }
     }
 
+    /**
+     * Sube una imagen a un directorio temporal en el almacenamiento público.
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function uploadTemp(Request $request)
     {
-        $request->validate(['image'=>'required|image|max:2048']);
+        $request->validate(['image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
         $tempPath = $request->file('image')->store('temp','public');
         return response()->json(['tempPath'=>$tempPath ?? null]);
     }
