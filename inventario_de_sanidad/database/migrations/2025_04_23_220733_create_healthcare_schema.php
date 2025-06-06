@@ -42,11 +42,12 @@ class CreateHealthcareSchema extends Migration
             $table->unsignedInteger('drawer')->nullable();
             $table->unsignedInteger('units')->default(0);
             $table->unsignedInteger('min_units')->default(0);
-            $table->primary(['material_id', 'storage_type']);
+
+            $table->primary(['material_id', 'storage', 'storage_type']);
 
             $table->foreign('material_id')
-                  ->references('material_id')->on('materials')
-                  ->onDelete('cascade')->onUpdate('cascade');
+                ->references('material_id')->on('materials')
+                ->onDelete('cascade')->onUpdate('cascade');
 
             $table->index('material_id', 'idx_storages_material');
             $table->index('storage_type', 'idx_storages_type');
@@ -57,18 +58,19 @@ class CreateHealthcareSchema extends Migration
             $table->engine = 'InnoDB';
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('material_id');
+            $table->enum('storage',['odontology','CAE']);
             $table->enum('storage_type', ['use', 'reserve']);
             $table->dateTime('action_datetime');
             $table->integer('units');
-            $table->primary(['user_id', 'material_id', 'storage_type', 'action_datetime'], 'pk_modifications');
+            $table->primary(['user_id', 'material_id', 'storage_type', 'storage', 'action_datetime'], 'pk_modifications');
 
             $table->foreign('user_id')
-                  ->references('user_id')->on('users')
-                  ->onDelete('cascade')->onUpdate('cascade');
+                ->references('user_id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
 
-            $table->foreign(['material_id', 'storage_type'])
-                  ->references(['material_id', 'storage_type'])->on('storages')
-                  ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign(['material_id', 'storage', 'storage_type'])
+                ->references(['material_id', 'storage', 'storage_type'])->on('storages')
+                ->onDelete('cascade')->onUpdate('cascade');
 
             $table->index('user_id', 'idx_modifications_user');
             $table->index('storage_type', 'idx_modifications_storage_type');

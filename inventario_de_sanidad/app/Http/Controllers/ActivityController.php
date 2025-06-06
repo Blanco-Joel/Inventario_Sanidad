@@ -13,11 +13,20 @@ use Illuminate\Support\Facades\DB;
 
 class ActivityController extends Controller
 {
+    /**
+     * Muestra la vista para crear una nueva actividad
+     * @return mixed|\Illuminate\Contracts\View\View
+     */
     public function createForm()
     {
         return view('activities.create')->with('materials', Material::all());
     }
 
+    /**
+     * Registra la actividad.
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -57,6 +66,12 @@ class ActivityController extends Controller
         }
     }    
 
+    /**
+     * Registra los materiales utilizados en la actividad.
+     * @param \App\Models\Activity $activity
+     * @param mixed $basket
+     * @return void
+     */
     private function storeMaterialsActivity(Activity $activity, $basket)
     {
         foreach ($basket as $data) {
@@ -68,6 +83,10 @@ class ActivityController extends Controller
         }
     }
 
+    /**
+     * Muestra una vista con todas las actividades del usuario(alumno).
+     * @return mixed|\Illuminate\Contracts\View\View
+     */
     public function historyView()
     {
         $user = User::find(Cookie::get('USERPASS'));

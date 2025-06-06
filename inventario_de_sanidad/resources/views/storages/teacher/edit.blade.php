@@ -9,10 +9,14 @@
 @section('content')
 <div class="">
     <div class="edit-container">
-        <form action="{{ route('storages.subtract.teacher', $material->material_id) }}" method="POST">
+        @php
+            $useRecord = $material->storage->where('storage_type', 'use')->first();
+            $currentLocation = $useRecord->storage ?? ''; // 'CAE' o 'odontologia'
+        @endphp
+        <form action="{{ route('storages.subtract.teacher', [$material->material_id, $currentLocation]) }}" method="POST">
             @csrf
 
-            <h1>Editar Almacenamiento para: {{ $material->name }}</h1>
+            <h1>Editar Almacenamiento para: {{ $material->name }} / {{ $currentLocation }}</h1>
             
             @php
                 $useRecord = $material->storage->where('storage_type', 'use')->first();
