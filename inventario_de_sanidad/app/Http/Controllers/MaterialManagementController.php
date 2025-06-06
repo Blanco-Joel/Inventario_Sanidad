@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Storage as StorageFacade;
 class MaterialManagementController extends Controller
 {
     /**
-     * Muestra la vista principal de los materiales.
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * Muestra la vista principal de materiales.
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -22,8 +23,9 @@ class MaterialManagementController extends Controller
     }
 
     /**
-     * Muestra la vista para dar de alta (agregar) nuevos materiales.
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * Muestra la vista para crear (dar de alta) nuevos materiales.
+     *
+     * @return \Illuminate\View\View
      */
     public function createForm()
     {
@@ -32,7 +34,8 @@ class MaterialManagementController extends Controller
 
     /**
      * Devuelve en JSON la lista de todos los materiales ordenados por ID.
-     * @return mixed|\Illuminate\Http\JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function materialsData()
     {
@@ -41,8 +44,9 @@ class MaterialManagementController extends Controller
 
     /**
      * Muestra la vista para editar un material específico.
-     * @param \App\Models\Material $material
-     * @return mixed|\Illuminate\Contracts\View\View
+     *
+     * @param Material $material
+     * @return \Illuminate\View\View
      */
     public function edit(Material $material)
     {
@@ -50,8 +54,10 @@ class MaterialManagementController extends Controller
     }
 
     /**
-     * Da de alta los materiales que se han almacenado temporalmente en la cookie 
-     * 'materialsAddBasket'. Si ocurre un error no se da de alta ningún material.
+     * Da de alta (guarda) en batch los materiales almacenados temporalmente en la cookie 'materialsAddBasket'.
+     * Realiza toda la operación en una transacción, si hay error no se inserta nada.
+     *
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeBatch(Request $request)
@@ -63,7 +69,6 @@ class MaterialManagementController extends Controller
         ]);
 
         $basket = json_decode($validated['materialsAddBasket'], true) ?? [];
-    
         if (empty($basket) || !is_array($basket)) {
             return back()->with('error', 'No hay materiales en la cesta para dar de alta.');
         }
@@ -73,12 +78,14 @@ class MaterialManagementController extends Controller
         try {
             DB::transaction(function () use ($basket, &$imagesMaterials) {
                 foreach ($basket as $materialData) {
+                    // Crear material
                     $material = new Material();
                     $material->name = $materialData["name"];
                     $material->description = $materialData["description"];
                     $material->image_path = null;
                     $material->save();
 
+                    // Preparar movimientos de imagen
                     if (!empty($materialData["image_temp"])) {
                         $imageName = pathinfo($materialData["image_temp"], PATHINFO_BASENAME);
                         $imagesMaterials[] = [
@@ -88,6 +95,7 @@ class MaterialManagementController extends Controller
                         ];
                     }
                     
+                    // Registrar almacenamiento de material en 'use' y 'reserve'
                     $this->storeMaterialInStorage($material, $materialData);
                 }
             });
@@ -127,9 +135,9 @@ class MaterialManagementController extends Controller
 
     /**
      * Registra el almacenamiento para un material en los tipos 'use' y 'reserve'.
-     * @param \App\Models\Material $material
-     * @param mixed $materialData
-     * @return void
+     *
+     * @param Material $material
+     * @param mixed $materialData Datos con info de almacenamiento
      */
     private function storeMaterialInStorage(Material $material, $materialData)
     {
@@ -174,10 +182,10 @@ class MaterialManagementController extends Controller
     }
 
     /**
-     * Actualiza los datos de un material.
-     * @param \App\Models\Material $material
-     * @param \Illuminate\Http\Request $request
-     * @throws \Exception
+     * Actualiza los datos de un material, incluida su imagen (opcional).
+     *
+     * @param Material $material
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Material $material, Request $request)
@@ -220,6 +228,7 @@ class MaterialManagementController extends Controller
 
             return back()->with('success', 'Material editado correctamente.');
         } catch (\Exception $e) {
+            // Si hubo error, eliminar imagen subida
             if (!empty($newPath) && StorageFacade::disk('public')->exists($newPath)) {
                 StorageFacade::disk('public')->delete($newPath);
             }
@@ -229,9 +238,10 @@ class MaterialManagementController extends Controller
     }
 
     /**
-     * Sube una imagen a un directorio temporal en el almacenamiento público.
-     * @param \Illuminate\Http\Request $request
-     * @return mixed|\Illuminate\Http\JsonResponse
+     * Sube una imagen temporal y devuelve su ruta para uso posterior.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function uploadTemp(Request $request)
     {

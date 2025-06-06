@@ -8,31 +8,46 @@ use App\Models\User;
 use Carbon\Carbon;
 class UsersManagementController extends Controller
 {
+    /**
+     * Muestra la vista para crear un nuevo usuario.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showCreateUser()
     {
         return view('users.createUser');
     }
 
+    /**
+     * Muestra la vista principal de gestión de usuarios.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showUsersManagement()
     {
         return view('users.usersManagement',);
     }
 
-    public function gestionUsuarios(Request $request) {
-        if ($request->input('action') == 'alta') {
-            $this->altaUsers($request);
-        } elseif ($request->input('action') == 'baja') {
-            $this->bajaUsers($request);
-        }
-    }
-
+    /**
+     * Devuelve todos los usuarios en formato JSON ordenados por fecha de creación descendente.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function usersManagementData()
     {
         return response()->json(User::orderBy('created_at','desc')->get());
     } 
 
+    /**
+     * Crea un nuevo usuario validando los datos y generando una contraseña aleatoria.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function altaUsers(Request $request)
     {
+        // Generar contraseña aleatoria de 8 caracteres
+        // $password = $this->generateRandomPassword(8);
         $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{}|;:,.<>?';
         $password = '';
         for ($i = 0; $i < 8; $i++) {
@@ -69,10 +84,16 @@ class UsersManagementController extends Controller
         return back()->with('mensaje', 'Usuario ' . $credentials["nombre"] . ' ' . $credentials["apellidos"] . ' creado con éxito.');
     }
 
+    /**
+     * Elimina un usuario basado en su ID.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function bajaUsers(Request $request)
     {
-
         $user = $request["user_id"];
+
         User::where('user_id', $user)->delete();
 
         return back()->with([

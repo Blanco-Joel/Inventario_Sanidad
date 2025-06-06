@@ -50,6 +50,3 @@
 
 @endsection
 
-@push('scripts')
-
-@endpush

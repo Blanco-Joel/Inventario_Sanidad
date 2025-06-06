@@ -62,20 +62,14 @@
     vertical-align: middle;
 }
 
-.form-actions input[type="submit"] {
-    background-color: var(--warning);
-    padding: 0.5rem 1.5rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
 .material-form:last-of-type {
     margin: 0.4rem 0 1rem 0;
 }
 
 .material-form:last-of-type input[type="submit"] {
     font-size: 1.1rem;
-    padding: 0.7rem 2.5rem;
+    color: white;
+    padding: 0.5rem 2.5rem;
 }
 
 #imgPreview {
@@ -94,7 +88,6 @@
     margin-bottom: 1rem;
     color: var(--primary-100);
 }
-
 
 @media (max-width: 768px) {
     .container {

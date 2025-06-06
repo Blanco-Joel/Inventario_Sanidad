@@ -8,6 +8,8 @@ var currentLimit = 5;
 var paginaActual = 0;   
 
 async function inicio() {
+    initViewToggle();
+
     while (typeof window.HISTORICALDATA === 'undefined') {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
@@ -33,7 +35,43 @@ async function inicio() {
 
     renderTable(currentLimit);
     renderTableCards(currentLimit);
+}
 
+function initViewToggle(){
+  const cardViewBtn = document.getElementById('cardViewBtn');
+  const tableViewBtn = document.getElementById('tableViewBtn');
+  const cardView = document.getElementById('cardView');
+  const tableView = document.getElementById('tableView');
+  const searchInput = document.querySelector('.search-input');
+
+  function activateCardView() {
+      cardView.style.display = 'grid';
+      tableView.style.display = 'none';
+      cardViewBtn.classList.add('active');
+      tableViewBtn.classList.remove('active');
+  }
+
+  function activateTableView() {
+      cardView.style.display = 'none';
+      tableView.style.display = 'block';
+      tableViewBtn.classList.add('active');
+      cardViewBtn.classList.remove('active');
+  }
+
+  cardViewBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      activateCardView();
+  });
+
+  tableViewBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      activateTableView();
+  });
+
+  // Filtro en tiempo real
+
+
+  activateCardView();
 }
 
 function filtrarTabla() {

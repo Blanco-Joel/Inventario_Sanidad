@@ -166,10 +166,10 @@
         <header class="header">
             <div class="header-right">
                 <!-- DarkMode Toggle -->
-                {{-- <button class="btn btn-primary btn-notifications" id="theme-switch" type="button">
+                <button class="btn btn-primary btn-notifications" id="theme-switch" type="button">
                     <i class="fa-solid fa-sun"></i>
                     <i class="fa-solid fa-moon"></i>
-                </button> --}}
+                </button>
 
                 <!-- Notificaciones de alerta -->
                 @php

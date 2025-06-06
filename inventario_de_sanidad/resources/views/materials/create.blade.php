@@ -15,6 +15,7 @@
     <div class="basket-toggle">
         <button id="toggleBasketBtn" class="btn btn-outline btn-notifications" type="button">
             <i class="fa-solid fa-cart-shopping"></i>
+            {{-- <span class="basket-count">{{ count($basket) }}</span> --}}
         </button>
     </div>
 
@@ -166,38 +167,7 @@
 </div>
 @endsection
 
-
 @push('scripts')
-    <script>
-        document.getElementById("image").addEventListener("change", function () {
-            const fileName = this.files[0]?.name || "Ningún archivo seleccionado";
-            document.getElementById("file-name").textContent = fileName;
-        });
-    </script>
-
     <script src="{{ asset('js/previewImage.js') }}"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const toggleBtn = document.getElementById("toggleBasketBtn");
-            const formSections = document.querySelectorAll(".material-form, .form-title, .form-group, fieldset, .form-actions");
-            const basketSection = document.querySelector(".basket-section");
-            let showingBasketOnly = false;
-
-            toggleBtn.addEventListener("click", function () {
-                showingBasketOnly = !showingBasketOnly;
-
-                formSections.forEach(el => el.classList.toggle("hidden", showingBasketOnly));
-
-                if (basketSection) {
-                    basketSection.classList.toggle("hidden", !showingBasketOnly);
-                }
-
-                toggleBtn.classList.remove(showingBasketOnly ? "btn-outline" : "btn-primary");
-                toggleBtn.classList.add(showingBasketOnly ? "btn-primary" : "btn-outline");
-            });
-        });
-    </script>
-
     <script src="{{ asset('js/material.js') }}"></script>
 @endpush

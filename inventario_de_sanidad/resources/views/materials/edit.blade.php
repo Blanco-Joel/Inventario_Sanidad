@@ -42,30 +42,23 @@
             @enderror
         </div>
 
+        {{-- Flash messages --}}
+        @if (session('success'))
+            <p class="alert-success">{{ session('success') }}</p>
+        @endif
+
+        @if (session('error'))
+            <p class="alert-error-uspas">{{ session('error') }}</p>
+        @endif
+
         <div class="form-actions">
             <input type="submit" value="Actualizar" class="btn btn-success">
-            <a href="{{ route('materials.index') }}" class="btn btn-outline">Cancelar</a>
+            <a href="{{ route('materials.index') }}" class="btn btn-danger">Cancelar</a>
         </div>
     </form>
-
-    {{-- Flash messages --}}
-    @if (session('success'))
-        <p class="alert-success">{{ session('success') }}</p>
-    @endif
-
-    @if (session('error'))
-        <p class="alert-error-uspas">{{ session('error') }}</p>
-    @endif
 </div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('js/previewImage.js') }}"></script>
-    <script>
-        // Mostrar nombre de archivo si quieres
-        document.getElementById("image").addEventListener("change", function () {
-            const fileName = this.files[0]?.name || "Ningún archivo seleccionado";
-            // podrías inyectar el nombre en un span si lo necesitas
-        });
-    </script>
 @endpush
