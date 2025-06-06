@@ -26,14 +26,19 @@ addEvent(document, "DOMContentLoaded", function () {
     return;
 });
 
+// Controla la apertura y cierre del sidebar
 function initSidebarToggle(sidebar, linkTexts) {
+    // Maneja el clic en cualquier parte del documento
     function handleDocumentClick(e) {
+        // Comprueba si el clic fue dentro del sidebar
         let clickedInsideSidebar = e.target.closest('.sidebar');
         let isSidebarExpanded = sidebar.classList.contains('expanded');
 
         if (clickedInsideSidebar && !isSidebarExpanded) {
+            // Si se clicó dentro y el sidebar no está expandido, lo expande
             sidebar.classList.add('expanded');
         } else if (!clickedInsideSidebar && isSidebarExpanded) {
+            // Si se clicó fuera y el sidebar está expandido, colapsa y oculta textos
             let i = 0;
             while (i < linkTexts.length) {
                 linkTexts[i].classList.remove('show');
@@ -42,6 +47,7 @@ function initSidebarToggle(sidebar, linkTexts) {
 
             sidebar.classList.remove('expanded');
 
+            // Cierra cualquier submenú abierto
             let openItems = document.querySelectorAll('.has-submenu.open');
             let j = 0;
             while (j < openItems.length) {
@@ -51,6 +57,7 @@ function initSidebarToggle(sidebar, linkTexts) {
         }
     }
 
+    // Cuando termina la transición CSS de ancho, muestra los textos si está expandido
     function handleTransitionEnd(e) {
         if (e.propertyName === 'width' && sidebar.classList.contains('expanded')) {
             let i = 0;
@@ -61,12 +68,13 @@ function initSidebarToggle(sidebar, linkTexts) {
         }
     }
 
+    // Asocia los eventos de click y transitionend
     addEvent(document, 'click', handleDocumentClick);
     addEvent(sidebar, 'transitionend', handleTransitionEnd);
 
-    return;
 }
 
+// Inicializa la apertura/cierre de submenús dentro del sidebar
 function initSubmenus() {
     let submenuParents = document.querySelectorAll(".sidebar .has-submenu");
     let i = 0;
@@ -76,6 +84,7 @@ function initSubmenus() {
         let toggleLink = parent.querySelector("a");
 
         if (toggleLink) {
+            // Al hacer click en el enlace del submenú, evita la navegación y alterna la clase 'open'
             addEvent(toggleLink, "click", function (e) {
                 e.preventDefault();
                 parent.classList.toggle("open");
@@ -84,20 +93,21 @@ function initSubmenus() {
 
         i++;
     }
-
-    return;
 }
 
+// Inicializa el botón de notificaciones para mostrar/ocultar la lista de notificaciones
 function initNotifications(btnNotifications, notificationsList) {
     if (!btnNotifications || !notificationsList) {
         return;
     }
 
+    // Función que alterna la visibilidad del listado de notificaciones
     function toggleNotifications(e) {
         e.stopPropagation();
         notificationsList.classList.toggle("show");
     }
 
+    // Función que oculta el listado si el click fue fuera del botón o la lista
     function closeNotifications(e) {
         let isInsideBtn = e.target.closest("#btn-notifications");
         let isInsideList = e.target.closest("#notifications-list");
@@ -109,10 +119,11 @@ function initNotifications(btnNotifications, notificationsList) {
     addEvent(btnNotifications, "click", toggleNotifications);
     addEvent(document, "click", closeNotifications);
 
-    return;
 }
 
+// Inicializa el toggle para mostrar/ocultar la sección de logout en el menú de usuario
 function initLogoutToggle(userInfoToggle, logoutSection) {
+    // Alterna la visibilidad del logout
     function toggleLogout(e) {
         e.stopPropagation();
         logoutSection.style.display = (logoutSection.style.display === "none" || logoutSection.style.display === "")
@@ -120,6 +131,7 @@ function initLogoutToggle(userInfoToggle, logoutSection) {
             : "none";
     }
 
+    // Oculta logout si el click fue fuera del dropdown de usuario
     function hideLogout(e) {
         if (!e.target.closest(".user-dropdown")) {
             logoutSection.style.display = "none";
@@ -129,9 +141,9 @@ function initLogoutToggle(userInfoToggle, logoutSection) {
     addEvent(userInfoToggle, "click", toggleLogout);
     addEvent(document, "click", hideLogout);
 
-    return;
 }
 
+// Marca como activo el link seleccionado dentro del sidebar
 function initActiveLinks() {
     let links = document.querySelectorAll('.sidebar a');
     let i = 0;
@@ -141,6 +153,7 @@ function initActiveLinks() {
         let href = link.getAttribute('href');
 
         if (href && href !== '') {
+            // Al hacer click, remueve 'active' de todos y la añade al seleccionado
             addEvent(link, 'click', function () {
                 let j = 0;
                 while (j < links.length) {
@@ -153,6 +166,4 @@ function initActiveLinks() {
 
         i++;
     }
-
-    return;
 }

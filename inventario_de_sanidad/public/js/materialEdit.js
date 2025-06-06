@@ -3,12 +3,26 @@ if (document.addEventListener)
 else if (document.attachEvent)
     window.attachEvent("onload", inicio);
 
-async function updateDataRetrieve() {
-    let response = await fetch('/materials/materialsData');
-    window.MATERIALDATA = await response.json();
+// Función que retorna una promesa con los datos
+function updateDataRetrieve() {
+    return fetch('/materials/materialsData')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener datos');
+            }
+            return response.json();
+        })
+        .then(data => {
+            window.MATERIALDATA = data;
+            return data;
+        })
+        .catch(error => {
+            console.error('Error en fetch:', error);
+            return null;
+        });
 }
 
-async function inicio() {
-    updateDataRetrieve();
+// Función inicio que espera la promesa antes de continuar
+function inicio() {
+    return updateDataRetrieve();
 }
-

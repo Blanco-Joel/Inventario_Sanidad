@@ -4,24 +4,35 @@ else if (document.attachEvent)
     window.attachEvent("onload",inicio);
 
 // Obtener datos del usuario (para saber si es primer login)
-async function userDataRetrieve() {
-    try {
-        let response = await fetch('/firstLogData');
-        if (!response.ok) throw new Error("No se pudo obtener datos");
-        let data = await response.json();
-        console.log("📦 Datos del usuario:", data);
-        return data;
-    } catch (error) {
-        console.error("Error al obtener datos de usuario:", error);
-        return null;
-    }
+function userDataRetrieve() {
+    let result = fetch('/firstLogData')
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("No se pudo obtener datos");
+            }
+            let jsonData = response.json();
+            return jsonData;
+        })
+        .then(function (data) {
+            //console.log("📦 Datos del usuario:", data);
+            return data;
+        })
+        .catch(function (error) {
+            console.error("Error al obtener datos de usuario:", error);
+            return null;
+        });
+
+    return result;
 }
 
 // Función para iniciar la página
-async function inicio(){
-    var userdata =  await userDataRetrieve();
-    if (!userdata["first_log"])
-        mostrarDialogInicio();
+function inicio() {
+    userDataRetrieve().then(
+        function (userdata) {
+            let isFirstLogin = userdata && !userdata["first_log"];
+            if (isFirstLogin)
+                mostrarDialogInicio();
+        });
 }
 
 // Función para mostrar el dialogo de cambio de contraseña

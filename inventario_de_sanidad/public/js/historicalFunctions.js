@@ -1,22 +1,45 @@
-if (document.addEventListener)
-    window.addEventListener("load", inicio);
-else if (document.attachEvent)
+if (document.addEventListener) {
+    window.addEventListener("load", inicio, false);
+} else if (document.attachEvent) {
     window.attachEvent("onload", inicio);
-
-async function updateDataRetrieveModifications() {
-    let response = await fetch('/historical/modificationsHistoricalData');
-    window.MODIFICATIONSDATA = await response.json();
 }
 
-async function updateDataRetrieve() {
-    let url = window.location.href.split("/");
-    url = url[url.length-1];
-    //console.log(url);
-    let response = await fetch('/historical/historicalData?request='+url);
-    window.HISTORICALDATA = await response.json();
+function updateDataRetrieveModifications() {
+    let result = fetch('/historical/modificationsHistoricalData')
+        .then(function (response) {
+            let jsonData = response.json();
+            return jsonData;
+        })
+        .then(function (data) {
+            window.MODIFICATIONSDATA = data;
+            return;
+        });
+
+    return result;
 }
 
-async function inicio() {
-    updateDataRetrieveModifications();
-    updateDataRetrieve();
+function updateDataRetrieve() {
+    let href = window.location.href;
+    let parts = href.split("/");
+    let lastSegment = parts[parts.length - 1];
+    let requestUrl = '/historical/historicalData?request=' + lastSegment;
+
+    let result = fetch(requestUrl)
+        .then(function (response) {
+            let jsonData = response.json();
+            return jsonData;
+        })
+        .then(function (data) {
+            window.HISTORICALDATA = data;
+            return;
+        });
+
+    return result;
+}
+
+function inicio() {
+    updateDataRetrieveModifications().then(function () {
+        return updateDataRetrieve();
+    });
+    return;
 }
