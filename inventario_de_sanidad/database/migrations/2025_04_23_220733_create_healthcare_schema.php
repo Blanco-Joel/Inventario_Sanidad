@@ -85,6 +85,7 @@ class CreateHealthcareSchema extends Migration
             $table->unsignedInteger('user_id');
             $table->string('title', 100);
             $table->timestamp('created_at')->useCurrent();
+            $table->primary('activity_id');
 
             $table->foreign('user_id')
                   ->references('user_id')->on('users')
