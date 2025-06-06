@@ -304,4 +304,8 @@ class StorageController extends Controller
 
         return view('storages.show', compact('storages', 'cabinet', 'shelf'));
     }
+
+    public function updateData(){
+        return response()->json(Material::with('storage')->get());
+    }
 }
