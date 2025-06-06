@@ -4,7 +4,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/historical.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/historical/historical.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
     
 @endpush

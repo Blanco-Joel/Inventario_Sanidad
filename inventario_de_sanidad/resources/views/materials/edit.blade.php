@@ -3,7 +3,7 @@
 @section('title', 'Editar Material')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/createMaterial.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/materials/materials.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
 @endpush
 
