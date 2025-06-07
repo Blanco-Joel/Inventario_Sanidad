@@ -3,9 +3,6 @@ if (document.addEventListener)
 else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
-var allData = [];
-var currentLimit = 5;
-var paginaActual = 0;   
 
 async function inicio() {
     while (typeof window.MATERIALDATA === 'undefined') {
@@ -17,31 +14,17 @@ async function inicio() {
     allData = window.MATERIALDATA;
     paginaActual = 0;
 
-    document.getElementById("buscarId").addEventListener("keyup", filtrarTabla);
+    initLoad();
 
-    document.getElementsByName("filtro").forEach(radio => {
-        radio.addEventListener("change", filtrarTabla);
-    });
-
-    document.getElementById("regsPorPagina").addEventListener("change", event => {
-        currentLimit = parseInt(event.target.value);
-        paginaActual = 0;
-        renderTable(currentLimit);
-    });
-
-    renderTable(currentLimit);
+    renderTable(currentLimit,paginaActual);
 }
 
-function filtrarTabla() {
-    paginaActual = 0;
-    renderTable(currentLimit);
-}
 
-function renderTable(limit) {
+function renderTable(limit,paginaActual) {
     let tbody = document.querySelector("table tbody");
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-    let filtrados = aplicarFiltro();
+    let filtrados = aplicarFiltro(["name", "description", "units", "min_units", "cabinet", "shelf","drawer"]);
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
@@ -58,63 +41,51 @@ function renderTable(limit) {
 
         tr.appendChild(td);
 
-          let tdAc = document.createElement("td");
-            let formAc = document.createElement("form");
-            formAc.method = "GET";
-            formAc.action = `/materials/${item.material_id}/edit`;
-            formAc.id = `btn-delete-${item.material_id}`;
+        let tdAc = document.createElement("td");
+        let formAc = document.createElement("form");
+        formAc.method = "GET";
+        formAc.action = `/materials/${item.material_id}/edit`;
+        formAc.id = `btn-delete-${item.material_id}`;
 
-            let tokenAc = document.createElement("input");
-            tokenAc.type = "hidden";
-            tokenAc.name = "_token";
-            tokenAc.value = getCSRFToken();
+        let formToken = getHiddenToken();
+        let formId = getHiddenId(item.material_id,"material_id");
+        let btnAc = document.createElement("button");
+        btnAc.type = "submit";
+        btnAc.style.cssText = "background: none; border: none; cursor: pointer;";
 
-            let hiddenIdAc = document.createElement("input");
-            hiddenIdAc.type = "hidden";
-            hiddenIdAc.name = "material_id";
-            hiddenIdAc.value = item.material_id;
+        let iconEdit = document.createElement("i");
+        iconEdit.classList.add("fa", "fa-pencil");
+        btnAc.appendChild(iconEdit);
 
-            let btnAc = document.createElement("button");
-            btnAc.type = "submit";
-            btnAc.className = "btn btn-primary";
-
-              btnAc.textContent = "Editar";
-
-            formAc.appendChild(tokenAc);
-            formAc.appendChild(hiddenIdAc);
-            formAc.appendChild(btnAc);
-            tdAc.appendChild(formAc);
+        formAc.appendChild(formToken);
+        formAc.appendChild(formId);
+        formAc.appendChild(btnAc);
+        tdAc.appendChild(formAc);
         
 
 
         tr.appendChild(tdAc);
-            let tdDel = document.createElement("td");
-            let formDel = document.createElement("form");
-            formDel.method = "POST";
-            formDel.action = `/materials/${item.material_id}/destroy`;
-            formDel.id = `btn-delete-${item.material_id}`;
+        let tdDel = document.createElement("td");
+        let formDel = document.createElement("form");
+        formDel.method = "POST";
+        formDel.action = `/materials/${item.material_id}/destroy`;
+        formDel.id = `btn-delete-${item.material_id}`;
 
-            let token = document.createElement("input");
-            token.type = "hidden";
-            token.name = "_token";
-            token.value = getCSRFToken();
+        let token = getHiddenToken();
+        let hiddenId = getHiddenId(item.material_id,"material_id");
 
-            let hiddenId = document.createElement("input");
-            hiddenId.type = "hidden";
-            hiddenId.name = "material_id";
-            hiddenId.value = item.material_id;
+        let btn = document.createElement("button");
+        btn.type = "submit";
+        btn.style.cssText = "background: none; border: none; cursor: pointer;";
 
-
-            let btn = document.createElement("button");
-            btn.type = "submit";
-            btn.className = "btn btn-danger";
-
-            btn.textContent = "Eliminar";
-            
-            formDel.appendChild(token);
-            formDel.appendChild(hiddenId);
-            formDel.appendChild(btn);
-            tdDel.appendChild(formDel);
+        let iconTrash = document.createElement("i");
+        iconTrash.classList.add("fa", "fa-trash");
+        btn.appendChild(iconTrash);
+        
+        formDel.appendChild(token);
+        formDel.appendChild(hiddenId);
+        formDel.appendChild(btn);
+        tdDel.appendChild(formDel);
         
 
         tr.appendChild(tdDel);
@@ -125,82 +96,3 @@ function renderTable(limit) {
     renderPaginationButtons(filtrados.length, limit);
 }
 
-function crearTD(texto) {
-    let td = document.createElement("td");
-    td.textContent = texto;
-    return td;
-}
-
-function crearDataLabel(td,label) {
-    td.setAttribute("data-label",label);
-    return td;
-}
-
-function aplicarFiltro() {
-    let input = document.getElementById("buscarId").value.trim().toLowerCase();
-    if (input === "") return allData;
-
-    let filtro = document.querySelector('input[name="filtro"]:checked');
-    let campos = ["name", "description", "units", "min_units", "cabinet", "shelf","drawer"];
-    let campo = filtro ? campos[parseInt(filtro.value) - 1] : "name";
-
-    return allData.filter(item => {
-        let valor = item[campo];
-        return valor && valor.toString().toLowerCase().includes(input);
-    });
-}
-
-function renderPaginationButtons(total, limit) {
-    let pagContainer = document.querySelector(".pagination-buttons");
-    if (!pagContainer) return;
-    pagContainer.innerHTML = "";
-  
-    let totalPages = Math.ceil(total / limit);
-    let startIdx = paginaActual * limit + 1;
-    let endIdx = Math.min((paginaActual + 1) * limit, total);
-  
-    // 1. Texto resumen
-    let summary = document.createElement("span");
-    summary.classList.add("pagination-summary");
-    summary.textContent = startIdx +  " – "+ endIdx+ " de "+ total;
-    pagContainer.appendChild(summary);
-  
-    // Helper para crear botón
-    let makeBtn = (text, targetPage, disabled) => {
-      let btn = document.createElement("button");
-      btn.textContent = text;
-      if (disabled) {
-        btn.disabled = true;
-      } else {
-        btn.addEventListener("click", () => {
-          paginaActual = targetPage;
-          renderTable(currentLimit);
-          renderTableCards(currentLimit);
-        });
-      }
-      return btn;
-    };
-  
-    // 2. Botones de navegación
-    // « Primero
-    pagContainer.appendChild(
-      makeBtn("«", 0, paginaActual === 0)
-    );
-    // ‹ Anterior
-    pagContainer.appendChild(
-      makeBtn("‹", paginaActual - 1, paginaActual === 0)
-    );
-    // › Siguiente
-    pagContainer.appendChild(
-      makeBtn("›", paginaActual + 1, paginaActual >= totalPages - 1)
-    );
-    // » Último
-    pagContainer.appendChild(
-      makeBtn("»", totalPages - 1, paginaActual >= totalPages - 1)
-    );
-  }
-
-function getCSRFToken() {
-    let tokenMeta = document.querySelector('meta[name="csrf-token"]');
-    return tokenMeta ? tokenMeta.getAttribute("content") : "";
-}

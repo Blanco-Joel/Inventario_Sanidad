@@ -305,6 +305,11 @@ class StorageController extends Controller
         return view('storages.show', compact('storages', 'cabinet', 'shelf'));
     }
 
+    /**
+     * Devuelve todos los usuarios en formato JSON ordenados por fecha de creación descendente.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateData(){
         return response()->json(Material::with('storage')->get());
     }
