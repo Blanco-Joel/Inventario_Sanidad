@@ -47,7 +47,7 @@
                     <th>Armario</th>
                     <th>Balda</th>
                     <th>Cajón</th>
-                    <th>Acciones</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -78,6 +78,7 @@
 @push('scripts')
     <script src="{{ asset('js/storagesUpdate.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/loader.js') }}"></script>
+    <script src="{{ asset('js/tableFunctions.js') }}"></script>
     <script src="{{ asset('js/tableStorage.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/filterToggle.js') }}"></script>
 @endpush

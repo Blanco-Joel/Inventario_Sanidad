@@ -9,14 +9,21 @@
 @endpush
 
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <div id="loader-overlay">
     <div class="spinner"></div>
 </div>
 <div class="">
     <dialog id="confirmacion">
-        <p>¿Estás seguro de que deseas eliminar el usuario seleccionado?</p>
+        <p>¿Está seguro de que desea eliminar el usuario seleccionado?</p>
         <input type="button" class="btn btn-success" value="Aceptar" id="aceptar">
         <input type="button" class="btn btn-danger" value="Cancelar" id="cancelar">
+    </dialog>
+    <dialog id="confirmacionContra">
+        <p>¿Está seguro de que desea generar una nueva contraseña?</p>
+        <input type="button" class="btn btn-success" value="Aceptar" id="aceptarContra">
+        <input type="button" class="btn btn-danger" value="Cancelar" id="cancelarContra">
     </dialog>
 
     @if (session('mensaje'))
@@ -81,6 +88,7 @@
 @push('scripts')
     <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/usersManagement.js') }}"></script>
+    <script src="{{ asset('js/tableFunctions.js') }}"></script>
     <script src="{{ asset('js/tableUser.js') }}"></script>
     <script src="{{ asset('js/filterToggle.js') }}"></script> 
 @endpush

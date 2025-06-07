@@ -64,6 +64,7 @@ Route::middleware('check.admin.cookie')->group(function () {
     Route::post('/users/create', [UsersManagementController::class, 'altaUsers'])->name('altaUsers.process');
     Route::get('/users/management', [UsersManagementController::class, 'showUsersManagement'])->name('users.management');
     Route::post('/users/management/delete', [UsersManagementController::class, 'bajaUsers'])->name('bajaUsers.process');
+    Route::post('/users/management/password', [UsersManagementController::class, 'changePasswordUser'])->name('password.process');
     Route::get('/users/usersManagementData', [UsersManagementController::class, 'usersManagementData']);
 
     /*

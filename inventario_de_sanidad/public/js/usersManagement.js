@@ -17,9 +17,9 @@
         
         for (let btn of botonesVer) {
             if (document.addEventListener){
-                btn.addEventListener("submit", showPassword);
+                btn.addEventListener("submit", mostrarDialogConfirmacion);
             }else if (document.attachEvent){
-                btn.attachEvent("onsubmit", showPassword);
+                btn.attachEvent("onsubmit", mostrarDialogConfirmacion);
             }
         }
         for (let btn of botonesBaja) {
@@ -34,38 +34,35 @@
     function mostrarDialogConfirmacion(event) 
     {
         event.preventDefault();
-        let botonConfirmar  = document.getElementById("aceptar");
-        let botonCancelar = document.getElementById("cancelar");
-
-        let dialog = document.getElementById("confirmacion");
+        let botonConfirmar
+        let botonCancelar
+        let dialog
+        if (event.target.id.split("-")[1] == "ver") {
+            botonConfirmar  = document.getElementById("aceptarContra");
+            botonCancelar = document.getElementById("cancelarContra");
+            dialog = document.getElementById("confirmacionContra");       
+        } else
+        {
+            botonConfirmar  = document.getElementById("aceptar");
+            botonCancelar = document.getElementById("cancelar");
+            dialog = document.getElementById("confirmacion");
+        }
         dialog.setAttribute("open", "true");
 
 
         // Esperamos a que el usuario confirme o cancele
         botonConfirmar.onclick = () => {
             event.target.submit(); // Envía el formulario manualmente
-            cerrarDialog("confirmacion");
+            cerrarDialog(dialog);
         };
 
         botonCancelar.onclick = () => {
-            cerrarDialog("confirmacion");
+            cerrarDialog(dialog);
         };
     }
 
-    function showPassword(event) {
-        event.preventDefault(); // Evita que el formulario se envíe inmediatamente
-        let user = event.target.id.split("-")[2]-1;
-        let password = USERDATA[user]["password"];
-        let campo = event.target.querySelector("b");
-        if (campo.textContent == password) 
-            campo.textContent = "************";
-        else
-        campo.textContent = password;
-        
-    }
-    function cerrarDialog(mensaje) 
+    function cerrarDialog(dialog) 
     {
-        let dialog = document.getElementById(mensaje);
         dialog.removeAttribute("open");
         
     }

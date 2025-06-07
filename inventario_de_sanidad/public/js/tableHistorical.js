@@ -3,9 +3,6 @@ if (document.addEventListener)
 else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
-let allData = [];
-let currentLimit = 5;
-let paginaActual = 0;   
 
 async function inicio() {
     while (typeof window.MODIFICATIONSDATA === 'undefined') {
@@ -17,31 +14,16 @@ async function inicio() {
     allData = window.MODIFICATIONSDATA;
     paginaActual = 0;
 
-    document.getElementById("buscarId").addEventListener("keyup", filtrarTabla);
+    initLoad();
 
-    document.getElementsByName("filtro").forEach(radio => {
-        radio.addEventListener("change", filtrarTabla);
-    });
-
-    document.getElementById("regsPorPagina").addEventListener("change", event => {
-        currentLimit = parseInt(event.target.value);
-        paginaActual = 0;
-        renderTable(currentLimit);
-    });
-
-    renderTable(currentLimit);
+    renderTable(currentLimit,paginaActual);
 }
 
-function filtrarTabla() {
-    paginaActual = 0;
-    renderTable(currentLimit);
-}
-
-function renderTable(limit) {
+function renderTable(limit,paginaActual) {
     let tbody = document.querySelector("table tbody");
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-    let filtrados = aplicarFiltro();
+    let filtrados = aplicarFiltro(["first_name", "last_name", "email", "user_type", "action_datetime", "material_name","units","storage_type"]);
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
@@ -63,79 +45,4 @@ function renderTable(limit) {
     renderPaginationButtons(filtrados.length, limit);
 }
 
-function crearTD(texto) {
-    let td = document.createElement("td");
-    td.textContent = texto;
-    return td;
-}
-
-function crearDataLabel(td,label) {
-    td.setAttribute("data-label",label);
-    return td;
-}
-
-function aplicarFiltro() {
-    let input = document.getElementById("buscarId").value.trim().toLowerCase();
-    if (input === "") return allData;
-
-    let filtro = document.querySelector('input[name="filtro"]:checked');
-    let campos = ["first_name", "last_name", "email", "user_type", "action_datetime", "material_name","units","storage_type"];
-    let campo = filtro ? campos[parseInt(filtro.value) - 1] : "name";
-
-    return allData.filter(item => {
-        let valor = item[campo];
-        return valor && valor.toString().toLowerCase().includes(input);
-    });
-}
-
-
-function renderPaginationButtons(total, limit) {
-    let pagContainer = document.querySelector(".pagination-buttons");
-    if (!pagContainer) return;
-    pagContainer.innerHTML = "";
-  
-    let totalPages = Math.ceil(total / limit);
-    let startIdx = paginaActual * limit + 1;
-    let endIdx = Math.min((paginaActual + 1) * limit, total);
-  
-    // 1. Texto resumen
-    let summary = document.createElement("span");
-    summary.classList.add("pagination-summary");
-    summary.textContent = startIdx +  " – "+ endIdx+ " de "+ total;
-    pagContainer.appendChild(summary);
-  
-    // Helper para crear botón
-    let makeBtn = (text, targetPage, disabled) => {
-      let btn = document.createElement("button");
-      btn.textContent = text;
-      if (disabled) {
-        btn.disabled = true;
-      } else {
-        btn.addEventListener("click", () => {
-          paginaActual = targetPage;
-          renderTable(currentLimit);
-          renderTableCards(currentLimit);
-        });
-      }
-      return btn;
-    };
-  
-    // 2. Botones de navegación
-    // « Primero
-    pagContainer.appendChild(
-      makeBtn("«", 0, paginaActual === 0)
-    );
-    // ‹ Anterior
-    pagContainer.appendChild(
-      makeBtn("‹", paginaActual - 1, paginaActual === 0)
-    );
-    // › Siguiente
-    pagContainer.appendChild(
-      makeBtn("›", paginaActual + 1, paginaActual >= totalPages - 1)
-    );
-    // » Último
-    pagContainer.appendChild(
-      makeBtn("»", totalPages - 1, paginaActual >= totalPages - 1)
-    );
-  }
 

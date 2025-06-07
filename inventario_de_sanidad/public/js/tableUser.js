@@ -14,34 +14,18 @@ async function inicio () {
     paginaActual = 0;
     allData = window.USERDATA;
 
-    document.getElementById("buscarId").addEventListener("keyup", filtrarTabla);
-    document.getElementsByName("filtro").forEach(
-        radio => {
-            radio.addEventListener("change", filtrarTabla);
-        }
-    );
+    initLoad();
 
-    document.getElementById("regsPorPagina").addEventListener("change", event => {
-        currentLimit = parseInt(event.target.value);
-        paginaActual = 0;
-        renderTable(currentLimit);
-    });
-
-    renderTable(currentLimit);
+    renderTable(currentLimit,paginaActual);
 }
 
 
-function filtrarTabla(event) {
-    if (event.target.type == "radio" || event.target.type == "text" && (event.key.length == 1 || event.key == "Backspace" || event.key == "Delete")) {
-        renderTable(currentLimit);
-    }
-}
 
-function renderTable(limit) {
+function renderTable(limit, paginaActual) {
     let tbody = document.querySelector("#tabla-usuarios tbody");
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
-
-    let filtrados = aplicarFiltro();
+    let filtrados = aplicarFiltro(["first_name", "last_name", "email", "user_type", "updated_at", "created_at"]);
+    console.log()
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
@@ -55,48 +39,46 @@ function renderTable(limit) {
         tr.appendChild(crearDataLabel(crearTD(usuario.user_type),"Tipo de usuario"));
         tr.appendChild(crearDataLabel(crearTD(usuario.created_at),"Fecha de alta"));
 
-        let tdVer = document.createElement("td");
-        let formVer = document.createElement("form");
-        formVer.id = `btn-ver-${usuario.user_id}`;
-        let b = document.createElement("b");
-        b.textContent = "************";
-        let btnVer = document.createElement("button");
-        btnVer.type = "submit";
-        btnVer.style.cssText = "background: none; border: none; cursor: pointer;";
-        let iconEye = document.createElement("i");
-        iconEye.classList.add("fa", "fa-eye");
-        btnVer.appendChild(iconEye);
-        formVer.appendChild(b);
-        formVer.appendChild(btnVer);
-        tdVer.appendChild(formVer);
-        tr.appendChild(crearDataLabel(tdVer,"Acciones"));
+        let tdAc = document.createElement("td");
+        let formAc = document.createElement("form");
+        formAc.method = "POST";
+        formAc.action = "/users/management/password";
+        formAc.id = `btn-ver-${usuario.user_id}`;
+        
+        let formToken = getHiddenToken();
+        let formId = getHiddenId(usuario.user_id,"user_id");
+        let btnAc = document.createElement("button");
+        btnAc.type = "submit";
+        btnAc.classList = "btn btn-primary";
+        btnAc.textContent = "Generar contraseña"
+
+        formAc.appendChild(formToken);
+        formAc.appendChild(formId);
+        formAc.appendChild(btnAc);
+        tdAc.appendChild(formAc);
+        
+
+
+        tr.appendChild(tdAc);
 
         let tdDel = document.createElement("td");
         if ((usuario.first_name + " " + usuario.last_name) != document.getElementsByClassName("user-name")[0].textContent) {
             let formDel = document.createElement("form");
             formDel.method = "POST";
-            formDel.action = "/users/baja";
+            formDel.action = "/users/management/delete";
             formDel.id = `btn-delete-${usuario.user_id}`;
-
-            let token = document.createElement("input");
-            token.type = "hidden";
-            token.name = "_token";
-            token.value = getCSRFToken();
-
-            let hiddenId = document.createElement("input");
-            hiddenId.type = "hidden";
-            hiddenId.name = "user_id";
-            hiddenId.value = usuario.user_id;
-
+            
+            let formToken = getHiddenToken();
+            let formId = getHiddenId(usuario.user_id,"user_id");
             let btn = document.createElement("button");
             btn.type = "submit";
             btn.style.cssText = "background: none; border: none; cursor: pointer;";
             let icon = document.createElement("i");
-            icon.classList.add("fa", "fa-trash");
+            icon.classList.add("fa", "fa-trash" );
 
             btn.appendChild(icon);
-            formDel.appendChild(token);
-            formDel.appendChild(hiddenId);
+            formDel.appendChild(formToken);
+            formDel.appendChild(formId);
             formDel.appendChild(btn);
             tdDel.appendChild(formDel);
         }
@@ -109,96 +91,9 @@ function renderTable(limit) {
     rebindDynamicEvents();
 }
 
-// function formatearFecha(fechaISO) {
-//     let fecha = new Date(fechaISO);
-
-//     let dia = String(fecha.getDate()).padStart(2, '0');
-//     let mes = String(fecha.getMonth() + 1).padStart(2, '0');
-//     let anio = fecha.getFullYear();
-
-//     let horas = String(fecha.getHours()).padStart(2, '0');
-//     let minutos = String(fecha.getMinutes()).padStart(2, '0');
-//     let segundos = String(fecha.getSeconds()).padStart(2, '0');
-
-//     return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
-// }
-
-function crearTD(texto) {
-    let td = document.createElement("td");
-    td.textContent = texto;
-    return td;
-}
-function crearDataLabel(td,label) {
-    td.setAttribute("data-label",label);
-    return td;
-}
-
-
-function renderPaginationButtons(total, limit) {
-    let pagContainer = document.querySelector(".pagination-buttons");
-    if (!pagContainer) return;
-    pagContainer.innerHTML = "";
-  
-    let totalPages = Math.ceil(total / limit);
-    let startIdx = paginaActual * limit + 1;
-    let endIdx = Math.min((paginaActual + 1) * limit, total);
-  
-    // 1. Texto resumen
-    let summary = document.createElement("span");
-    summary.classList.add("pagination-summary");
-    summary.textContent = startIdx +  " – "+ endIdx+ " de "+ total;
-    pagContainer.appendChild(summary);
-  
-    // Helper para crear botón
-    let makeBtn = (text, targetPage, disabled) => {
-      let btn = document.createElement("button");
-      btn.textContent = text;
-      if (disabled) {
-        btn.disabled = true;
-      } else {
-        btn.addEventListener("click", () => {
-          paginaActual = targetPage;
-          renderTable(currentLimit);
-          renderTableCards(currentLimit);
-        });
-      }
-      return btn;
-    };
-  
-    // 2. Botones de navegación
-    // « Primero
-    pagContainer.appendChild(
-      makeBtn("«", 0, paginaActual === 0)
-    );
-    // ‹ Anterior
-    pagContainer.appendChild(
-      makeBtn("‹", paginaActual - 1, paginaActual === 0)
-    );
-    // › Siguiente
-    pagContainer.appendChild(
-      makeBtn("›", paginaActual + 1, paginaActual >= totalPages - 1)
-    );
-    // » Último
-    pagContainer.appendChild(
-      makeBtn("»", totalPages - 1, paginaActual >= totalPages - 1)
-    );
-  }
-
-
-function aplicarFiltro() {
-    let input = document.getElementById("buscarId").value.toLowerCase();
-    let filtro = document.querySelector('input[name="filtro"]:checked').value;
-    let campos = ["first_name", "last_name", "email", "user_type", "updated_at", "created_at"];
-    let campo = campos[parseInt(filtro) - 1];
-
-    return allData.filter(u => {
-        return u[campo] && u[campo].toLowerCase().includes(input);
-    });
-}
-
 function rebindDynamicEvents() {
     document.querySelectorAll("[id^='btn-ver-']").forEach(form => {
-        form.addEventListener("submit", showPassword);
+        form.addEventListener("submit", mostrarDialogConfirmacion);
     });
 
     document.querySelectorAll("[id^='btn-delete-']").forEach(form => {

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Mail\ChangePassword;
+use Illuminate\Support\Facades\Mail;
 class UsersManagementController extends Controller
 {
     /**
@@ -17,6 +19,7 @@ class UsersManagementController extends Controller
     {
         return view('users.createUser');
     }
+
 
     /**
      * Muestra la vista principal de gestión de usuarios.
@@ -47,12 +50,8 @@ class UsersManagementController extends Controller
     public function altaUsers(Request $request)
     {
         // Generar contraseña aleatoria de 8 caracteres
-        // $password = $this->generateRandomPassword(8);
-        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{}|;:,.<>?';
-        $password = '';
-        for ($i = 0; $i < 8; $i++) {
-            $password .= $caracteres[rand(0, strlen($caracteres) - 1)];
-        }
+        $password = $this->generateRandomPassword(8);
+
 
         // Validar los datos del formulario
         $credentials = $request->validate([
@@ -84,6 +83,16 @@ class UsersManagementController extends Controller
         return back()->with('mensaje', 'Usuario ' . $credentials["nombre"] . ' ' . $credentials["apellidos"] . ' creado con éxito.');
     }
 
+    public function generateRandomPassword($length)
+    {
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{}|;:,.<>?';
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $caracteres[rand(0, strlen($caracteres) - 1)];
+        }
+        return $password;
+    }
+    
     /**
      * Elimina un usuario basado en su ID.
      *
@@ -98,7 +107,21 @@ class UsersManagementController extends Controller
 
         return back()->with([
             'mensaje' => 'Usuario dado de baja con éxito.',
-            'tab' => 'tab2'
+        ]);
+    }
+    public function changePasswordUser(Request $request)
+    {
+        $user = $request["user_id"];
+        $password = $this->generateRandomPassword(8);
+        $userInfo = User::where('user_id', $user)->first();
+        $userInfo->password = $password;
+
+        $userInfo->hashed_password = Hash::make($password);
+        $userInfo->first_log = 0;
+        $userInfo->save();
+        Mail::to($userInfo->email)->send(new ChangePassword($password));
+        return back()->with([
+            'mensaje' => 'Contraseña modificada con exito',
         ]);
     }
 }

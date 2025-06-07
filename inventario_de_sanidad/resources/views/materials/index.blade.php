@@ -46,7 +46,7 @@
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Imagen</th>
-                            <th colspan="2">Acciones</th>
+                            <th colspan="2"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +90,7 @@
 @push('scripts')
     <script src="{{ asset('js/materialEdit.js') }}"></script>
     <script src="{{ asset('js/loader.js') }}"></script>
+    <script src="{{ asset('js/tableFunctions.js') }}"></script>
     <script src="{{ asset('js/tableMaterial.js') }}"></script>
     <script src="{{ asset('js/filterToggle.js') }}"></script> 
 @endpush
