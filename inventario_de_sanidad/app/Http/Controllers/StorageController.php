@@ -308,4 +308,14 @@ class StorageController extends Controller
     public function updateData(){
         return response()->json(Material::with('storage')->get());
     }
+
+    public function destroy(Material $material, $currentLocation)
+    {
+        try {
+            $material->storage()->where('storage', $currentLocation)->delete();
+            return back()->with('success', 'Almecamientos eliminados correctamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar los almacenamientos: ' . $e->getMessage());
+        }
+    }
 }
