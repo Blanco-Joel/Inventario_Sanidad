@@ -62,7 +62,7 @@ function renderTableCards(limit,paginaActual) {
     if (!container) return;
     while (container.firstChild) container.removeChild(container.firstChild);
 
-    let filtrados = aplicarFiltro();
+    let filtrados = aplicarFiltro(["name", "description", "cabinet", "shelf", "units", "min_units"]);
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
