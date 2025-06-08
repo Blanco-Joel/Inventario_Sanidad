@@ -31,6 +31,9 @@
           <tr>
             <td style="padding:16px;color:#333333;line-height:1.5;font-size:16px;">
               <p style="margin:0 0 12px;">
+                Hola <strong>{{ $user->first_name }} {{ $user->last_name }}</strong>,
+              </p>
+              <p style="margin:0 0 12px;">
                 Su cuenta ha sido registrada correctamente en el Portal del Departamento de Sanidad.
               </p>
               <p style="margin:0 0 12px;">
