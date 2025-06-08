@@ -14,6 +14,9 @@ function initLoad() {
         currentLimit = parseInt(event.target.value);
         paginatual = 0;
         renderTable(currentLimit,paginatual);
+          if (url == "use" || url == "reserve") {
+            renderTableCards(currentLimit,paginatual);
+          }
     });
 
 }
