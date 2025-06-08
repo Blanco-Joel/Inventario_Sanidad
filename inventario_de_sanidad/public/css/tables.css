@@ -191,6 +191,9 @@ input[type="text"], form select {
     }
 
     .table {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
         background-color: var(--bg-100);
         border-radius: var(--border-radius-md);
         box-shadow: var(--shadow-sm);
@@ -200,32 +203,69 @@ input[type="text"], form select {
         display: none; /* Esconde encabezados en móviles */
     }
 
-    .table, .table tbody, .table tr, .table td {
-        display: block;
-        width: 100%;
+    .table-wrapper tbody {
+        display: contents;
     }
 
-    .table tr {
-        margin-bottom: 0.75rem;
-        border-bottom: 2px solid var(--primary-200);
-        padding: 1rem;
+    .table-wrapper tr {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        border: 1px solid #ddd;
         border-radius: var(--border-radius-md);
-        background: var(--primary-600);
-    }
-
-    .table td {
-        text-align: left;
-        padding: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        padding: 1rem;
+        background-color: #fff;
         position: relative;
     }
 
-    .table td::before {
-        content: attr(data-label);
-        font-weight: bold;
-        display: block;
-        margin-bottom: 0.25rem;
-        color: var(--text-100);
+    .table-wrapper tr:hover{
+        transition: border 0.5s ease-in;
+        border: 1px solid #007bff;
     }
+
+    .table-wrapper td {
+        display: block;
+        padding: 0.5rem 0;
+        border: none;
+    }
+
+    .table-wrapper td[data-label]::before {
+        content: attr(data-label) ": ";
+        color: var(--primary-100);
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .table-wrapper tr td:nth-last-child(2),
+    .table-wrapper tr td:last-child {
+        display: inline-block;
+        margin: 0;
+        padding: 0.2rem;
+    }
+
+    .table-wrapper tr {
+        position: relative;
+        padding-bottom: 3rem;
+    }
+
+    .table-wrapper tr td:nth-last-child(2):has(i.fa),
+.table-wrapper tr td:last-child:has(i.fa) {
+    position: absolute;
+    bottom: 1rem;
+}
+
+.table-wrapper tr td:nth-last-child(2):has(i.fa) {
+    right: 4rem; /* botón editar */
+}
+
+.table-wrapper tr td:last-child:has(i.fa) {
+    right: 1rem; /* botón eliminar */
+}
+
+.table-wrapper tr td:has(i.fa) button {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
 }
 
 @media (max-width: 768px) {
@@ -245,11 +285,9 @@ input[type="text"], form select {
     }
 
     .table {
-        display: block;
-        width: 100%;
+        grid-template-columns: repeat(1, 1fr);
         background-color: var(--bg-100);
     }
-
 }
 
 @media (max-width: 375px) {
