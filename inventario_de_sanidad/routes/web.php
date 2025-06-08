@@ -92,6 +92,7 @@ Route::middleware('check.admin.cookie')->group(function () {
         Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
         Route::post('/update/{material}/{currentLocation}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
         Route::get('qr/{cabinet}/{shelf}', [StorageController::class, 'show'])->name('storages.show');
+        Route::post('destroy/{material}/{currentLocation}', [StorageController::class, 'destroy'])->name('storages.destroy');
     });
 
     /*
