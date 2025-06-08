@@ -1,7 +1,18 @@
-document.getElementById("image").addEventListener("change", function () {
-    const fileName = this.files[0]?.name || "Ningún archivo seleccionado";
-    document.getElementById("file-name").textContent = fileName;
-});
+const imageInput = document.getElementById("image");
+const fileNameDisplay = document.getElementById("file-name");
+
+if (imageInput.addEventListener) {
+    imageInput.addEventListener("change", handleImageChange, false);
+} else if (imageInput.attachEvent) {
+    imageInput.attachEvent("onchange", function () {
+        handleImageChange.call(imageInput);
+    });
+}
+
+function handleImageChange() {
+    const fileName = this.files[0] ? this.files[0].name : "Ningún archivo seleccionado";
+    fileNameDisplay.textContent = fileName;
+}
 
 function previewImage(event, previewElement) {
     let input = event.target;

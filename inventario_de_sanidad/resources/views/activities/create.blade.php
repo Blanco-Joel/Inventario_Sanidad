@@ -3,7 +3,7 @@
 @section('title', 'Actividades')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/activity.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/activities/createActivity.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
 @endpush

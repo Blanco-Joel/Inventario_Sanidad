@@ -3,7 +3,7 @@
 @section('title', 'Edicion de materiales')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/editMaterialTeacher.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/storages/editMaterialTeacher.css') }}">
 @endpush
 
 @section('content')
@@ -38,7 +38,9 @@
                 <div class="alert-error-uspas">{{ $message }}</div>
             @enderror
             
-            <button type="submit" class="btn btn-primary">Actualizar Almacenamiento</button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Actualizar Almacenamiento</button>
+            </div>
         </form>
 
         <!-- Mensajes flash -->
