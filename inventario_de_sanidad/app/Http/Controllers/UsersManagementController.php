@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Mail\ChangePassword;
+use App\Mail\UserCreation;
 use Illuminate\Support\Facades\Mail;
 class UsersManagementController extends Controller
 {
@@ -79,6 +80,7 @@ class UsersManagementController extends Controller
             'first_log'        => false,
             'created_at'       => Carbon::now('Europe/Madrid'),
         ]);
+        Mail::to($credentials["email"])->send(new UserCreation($password));
 
         return back()->with('mensaje', 'Usuario ' . $credentials["nombre"] . ' ' . $credentials["apellidos"] . ' creado con éxito.');
     }
