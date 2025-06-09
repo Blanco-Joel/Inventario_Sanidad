@@ -22,7 +22,24 @@ class ActivityController extends Controller
     {
         return view('activities.create')->with('materials', Material::all());
     }
-
+    /**
+     * Devuelve todas las actividades en formato JSON ordenados por fecha de creación descendente.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function activityData()
+    {
+         $user = User::find(Cookie::get('USERPASS'));
+        if (!$user) {
+            return back()->with('error', 'Usuario no encontrado.');
+        }
+        
+        $activities = $user->activities()
+            ->with('materials')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($activities);
+    } 
     /**
      * Muestra el historial de actividades del usuario autenticado.
      * @return mixed|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse

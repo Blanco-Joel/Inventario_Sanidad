@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             
         ]);
         $roles = ['teacher', 'student', 'admin'];
-        for ($i = 4; $i <= 100; $i++) {
+        for ($i = 4; $i <= 20; $i++) {
             $nombre = "Usuario$i";
             $apellido = "Apellido$i";
             $email = "usuario$i@example.com";

@@ -32,7 +32,7 @@ function renderTable(limit,paginaActual) {
     datosPagina.forEach(item => {
         let tr = document.createElement("tr");
         tr.appendChild(crearDataLabel(crearTD(item.name ?? "-"),"Material")); 
-        tr.appendChild(crearDataLabel(crearTD(item.description ?? "-"),"Cantidad mínima"));
+        tr.appendChild(crearDataLabel(crearTD(item.description ?? "-"),"Descripción"));
         let td = document.createElement("td");
         let img = document.createElement("img");
         img.src = new URL('/storage/', window.location).href + (item.image_path ?? "no_image.jpg");

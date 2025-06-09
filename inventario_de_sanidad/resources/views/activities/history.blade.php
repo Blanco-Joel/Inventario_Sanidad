@@ -3,49 +3,35 @@
 @section('title', 'Historial de actividades')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/activityHistory.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/activities/activityHistory.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
 @endpush
 
 @section('content')
+<div id="loader-overlay">
+    <div class="spinner"></div>
+</div> 
     <div class="">
         <h1 class="activities-title">Historial de actividades</h1>
         <div class="activities-section">
-            @forelse($activities as $activity)
-                <div class="activity-card">
-                    <div class="activity-header">
-                        {{ $activity->created_at->format('d/m/Y H:i') }}  
-                    </div>
-                    <div class="">
-                        <p><strong>Descripción:</strong> {{ $activity->title }}</p>
+            <div id="activityCardContainer" class="activity-cards-grid"></div>
 
-                        @if($activity->materials->isEmpty())
-                            <p><em>No se usaron materiales.</em></p>
-                        @else
-                            <div class="table-wrapper">
-                                <table class="table activity-table">
-                                    <thead>
-                                    <tr>
-                                        <th>Material</th>
-                                        <th>Cantidad</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($activity->materials as $material)
-                                        <tr>
-                                        <td data-label="Material">{{ $material->name }}</td>
-                                        <td data-label="Cantidad">{{ $material->pivot->units }}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
-                    </div>
+                <!-- Paginación -->
+            <div id="paginacion" class="pagination-controls">
+                <div class="pagination-select">
+                    <label for="regsPorPagina"></label>
+                    <select id="regsPorPagina">
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
                 </div>
-            @empty
-                <p>No has registrado ninguna actividad aún.</p>
-            @endforelse
+
+                <div class="pagination-buttons">
+                    <!-- Botones de paginación se insertarán aquí -->
+                </div>
+            </div>
 
                 {{-- Mensajes flash --}}
                 @if(session('success'))
@@ -64,3 +50,10 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/activitiesHistory.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/loader.js') }}"></script>
+    <script src="{{ asset('js/tableFunctions.js') }}"></script>
+    <script src="{{ asset('js/tableActivityHistory.js') }}" type="text/javascript"></script>
+@endpush

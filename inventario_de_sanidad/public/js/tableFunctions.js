@@ -13,7 +13,10 @@ function initLoad() {
     document.getElementById("regsPorPagina").addEventListener("change", event => {
         currentLimit = parseInt(event.target.value);
         paginatual = 0;
+        
         renderTable(currentLimit,paginatual);
+          let url = window.location.href.split("/");
+          url = url[url.length-1];
           if (url == "use" || url == "reserve") {
             renderTableCards(currentLimit,paginatual);
           }
@@ -109,12 +112,16 @@ function renderPaginationButtons(total, limit) {
         btn.addEventListener("click", () => {
           
           paginatual = targetPage;
-          console.log(paginatual);
-          renderTable(currentLimit,paginatual);
           let url = window.location.href.split("/");
           url = url[url.length-1];
-          if (url == "use" || url == "reserve") {
-            renderTableCards(currentLimit,paginatual);
+          if (url != "history") {
+            renderTable(currentLimit,paginatual);
+            if (url == "use" || url == "reserve") {
+              renderTableCards(currentLimit,paginatual);
+            }
+          }else
+          {
+            renderActivityCards(currentLimit, paginatual);
           }
 
         });

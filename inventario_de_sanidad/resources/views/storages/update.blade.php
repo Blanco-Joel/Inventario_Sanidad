@@ -40,7 +40,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Material</th>
+                    <th>Localización</th>
                     <th>Tipo</th>
                     <th>Cantidad</th>
                     <th>Cantidad mínima</th>
