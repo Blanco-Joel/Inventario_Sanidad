@@ -9,7 +9,7 @@
 @section('content')
 <div class="">
     @php
-        $useRecord = $material->storage->where('storage_type', 'use')->first();
+        $useRecord = $material->storage->where('storage_type', 'use')->where('storage', $currentLocation)->first();
         $currentLocation = $useRecord->storage ?? ''; // 'CAE' o 'odontologia'
     @endphp
     <form action="{{ route('storages.updateBatch', [$material->material_id, $currentLocation]) }}" method="POST">
@@ -18,14 +18,8 @@
         <h1>Editar Almacenamiento para: <span class="material-name">{{ $material->name }}</span></h1>
 
         <div class="location-container">
-            <label for="storage">Localización:</label>
-            <select name="storage" id="storage">
-                <option value="CAE" {{ $currentLocation == 'CAE' ? 'selected' : '' }}>CAE</option>
-                <option value="odontology" {{ $currentLocation == 'odontology' ? 'selected' : '' }}>Odontología</option>
-            </select>
-            @error('storage')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
+            <p for="storage">Localización:</p>
+            <p>{{ $currentLocation }}</p>
         </div>
 
         <fieldset>

@@ -33,7 +33,7 @@ Route::post('/welcome', [WelcomeController::class, 'changePasswordFirstLog'])->n
 |--------------------------------------------------------------------------
 */
 Route::middleware('check.teacher.cookie')->group(function () {
-    Route::get('/storages/update/{material}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
+    Route::get('/storages/update/{material}/{currentLocation}/teacher/edit', [StorageController::class, 'teacherEditView'])->name('storages.teacher.edit');
     Route::post('/storages/update/{material}/{currentLocation}/teacher/process', [StorageController::class, 'subtractToUse'])->name('storages.subtract.teacher');
 });
 
@@ -90,7 +90,7 @@ Route::middleware('check.admin.cookie')->group(function () {
     Route::prefix('storages')->group(function () {
         Route::get('/update', [StorageController::class, 'updateView'])->name('storages.updateView');
         Route::get('/updateData', [StorageController::class, 'updateData'])->name('storages.updateData');
-        Route::get('update/{material}/edit', [StorageController::class, 'editView'])->name('storages.edit');
+        Route::get('update/{material}/{currentLocation}/edit', [StorageController::class, 'editView'])->name('storages.edit');
         Route::post('/update/{material}/{currentLocation}/process', [StorageController::class, 'updateBatch'])->name('storages.updateBatch');
         Route::get('qr/{cabinet}/{shelf}', [StorageController::class, 'show'])->name('storages.show');
         Route::post('destroy/{material}/{currentLocation}', [StorageController::class, 'destroy'])->name('storages.destroy');

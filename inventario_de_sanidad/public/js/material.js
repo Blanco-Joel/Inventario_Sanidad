@@ -251,7 +251,6 @@ async function getMaterialData(event) {
         basket.push(newMaterial);
         setCookieValue(basket, COOKIE_NAME);
         renderBasket();
-        console.log(basket);
         document.form.reset();
         document.getElementById("imgPreview").src = "";
         document.getElementById("file-name").textContent = "Ningún archivo seleccionado";
@@ -285,8 +284,6 @@ async function uploadTempImage(image) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        console.log(data.tempPath);
         return data.tempPath;
     })
     .catch(error => {
@@ -296,7 +293,6 @@ async function uploadTempImage(image) {
 }
 
 function deleteMaterialData(event) {
-    console.log("eliminar");
     let button = event.target;
     let materialId = button.getAttribute("data-id");
 

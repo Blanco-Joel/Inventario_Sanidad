@@ -139,19 +139,38 @@ class MaterialManagementController extends Controller
      * @param Material $material
      * @param mixed $materialData Datos con info de almacenamiento
      */
-    private function storeMaterialInStorage(Material $material, $materialData)
+    private function storeMaterialInStorage(Material $material, array $materialData)
     {
-        foreach (['use', 'reserve'] as $type) {
-            Storage::create([
-                'material_id'   => $material->material_id,
-                'storage'       => $materialData['storage'],
-                'storage_type'  => $type,
-                'cabinet'       => $materialData[$type]['cabinet'],
-                'shelf'         => $materialData[$type]['shelf'],
-                'drawer'        => $materialData[$type]['drawer'],
-                'units'         => $materialData[$type]['units'],
-                'min_units'     => $materialData[$type]['min_units']
-            ]);
+        // Determinamos en qué almacenes vamos a crear los registros
+        switch ($materialData['storage']) {
+            case 'CAE':
+                $storages = ['CAE'];
+                break;
+            case 'odontologia':
+            case 'odontology':
+                // Normalizamos 'odontologia' a 'odontology' si hace falta
+                $storages = ['odontology'];
+                break;
+            case 'ambos':
+            default:
+                // Ambos: CAE y odontology
+                $storages = ['CAE', 'odontology'];
+                break;
+        }
+
+        foreach ($storages as $storage) {
+            foreach (['use', 'reserve'] as $type) {
+                Storage::create([
+                    'material_id'  => $material->material_id,
+                    'storage'      => $storage,
+                    'storage_type' => $type,
+                    'cabinet'      => $materialData[$type]['cabinet'],
+                    'shelf'        => $materialData[$type]['shelf'],
+                    'drawer'       => $materialData[$type]['drawer'],
+                    'units'        => $materialData[$type]['units'],
+                    'min_units'    => $materialData[$type]['min_units'],
+                ]);
+            }
         }
     }
 

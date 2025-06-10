@@ -38,12 +38,13 @@
         </div>
 
         <div class="form-group">
-            <label for="storage">Localización</label>
-            <select name="storage" id="storage">
-                <option value="">-- Seleccionar --</option>
-                <option value="CAE" {{ old('storage')=='CAE'?'selected':'' }}>CAE</option>
-                <option value="odontologia" {{ old('storage')=='odontologia'?'selected':'' }}>Odontología</option>
-            </select>
+            <p>Localización</p>
+            <input type="radio" id="cae" name="storage" value="CAE">
+            <label for="cae">CAE</label><br>
+            <input type="radio" id="odontology" name="storage" value="odontology">
+            <label for="odontology">Odontología</label><br>
+            <input type="radio" id="ambos" name="storage" value="ambos">
+            <label for="ambos">Ambos</label><br>
             @error('storage')
                 <div class="alert-error-uspas">{{ $message }}</div>
             @enderror
