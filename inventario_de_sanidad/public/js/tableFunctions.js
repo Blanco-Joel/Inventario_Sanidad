@@ -27,10 +27,20 @@ function initLoad() {
 function filtrarTabla() {
     paginatual = 0;
     renderTable(currentLimit,paginatual);
+    let url = window.location.href.split("/");
+    url = url[url.length-1];
+    if (url == "use" || url == "reserve") {
+      renderTableCards(currentLimit,paginatual);
+    }
 }
 
 function crearTD(texto) {
+    let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
+
     let td = document.createElement("td");
+    if (isAdmin && (texto == "CAE" ||texto == "Odontología")) {
+      td.rowSpan = 2;
+    }
     td.textContent = texto;
     return td;
 }

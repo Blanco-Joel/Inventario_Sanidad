@@ -65,7 +65,6 @@ class WelcomeController extends Controller
         }
 
         // Actualizar contraseña y marcar primer inicio de sesión como completado
-        $user->password = $request->newPassword;
         $user->hashed_password = Hash::make($request->newPassword);
         $user->first_log = 1;
         $user->save();

@@ -55,8 +55,18 @@ table input[list] {
     font-size: 0.95rem;
 }
 
+select {
+    padding: 0.5rem;
+    width: min-content;
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-100);
+    border: 1px solid var(--bg-300);
+    font-size: 0.95rem;
+}
+
 table input[type="number"]:focus,
-table input[list]:focus {
+table input[list]:focus,
+input[list]:focus {
     outline: none;
     border-color: var(--primary-400);
 }

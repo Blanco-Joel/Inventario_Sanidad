@@ -25,10 +25,11 @@
                 <div id="filterOptions" class="filter-options">
                     <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
                     <label><input type="radio" name="filtro" value="2">Descripción</label>
-                    <label><input type="radio" name="filtro" value="3">Armario</label>
-                    <label><input type="radio" name="filtro" value="4">Balda</label>
-                    <label><input type="radio" name="filtro" value="5">Unidades</label>
-                    <label><input type="radio" name="filtro" value="6">Mínimo</label>
+                    <label><input type="radio" name="filtro" value="3">Localización</label>
+                    <label><input type="radio" name="filtro" value="4">Armario</label>
+                    <label><input type="radio" name="filtro" value="5">Balda</label>
+                    <label><input type="radio" name="filtro" value="6">Unidades</label>
+                    <label><input type="radio" name="filtro" value="7">Unidades Mínimas</label>
                 </div>
             </div>
         </div>
@@ -47,10 +48,12 @@
                         <th>Imagen</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
+                        <th>Localización</th>
                         <th>Armario</th>
                         <th>Balda</th>
                         <th>Unidades</th>
-                        <th>Mínimo</th>
+                        <th>Unidades Mínimas</th>
+
                     </tr>
                 </thead>
                 <tbody>

@@ -5,7 +5,13 @@ else if (document.attachEvent)
 
 // Función que retorna una promesa con los datos
 function updateDataRetrieve() {
-    return fetch('/activities/activityData')
+    let rute ="/activities/activityData";
+    let isTeacher = document.querySelector(".user-role").textContent.includes("teacher");
+
+    if (isTeacher) {
+        rute ="/activities/activityTeacherData";
+    }
+    return fetch(rute)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener datos');

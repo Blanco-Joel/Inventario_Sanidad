@@ -25,14 +25,14 @@ async function inicio() {
 }
 
 function renderActivityCards(limit, paginaActual) {
-    const container = document.querySelector("#activityCardContainer");
+    let container = document.querySelector("#activityCardContainer");
     if (!container) return;
 
     while (container.firstChild) container.removeChild(container.firstChild);
 
-    const inicio = paginaActual * limit;
-    const fin = inicio + limit;
-    const datosPagina = allData.slice(inicio, fin);
+    let inicio = paginaActual * limit;
+    let fin = inicio + limit;
+    let datosPagina = allData.slice(inicio, fin);
 
     datosPagina.forEach(activity => {
         container.appendChild(crearActivityCard(activity));
@@ -42,57 +42,63 @@ function renderActivityCards(limit, paginaActual) {
 }
 
 function crearActivityCard(activity) {
-    const card = document.createElement("div");
+    let card = document.createElement("div");
     card.className = "activity-card";
 
     // Header con fecha
-    const header = document.createElement("div");
+    let header = document.createElement("div");
     header.className = "activity-header";
-    const fecha = new Date(activity.created_at);
+    let fecha = new Date(activity.created_at);
     header.textContent = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit'
     });
     card.appendChild(header);
 
-    const content = document.createElement("div");
+    let content = document.createElement("div");
 
-    const pDesc = document.createElement("p");
-    const strong = document.createElement("strong");
+    let pDesc = document.createElement("p");
+    let strong = document.createElement("strong");
     strong.textContent = "Descripción:";
     pDesc.appendChild(strong);
     pDesc.appendChild(document.createTextNode(" " + (activity.title ?? "-")));
     content.appendChild(pDesc);
+    let pTeach = document.createElement("p");
+    let strongTeach = document.createElement("strong");
+    strongTeach.textContent = "Profesor:";
+    pTeach.appendChild(strongTeach);
+    pTeach.appendChild(document.createTextNode(" " + (activity.teacher.first_name ?? "-") + " " + (activity.teacher.last_name ?? "-")));
+    content.appendChild(pTeach);
 
     if (!activity.materials || activity.materials.length === 0) {
-        const pEmpty = document.createElement("p");
-        const em = document.createElement("em");
+        let pEmpty = document.createElement("p");
+        let em = document.createElement("em");
         em.textContent = "No se usaron materiales.";
         pEmpty.appendChild(em);
         content.appendChild(pEmpty);
     } else {
-        const wrapper = document.createElement("div");
+        let wrapper = document.createElement("div");
         wrapper.className = "table-wrapper";
 
-        const table = document.createElement("table");
+        let table = document.createElement("table");
         table.className = "table activity-table";
 
-        const thead = document.createElement("thead");
-        const trHead = document.createElement("tr");
+        let thead = document.createElement("thead");
+        let trHead = document.createElement("tr");
         ["Material", "Cantidad"].forEach(text => {
-            const th = document.createElement("th");
+            let th = document.createElement("th");
             th.textContent = text;
             trHead.appendChild(th);
         });
         thead.appendChild(trHead);
         table.appendChild(thead);
 
-        const tbody = document.createElement("tbody");
+        let tbody = document.createElement("tbody");
         activity.materials.forEach(material => {
-            const tr = document.createElement("tr");
-            const tdMaterial = crearTD(material.name ?? "-");
+            let tr = document.createElement("tr");
+            let tdMaterial = crearTD(material.name ?? "-");
             crearDataLabel(tdMaterial, "Material");
-            const tdCantidad = crearTD(material.pivot.units ?? "-");
+            let tdCantidad = crearTD(material.pivot.units ?? "-");
             crearDataLabel(tdCantidad, "Cantidad");
             tr.appendChild(tdMaterial);
             tr.appendChild(tdCantidad);
