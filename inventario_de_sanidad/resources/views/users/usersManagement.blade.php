@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/users/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dialog.css') }}">
+
 @endpush
 
 @section('content')

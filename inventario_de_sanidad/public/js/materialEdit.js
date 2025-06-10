@@ -4,7 +4,7 @@ else if (document.attachEvent)
     window.attachEvent("onload", inicio);
 
 // Función que retorna una promesa con los datos
-async function updateDataRetrieve() {
+function updateDataRetrieve() {
     return fetch('/materials/materialsData')
         .then(response => {
             if (!response.ok) {
@@ -23,11 +23,11 @@ async function updateDataRetrieve() {
 }
 
 // Función inicio que espera la promesa antes de continuar
-async function  inicio() {
+function  inicio() {
 
-    await updateDataRetrieve();
+    updateDataRetrieve();
 
-    let botonesBaja = document.querySelectorAll("[id^='btn']") 
+    let botonesBaja = document.querySelectorAll("[id^='btn-delete-']") 
     console.log(botonesBaja);
     for (let btn of botonesBaja) {
         if (document.addEventListener){

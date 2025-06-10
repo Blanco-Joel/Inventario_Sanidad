@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dialog.css') }}">
 @endpush
 
 @section('content')
@@ -14,6 +15,8 @@
     <div class="spinner"></div>
 </div> 
 <div>
+<!-- Dialogo para confirmar eliminación de material -->
+
 <dialog  id="confirmacion">
     <p>¿Estás seguro de que deseas eliminar el material seleccionado?</p>
     <input type="button" class="btn btn-success" value="Aceptar" id="aceptar">
@@ -37,8 +40,6 @@
         </form>
 
         <div>
-            <!-- Dialogo para confirmar eliminación de material -->
-
 
             <!-- Tabla de materiales -->
             <div class="table-wrapper">
@@ -52,8 +53,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Tabla de materiales se insertará aquí -->
                     </tbody>
                 </table>
+            </div>
         </div>
 
         <!-- Paginación -->

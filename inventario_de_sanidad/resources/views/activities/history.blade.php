@@ -3,8 +3,9 @@
 @section('title', 'Historial de actividades')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/activities/activityHistory.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+<link rel="stylesheet" href="{{ asset('css/tables.css') }}">    
+<link rel="stylesheet" href="{{ asset('css/activities/activityHistory.css') }}">
+    
 @endpush
 
 @section('content')

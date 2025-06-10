@@ -1,10 +1,12 @@
+    
+    
     function mostrarDialogConfirmacion(event) 
     {
+        console.log(event.target.id.split("-")[1])
         event.preventDefault();
         let botonConfirmar
         let botonCancelar
         let dialog
-        console.log(event.target.id.split("-")[1])
         if (event.target.id.split("-")[1] == "ver") {
             botonConfirmar  = document.getElementById("aceptarContra");
             botonCancelar = document.getElementById("cancelarContra");

@@ -114,7 +114,7 @@ function renderBasket() {
 
             // Imagen
             let imageTd = document.createElement("td");
-            imageTd.setAttribute("data-label", "Imagen");
+            
             let newImg = document.createElement("img");
             newImg.className = "cell-img";
             newImg.src = storageUrl + (basket[i].image_temp || "no_image.jpg");
@@ -124,7 +124,7 @@ function renderBasket() {
 
             // Botón eliminar
             let buttonTd = document.createElement("td");
-            buttonTd.setAttribute("data-label", "Acciones");
+            
             let newButton = document.createElement("input");
             newButton.type = "button";
             newButton.className = "btn btn-primary delete-btn";
@@ -254,6 +254,16 @@ async function getMaterialData(event) {
         document.form.reset();
         document.getElementById("imgPreview").src = "";
         document.getElementById("file-name").textContent = "Ningún archivo seleccionado";
+    
+        // Mostrar mensaje de éxito
+        const successMsg = document.getElementById("success-message");
+        successMsg.textContent = "Material añadido al carrito.";
+        successMsg.classList.remove("hidden");
+
+        // Ocultarlo después de unos segundos
+        setTimeout(() => {
+            successMsg.classList.add("hidden");
+        }, 5000);
     }
 
     event.target.disabled = false;

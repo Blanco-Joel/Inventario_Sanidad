@@ -1,82 +1,117 @@
+/**
+ * Registra el evento para ejecutar la función `inicio` cuando el DOM esté listo.
+ * Compatible con navegadores modernos y antiguos.
+ */
 if (document.addEventListener)
     window.addEventListener("DOMContentLoaded", inicio);
 else if (document.attachEvent)
     window.attachEvent("DOMContentLoaded", inicio);
 
+/**
+ * Función principal que inicializa la vista, espera los datos históricos,
+ * oculta el loader, inicializa eventos y renderiza las vistas de tabla y tarjetas.
+ */
 async function inicio() {
-    initViewToggle();
+    initViewToggle(); // Inicializa el toggle entre vista tarjeta y tabla
 
+    // Espera hasta que `window.HISTORICALDATA` esté definido
     while (typeof window.HISTORICALDATA === 'undefined') {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
 
-    hideLoader();
-    allData = window.HISTORICALDATA;
-    paginaActual = 0;
+    hideLoader(); // Oculta el loader de carga
+
+    allData = window.HISTORICALDATA; // Guarda los datos globalmente
+    paginaActual = 0; // Página actual inicia en 0
     
-    initLoad();
+    initLoad(); // Inicializa eventos de búsqueda y paginación
 
-    renderTable(currentLimit,paginaActual);
-    renderTableCards(currentLimit,paginaActual);
+    renderTable(currentLimit, paginaActual); // Renderiza tabla con paginación
+    renderTableCards(currentLimit, paginaActual); // Renderiza tarjetas con paginación
 }
 
-function initViewToggle(){
-  const cardViewBtn = document.getElementById('cardViewBtn');
-  const tableViewBtn = document.getElementById('tableViewBtn');
-  const cardView = document.getElementById('cardView');
-  const tableView = document.getElementById('tableView');
-  const searchInput = document.querySelector('.search-input');
+/**
+ * Inicializa los botones para alternar entre la vista de tarjetas y la vista de tabla.
+ * También configura el filtro en tiempo real.
+ */
+function initViewToggle() {
+    const cardViewBtn = document.getElementById('cardViewBtn');
+    const tableViewBtn = document.getElementById('tableViewBtn');
+    const cardView = document.getElementById('cardView');
+    const tableView = document.getElementById('tableView');
 
-  function activateCardView() {
-      cardView.style.display = 'grid';
-      tableView.style.display = 'none';
-      cardViewBtn.classList.add('active');
-      tableViewBtn.classList.remove('active');
-  }
+    /**
+     * Muestra la vista en tarjetas y oculta la tabla.
+     * Cambia estilos para indicar botón activo.
+     */
+    function activateCardView() {
+        cardView.style.display = 'grid';
+        tableView.style.display = 'none';
+        cardViewBtn.classList.add('active');
+        tableViewBtn.classList.remove('active');
+    }
 
-  function activateTableView() {
-      cardView.style.display = 'none';
-      tableView.style.display = 'block';
-      tableViewBtn.classList.add('active');
-      cardViewBtn.classList.remove('active');
-  }
+    /**
+     * Muestra la vista en tabla y oculta las tarjetas.
+     * Cambia estilos para indicar botón activo.
+     */
+    function activateTableView() {
+        cardView.style.display = 'none';
+        tableView.style.display = 'block';
+        tableViewBtn.classList.add('active');
+        cardViewBtn.classList.remove('active');
+    }
 
-  cardViewBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      activateCardView();
-  });
+    // Event listeners para botones de cambio de vista
+    cardViewBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        activateCardView();
+    });
 
-  tableViewBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      activateTableView();
-  });
+    tableViewBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        activateTableView();
+    });
 
-  // Filtro en tiempo real
-
-
-  activateCardView();
+    activateCardView(); // Vista por defecto: tarjetas
 }
 
-function renderTableCards(limit,paginaActual) {
+/**
+ * Renderiza las tarjetas con la información paginada y filtrada.
+ * @param {number} limit - Cantidad de elementos por página.
+ * @param {number} paginaActual - Página actual.
+ */
+function renderTableCards(limit, paginaActual) {
     let container = document.querySelector("#cardView");
     if (!container) return;
+
+    // Limpia el contenedor de tarjetas
     while (container.firstChild) container.removeChild(container.firstChild);
 
+    // Aplica filtro según campos relevantes
     let filtrados = aplicarFiltro(["name", "description", "storage", "cabinet", "shelf", "units", "min_units"]);
+
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
 
+    // Por cada material, crea una tarjeta y la agrega al contenedor
     datosPagina.forEach(material => {
         container.appendChild(crearMaterialCard(material));
     });
 
-    renderPaginationButtons(filtrados.length, limit);
+    renderPaginationButtons(filtrados.length, limit); // Renderiza paginación
 }
+
+/**
+ * Crea una tarjeta HTML para mostrar la información de un material.
+ * @param {Object} material - Objeto con los datos del material.
+ * @returns {HTMLDivElement} - Elemento div con la tarjeta.
+ */
 function crearMaterialCard(material) {
     let card = document.createElement("div");
     card.className = "material-card";
-    console.log(material)
+
     let img = document.createElement("img");
     img.src = material.image_path ? `/storage/${material.image_path}` : "/storage/no_image.jpg";
     img.alt = material.name ?? "Sin nombre";
@@ -103,20 +138,27 @@ function crearMaterialCard(material) {
 
     card.appendChild(body);
     return card;
+}
 
-  }
-
-function renderTable(limit,paginaActual) {
+/**
+ * Renderiza la tabla con los datos paginados y filtrados.
+ * @param {number} limit - Cantidad de registros por página.
+ * @param {number} paginaActual - Página actual.
+ */
+function renderTable(limit, paginaActual) {
     let tbody = document.querySelector("table tbody");
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-    let filtrados = aplicarFiltro([ "name", "description", "storage","cabinet", "shelf", "units", "min_units"]);
+    let filtrados = aplicarFiltro(["name", "description", "storage", "cabinet", "shelf", "units", "min_units"]);
+
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
 
     datosPagina.forEach(item => {
         let tr = document.createElement("tr");
+
+        // Columna con imagen del material
         let td = document.createElement("td");
         let img = document.createElement("img");
         img.src = new URL('/storage/', window.location).href + (item.image_path ?? "no_image.jpg");
@@ -124,20 +166,26 @@ function renderTable(limit,paginaActual) {
         td.appendChild(img);
         tr.appendChild(td);
 
-        tr.appendChild(crearDataLabel((crearTD(item.name ?? "-" )),"Nombre"));
-        tr.appendChild(crearDataLabel((crearTD(item.description ?? "-")),"Descripción"));
-        tr.appendChild(crearDataLabel((crearTD(item.storage == "CAE" ? "CAE" : "Odontología" )),"Localización"));
-        tr.appendChild(crearDataLabel((crearTD(item.cabinet ?? "-")),"Armario"));
-        tr.appendChild(crearDataLabel((crearTD(item.shelf ?? "-")),"Balda"));
-        tr.appendChild(crearDataLabel((crearTD(item.units ?? "-")),"Unidades"));
-        tr.appendChild(crearDataLabel((crearTD(item.min_units ?? "-")),"Mínimo"));
-        tbody.appendChild(tr);
+        // Columnas con datos y data-label para responsive
+        tr.appendChild(crearDataLabel(crearTD(item.name ?? "-"), "Nombre"));
+        tr.appendChild(crearDataLabel(crearTD(item.description ?? "-"), "Descripción"));
+        tr.appendChild(crearDataLabel(crearTD(item.storage == "CAE" ? "CAE" : "Odontología"), "Localización"));
+        tr.appendChild(crearDataLabel(crearTD(item.cabinet ?? "-"), "Armario"));
+        tr.appendChild(crearDataLabel(crearTD(item.shelf ?? "-"), "Balda"));
+        tr.appendChild(crearDataLabel(crearTD(item.units ?? "-"), "Unidades"));
+        tr.appendChild(crearDataLabel(crearTD(item.min_units ?? "-"), "Mínimo"));
 
+        tbody.appendChild(tr);
     });
 
-    renderPaginationButtons(filtrados.length, limit);
+    renderPaginationButtons(filtrados.length, limit); // Actualiza botones de paginación
 }
 
+/**
+ * Retorna la URL para editar un elemento según si el usuario es admin o no.
+ * @param {number|string} id - ID del elemento a editar.
+ * @returns {string} - URL de edición.
+ */
 function getEditUrl(id) {
     let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
     return isAdmin ? `/storages/update/${id}/edit` : `/storages/update/teacher/${id}/edit`;

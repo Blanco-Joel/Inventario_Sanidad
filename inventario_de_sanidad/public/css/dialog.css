@@ -1,0 +1,16 @@
+
+dialog#confirmacion, dialog#confirmacionContra {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* centra el diálogo completamente */ 
+    padding: 20px;
+    border: none;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    max-width: 400px;
+    text-align: center;
+    font-size: 16px;
+    background-color: var(--bg-100); /* asegúrate de definir un fondo visible */
+    z-index: 1000; /* por si se solapa con otros elementos */
+}

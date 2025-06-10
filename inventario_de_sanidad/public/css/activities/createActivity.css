@@ -76,3 +76,30 @@ input[list]:focus {
     font-size: 0.9rem;
     cursor: pointer;
 }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .table {
+        grid-template-columns: repeat(1, 1fr);
+        background-color: transparent;
+    }
+
+    .table-wrapper tr {
+        padding-bottom: 1rem;
+    }
+
+    select {
+        width: 100%;
+    }
+
+    table input[type="number"]{
+        width: 100%;
+    }
+
+    #addButton {
+        margin-top: 2rem;
+        padding: 0.4rem 1rem;
+        font-size: 1.2rem;
+    }
+}
+

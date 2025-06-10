@@ -22,7 +22,7 @@
                 btn.attachEvent("onsubmit", mostrarDialogConfirmacion);
             }
         }
-            console.log(botonesBaja);
+        console.log(botonesBaja);
 
         for (let btn of botonesBaja) {
             if (document.addEventListener){

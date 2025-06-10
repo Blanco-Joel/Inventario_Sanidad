@@ -74,7 +74,6 @@ class UsersManagementController extends Controller
             'first_name'       => $credentials["nombre"],
             'last_name'        => $credentials["apellidos"],
             'email'            => $credentials["email"],
-            'password'         => $password,
             'hashed_password'  => Hash::make($password),
             'user_type'        => $credentials["user_type"],
             'first_log'        => false,
