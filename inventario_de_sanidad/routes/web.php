@@ -47,6 +47,7 @@ Route::prefix('activities')->group(function () {
     Route::get('/history', [ActivityController::class, 'historyView'])->name('activities.history');
     Route::post('/store', [ActivityController::class, 'store'])->name('activities.store');
     Route::get('/activityData', [ActivityController::class, 'activityData']);
+    Route::get('/activityTeacherData', [ActivityController::class, 'activityTeacherData']);
 });
 
 /*

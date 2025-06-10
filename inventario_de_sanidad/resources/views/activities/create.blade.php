@@ -3,8 +3,8 @@
 @section('title', 'Actividades')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/activities/createActivity.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/activities/createActivity.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
 @endpush
 
@@ -27,6 +27,20 @@
                     <label for="activity_datetime">Fecha y hora:</label>
                     <input type="datetime-local" id="activity_datetime" name="activity_datetime">
                     @error('activity_datetime')
+                        <div class="alert-error-uspas">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="">
+                    <label for="teacher_id">Profesor:</label>
+
+                    <td data-label="Profesor" >
+                        <select name="teacher_id" id="teacher_id">
+                            @foreach ($teachers as $teacher)
+                                <option value="{{ $teacher->user_id }}">{{ $teacher->first_name }} {{ $teacher->last_name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    @error('teacher_id')
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror
                 </div>

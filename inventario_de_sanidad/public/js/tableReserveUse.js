@@ -62,7 +62,7 @@ function renderTableCards(limit,paginaActual) {
     if (!container) return;
     while (container.firstChild) container.removeChild(container.firstChild);
 
-    let filtrados = aplicarFiltro(["name", "description", "cabinet", "shelf", "units", "min_units"]);
+    let filtrados = aplicarFiltro(["name", "description", "storage", "cabinet", "shelf", "units", "min_units"]);
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
@@ -76,7 +76,7 @@ function renderTableCards(limit,paginaActual) {
 function crearMaterialCard(material) {
     let card = document.createElement("div");
     card.className = "material-card";
-
+    console.log(material)
     let img = document.createElement("img");
     img.src = material.image_path ? `/storage/${material.image_path}` : "/storage/no_image.jpg";
     img.alt = material.name ?? "Sin nombre";
@@ -94,10 +94,11 @@ function crearMaterialCard(material) {
     body.appendChild(p);
 
     let ul = document.createElement("ul");
+    ul.appendChild(crearLi("Localización", material.storage == "CAE" ? "CAE" : "Odontología"));
     ul.appendChild(crearLi("Armario", material.cabinet));
     ul.appendChild(crearLi("Balda", material.shelf));
     ul.appendChild(crearLi("Unidades", material.units));
-    ul.appendChild(crearLi("Mínimo", material.min_units));
+    ul.appendChild(crearLi("Unidades mínimas", material.min_units));
     body.appendChild(ul);
 
     card.appendChild(body);
@@ -109,7 +110,7 @@ function renderTable(limit,paginaActual) {
     let tbody = document.querySelector("table tbody");
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-    let filtrados = aplicarFiltro(["name", "description", "cabinet", "shelf", "units", "min_units"]);
+    let filtrados = aplicarFiltro([ "name", "description", "storage","cabinet", "shelf", "units", "min_units"]);
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
     let datosPagina = filtrados.slice(inicio, fin);
@@ -123,8 +124,9 @@ function renderTable(limit,paginaActual) {
         td.appendChild(img);
         tr.appendChild(td);
 
-        tr.appendChild(crearDataLabel((crearTD(item.name ?? "-")),"Nombre"));
+        tr.appendChild(crearDataLabel((crearTD(item.name ?? "-" )),"Nombre"));
         tr.appendChild(crearDataLabel((crearTD(item.description ?? "-")),"Descripción"));
+        tr.appendChild(crearDataLabel((crearTD(item.storage == "CAE" ? "CAE" : "Odontología" )),"Localización"));
         tr.appendChild(crearDataLabel((crearTD(item.cabinet ?? "-")),"Armario"));
         tr.appendChild(crearDataLabel((crearTD(item.shelf ?? "-")),"Balda"));
         tr.appendChild(crearDataLabel((crearTD(item.units ?? "-")),"Unidades"));

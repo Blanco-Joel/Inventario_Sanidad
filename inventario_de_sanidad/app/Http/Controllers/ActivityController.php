@@ -20,7 +20,9 @@ class ActivityController extends Controller
      */
     public function createForm()
     {
-        return view('activities.create')->with('materials', Material::all());
+        $teachers = User::where('user_type', 'teacher')->get();
+
+        return view('activities.create')->with('materials', Material::all())->with('teachers',$teachers);
     }
     /**
      * Devuelve todas las actividades en formato JSON ordenados por fecha de creación descendente.
@@ -35,9 +37,22 @@ class ActivityController extends Controller
         }
         
         $activities = $user->activities()
-            ->with('materials')
+            ->with('materials','teacher')
             ->orderBy('created_at', 'desc')
             ->get();
+        return response()->json($activities);
+    } 
+    public function activityTeacherData()
+    {
+        $user = User::find(Cookie::get('USERPASS'));
+        if (!$user) {
+            return back()->with('error', 'Usuario no encontrado.');
+        }
+        
+        $activities = Activity::with('materials','teacher')
+                    ->where('teacher_id',$user->user_id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
         return response()->json($activities);
     } 
     /**
@@ -69,13 +84,15 @@ class ActivityController extends Controller
         $validated = $request->validate([
             'title'  => 'required',
             'activity_datetime'=> 'required|date',
+            'teacher_id'=> 'required',
             'materialsBasketInput' => 'required'
         ], [
             'title.required'  => 'Debe introducir la descripción de la actividad.',
             'activity_datetime.required' => 'Debe introducir la fecha y hora de la actividad.',
+            'teacher_id.required' =>'Debe introducir el nombre del profesor',
             'materialsBasketInput.required' => 'Debe introducir datos a la cesta'
         ]);
-    
+        
         $basket = json_decode($validated['materialsBasketInput'], true) ?? [];
     
         $user_id = Cookie::get('USERPASS');
@@ -88,6 +105,7 @@ class ActivityController extends Controller
                 $activity = new Activity();
                 $activity->user_id = $user_id;
                 $activity->title = $validated['title'];
+                $activity->teacher_id = $validated['teacher_id'];
                 $activity->created_at = $validated['activity_datetime'];
                 $activity->save();
         

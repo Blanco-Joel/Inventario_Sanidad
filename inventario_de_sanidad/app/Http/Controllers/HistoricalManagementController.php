@@ -61,6 +61,7 @@ class HistoricalManagementController extends Controller
                 'materials.name',
                 'materials.description',
                 'materials.image_path',
+                'storages.storage',
                 'storages.cabinet',
                 'storages.shelf',
                 'storages.units',

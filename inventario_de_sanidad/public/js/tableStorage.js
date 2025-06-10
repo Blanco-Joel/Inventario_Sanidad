@@ -32,18 +32,19 @@ function renderTable(limit, paginaActual) {
         let reserveCAE = item.storage.find(s => s.storage_type === 'reserve' && s.storage === "CAE") || {};
         let useOd = item.storage.find(s => s.storage_type === 'use' && s.storage === "odontology") || {};
         let reserveOd = item.storage.find(s => s.storage_type === 'reserve' && s.storage === "odontology") || {};
-        const isAdmin = document.querySelector(".user-role").textContent.includes("admin");
+        let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
         console.log(useCAE);
         // tr: Nombre del material
-        const trMaterial = document.createElement("tr");
-        const tdMaterial = crearTD(item.name ?? "0");
-        tdMaterial.colSpan = isAdmin ? 8 : 7;
+        let trMaterial = document.createElement("tr");
+        let tdMaterial = crearTD(item.name ?? "-");
+        tdMaterial.colSpan = 8;
         tdMaterial.classList.add("material-title");
         trMaterial.appendChild(tdMaterial);
         tbody.appendChild(trMaterial);
 
         // tr: Uso
-        const trUsoCAE = document.createElement("tr");
+        let trUsoCAE = document.createElement("tr");
+
         trUsoCAE.appendChild(crearDataLabel(crearTD("CAE"), "Localizacíon"));
         trUsoCAE.appendChild(crearDataLabel(crearTD("uso"), "Tipo"));
         trUsoCAE.appendChild(crearDataLabel(crearTD(useCAE.units ?? "0"), "Cantidad"));
@@ -52,15 +53,14 @@ function renderTable(limit, paginaActual) {
         trUsoCAE.appendChild(crearDataLabel(crearTD(useCAE.shelf ?? "0"), "Balda"));
         trUsoCAE.appendChild(crearDataLabel(crearTD(useCAE.drawer ?? "0"), "Cajón"));
         if (!isAdmin) {
-            const tdAcciones = crearAccionesTd(item.material_id);
+            let tdAcciones = crearAccionesTd(item.material_id,"CAE");
             trUsoCAE.appendChild(tdAcciones);
         }
         tbody.appendChild(trUsoCAE);
 
         // tr: Reserva (solo admin)
         if (isAdmin) {
-            const trReservaCAE = document.createElement("tr");
-            trReservaCAE.appendChild(crearDataLabel(crearTD("CAE"), "Localizacíon"));
+            let trReservaCAE = document.createElement("tr");
             trReservaCAE.appendChild(crearDataLabel(crearTD("reserva"), "Tipo"));
             trReservaCAE.appendChild(crearDataLabel(crearTD(reserveCAE.units ?? "0"), "Cantidad"));
             trReservaCAE.appendChild(crearDataLabel(crearTD(reserveCAE.min_units ?? "0"), "Cantidad mínima"));
@@ -68,13 +68,13 @@ function renderTable(limit, paginaActual) {
             trReservaCAE.appendChild(crearDataLabel(crearTD(reserveCAE.shelf ?? "0"), "Balda"));
             trReservaCAE.appendChild(crearDataLabel(crearTD(reserveCAE.drawer ?? "0"), "Cajón"));
 
-            const tdAcciones = crearAccionesTd(item.material_id);
+            let tdAcciones = crearAccionesTd(item.material_id,"CAE");
             trReservaCAE.appendChild(tdAcciones);
 
             tbody.appendChild(trReservaCAE);
         }
         // tr: Uso
-        const trUsoOd = document.createElement("tr");
+        let trUsoOd = document.createElement("tr");
         trUsoOd.appendChild(crearDataLabel(crearTD("Odontología"), "Localizacíon"));
         trUsoOd.appendChild(crearDataLabel(crearTD("uso"), "Tipo"));
         trUsoOd.appendChild(crearDataLabel(crearTD(useOd.units ?? "0"), "Cantidad"));
@@ -83,15 +83,14 @@ function renderTable(limit, paginaActual) {
         trUsoOd.appendChild(crearDataLabel(crearTD(useOd.shelf ?? "0"), "Balda"));
         trUsoOd.appendChild(crearDataLabel(crearTD(useOd.drawer ?? "0"), "Cajón"));
         if (!isAdmin) {
-            const tdAcciones = crearAccionesTd(item.material_id);
+            let tdAcciones = crearAccionesTd(item.material_id,"odontology");
             trUsoOd.appendChild(tdAcciones);
         }
         tbody.appendChild(trUsoOd);
 
         // tr: Reserva (solo admin)
         if (isAdmin) {
-            const trReservaOd = document.createElement("tr");
-            trReservaOd.appendChild(crearDataLabel(crearTD("Odontología"), "Localizacíon"));
+            let trReservaOd = document.createElement("tr");
             trReservaOd.appendChild(crearDataLabel(crearTD("reserva"), "Tipo"));
             trReservaOd.appendChild(crearDataLabel(crearTD(reserveOd.units ?? "0"), "Cantidad"));
             trReservaOd.appendChild(crearDataLabel(crearTD(reserveOd.min_units ?? "0"), "Cantidad mínima"));
@@ -99,7 +98,7 @@ function renderTable(limit, paginaActual) {
             trReservaOd.appendChild(crearDataLabel(crearTD(reserveOd.shelf ?? "0"), "Balda"));
             trReservaOd.appendChild(crearDataLabel(crearTD(reserveOd.drawer ?? "0"), "Cajón"));
 
-            const tdAcciones = crearAccionesTd(item.material_id);
+            let tdAcciones = crearAccionesTd(item.material_id,"odontology");
             trReservaOd.appendChild(tdAcciones);
 
             tbody.appendChild(trReservaOd);
@@ -110,27 +109,27 @@ function renderTable(limit, paginaActual) {
 }
 
 
-function crearAccionesTd(id) {
-    const tdAcciones = document.createElement("td");
+function crearAccionesTd(id,storage) {
+    let tdAcciones = document.createElement("td");
     tdAcciones.classList.add("acciones");
 
-    const btnEditar = document.createElement("button");
+    let btnEditar = document.createElement("button");
     btnEditar.type = "submit";
     btnEditar.style.cssText = "background: none; border: none; cursor: pointer;";
 
-    const iconEdit = document.createElement("i");
+    let iconEdit = document.createElement("i");
     iconEdit.classList.add("fa", "fa-pencil");
     btnEditar.appendChild(iconEdit);
 
     btnEditar.onclick = () => {
-        window.location.href = getEditUrl(id);
+        window.location.href = getEditUrl(id,storage);
     };
 
     tdAcciones.appendChild(btnEditar);
     return tdAcciones;
 }
 
-function getEditUrl(id) {
+function getEditUrl(id,storage) {
     let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
-    return isAdmin ? `/storages/update/${id}/edit` : `/storages/update/${id}/teacher/edit`;
+    return isAdmin ? `/storages/update/${id}/${storage}/edit` : `/storages/update/${id}/${storage}/teacher/edit`;
 }

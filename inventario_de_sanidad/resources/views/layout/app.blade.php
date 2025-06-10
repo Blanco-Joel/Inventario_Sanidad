@@ -155,6 +155,13 @@
                             <span class="link-text">Materiales en uso</span>
                         </a>
                     </li>
+                                        <li>
+                        <a href="{{ route('activities.history') }}"
+                        class="{{ request()->routeIs('activities.history') ? 'active' : '' }}">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <span class="link-text">Actividades del alumnado</span>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </nav>
