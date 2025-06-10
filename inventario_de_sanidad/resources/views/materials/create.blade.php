@@ -53,10 +53,10 @@
         <fieldset class="fieldset">
             <legend>Uso</legend>
             <div class="form-grid-5">
-                <input type="number" name="units_use" placeholder="Cantidad" min="1" value="{{ old('units_use') }}">
-                <input type="number" name="min_units_use" placeholder="Cantidad mínima" min="1" value="{{ old('min_units_use') }}">
+                <input type="number" name="units_use" placeholder="Cantidad" min="0" value="{{ old('units_use') }}">
+                <input type="number" name="min_units_use" placeholder="Cantidad mínima" min="0" value="{{ old('min_units_use') }}">
                 <input type="number" name="cabinet_use" placeholder="Armario" value="{{ old('cabinet_use') }}">
-                <input type="number" name="shelf_use" placeholder="Balda" min="1" value="{{ old('shelf_use') }}">
+                <input type="number" name="shelf_use" placeholder="Balda" min="0" value="{{ old('shelf_use') }}">
                 <input type="number" name="drawer" placeholder="Cajón" value="{{ old('drawer') }}">
             </div>
             @foreach (['units_use', 'min_units_use', 'cabinet_use', 'shelf_use', 'drawer'] as $field)
@@ -69,8 +69,8 @@
         <fieldset class="fieldset">
             <legend>Reserva</legend>
             <div class="form-grid-4">
-                <input type="number" name="units_reserve" placeholder="Cantidad" min="1" value="{{ old('units_reserve') }}">
-                <input type="number" name="min_units_reserve" placeholder="Cantidad mínima" min="1" value="{{ old('min_units_reserve') }}">
+                <input type="number" name="units_reserve" placeholder="Cantidad" min="0" value="{{ old('units_reserve') }}">
+                <input type="number" name="min_units_reserve" placeholder="Cantidad mínima" min="0" value="{{ old('min_units_reserve') }}">
                 <input type="text" name="cabinet_reserve" placeholder="Armario" value="{{ old('cabinet_reserve') }}">
                 <input type="number" name="shelf_reserve" placeholder="Balda" value="{{ old('shelf_reserve') }}">
             </div>

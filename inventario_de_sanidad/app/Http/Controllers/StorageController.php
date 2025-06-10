@@ -30,15 +30,14 @@ class StorageController extends Controller
      * @param \App\Models\Material $material
      * @return mixed|\Illuminate\Contracts\View\View
      */
-    public function editView(Material $material)
+    public function editView(Material $material, $currentLocation)
     {
-        return view('storages.edit')->with('material', $material);
+        return view('storages.edit')->with('material', $material)->with('currentLocation', $currentLocation);
     }
 
     public function updateBatch(Request $request, Material $material, $currentLocation)
     {
         $validated = $request->validate([
-            'storage'           => 'required|string|in:CAE,odontology',
             'use_units'         => 'required|integer|min:0',
             'use_min_units'     => 'required|integer|min:0',
             'use_cabinet'       => 'required|integer|min:0',
@@ -64,7 +63,6 @@ class StorageController extends Controller
         }
 
         // Nuevos valores.
-        $newLocation        = $validated['storage'];
         $newUseUnits        = $validated['use_units'];
         $newUseMin          = $validated['use_min_units'];
         $newUseCabinet      = $validated['use_cabinet'];
@@ -76,17 +74,9 @@ class StorageController extends Controller
         $newReserveCabinet  = $validated['reserve_cabinet'];
         $newReserveShelf    = $validated['reserve_shelf'];
 
-        if ($currentLocation !== $newLocation) {
-            $noChangeLocation = $material->storage->where('storage', $newLocation)->first();
-            if (!empty($noChangeLocation)) {
-                return back()->with('error', "El material ya está añadido en el almacén de $newLocation.");
-            }
-        }
-
         // Comprueba si ningún campo cambia.
         if
         (
-            $newLocation        == $currentLocation &&
             $newUseUnits        == $useRecord->units && 
             $newUseMin          == $useRecord->min_units && 
             $newUseCabinet      == $useRecord->cabinet && 
@@ -112,7 +102,7 @@ class StorageController extends Controller
                     return back()->with('error','La cantidad de reserva no puede ser negativa.');
                 }
 
-                DB::transaction(function() use ($validated, $newReserveUnits, $differenceReserve, $material, $newLocation, $currentLocation) {
+                DB::transaction(function() use ($validated, $newReserveUnits, $differenceReserve, $material, $currentLocation) {
                     // Actualizar reserva.
                     Storage::where('material_id', $material->material_id)
                     ->where('storage_type' , 'reserve')
@@ -122,7 +112,6 @@ class StorageController extends Controller
                         'min_units' => $validated['reserve_min_units'],
                         'cabinet'   => $validated['reserve_cabinet'],
                         'shelf'     => $validated['reserve_shelf'],
-                        'storage'   => $newLocation
                     ]);
 
                     // Registrar modificación.
@@ -163,7 +152,6 @@ class StorageController extends Controller
                 ->where('storage_type' , 'use')
                 ->where('storage', $currentLocation)
                 ->update([
-                    'storage' => $validated['storage'],
                     'units'     => $newUseUnits,
                     'min_units' => $validated['use_min_units'],
                     'cabinet'      => $validated['use_cabinet'],
@@ -176,7 +164,6 @@ class StorageController extends Controller
                 ->where('storage_type' , 'reserve')
                 ->where('storage', $currentLocation)
                 ->update([
-                    'storage' => $validated['storage'],
                     'units'     => $newReserveUnits,
                     'min_units' => $validated['reserve_min_units'],
                     'cabinet'      => $validated['reserve_cabinet'],

@@ -8,10 +8,6 @@
 
 @section('content')
 <div class="">
-    @php
-        $useRecord = $material->storage->where('storage_type', 'use')->where('storage', $currentLocation)->first();
-        $currentLocation = $useRecord->storage ?? ''; // 'CAE' o 'odontologia'
-    @endphp
     <form action="{{ route('storages.updateBatch', [$material->material_id, $currentLocation]) }}" method="POST">
         @csrf
 
@@ -26,7 +22,7 @@
             <legend>Datos para Uso</legend>
 
             @php
-                $useRecord = $material->storage->where('storage_type', 'use')->first();
+                $useRecord = $material->storage->where('storage_type', 'use')->where('storage', $currentLocation)->first();
             @endphp
 
             <div class="form-grid">
@@ -72,7 +68,7 @@
             <legend>Datos para Reserva</legend>
 
             @php
-                $reserveRecord = $material->storage->where('storage_type', 'reserve')->first();
+                $reserveRecord = $material->storage->where('storage_type', 'reserve')->where('storage', $currentLocation)->first();
             @endphp
 
             <div class="form-grid">

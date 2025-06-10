@@ -116,7 +116,6 @@ class UsersManagementController extends Controller
         $user = $request["user_id"];
         $password = $this->generateRandomPassword(8);
         $userInfo = User::where('user_id', $user)->first();
-        $userInfo->password = $password;
 
         $userInfo->hashed_password = Hash::make($password);
         $userInfo->first_log = 0;
