@@ -3,8 +3,10 @@
 @section('title', 'Alta de materiales')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/materials/materials.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+    
+<link rel="stylesheet" href="{{ asset('css/tables.css') }}">
+<link rel="stylesheet" href="{{ asset('css/materials/materials.css') }}">
+    
 @endpush
 
 @section('content')
@@ -95,6 +97,8 @@
             <input type="button" value="Añadir" class="btn btn-primary" name="add">
         </div>
 
+        <div id="success-message" class="success hidden"></div>
+
         <input type="hidden" name="materialsAddBasket" id="materialsAddBasket">
 
         <input type="submit" value="Alta" class="btn btn-success">
@@ -131,7 +135,7 @@
                             <th colspan="5">Uso</th>
                             <th colspan="4">Reserva</th>
                             <th rowspan="2">Imagen</th>
-                            <th rowspan="2">Acciones</th>
+                            <th rowspan="2"></th>
                         </tr>
                         <tr>
                             <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th><th>Cajón</th>

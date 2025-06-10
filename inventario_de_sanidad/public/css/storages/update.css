@@ -6,7 +6,7 @@
 
 @media (max-width: 1024px) {
 
-    .table {
+    .table { 
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
@@ -37,7 +37,7 @@
 
     }
 
-    .table-wrapper tr:not(:has(.material-title)) {
+    .table-wrapper tr:not(:has(.material-title))z {
         display: grid;
         grid-template-rows: auto 1fr auto;
         border: 1px solid #ddd;

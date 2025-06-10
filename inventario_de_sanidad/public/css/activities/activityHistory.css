@@ -34,3 +34,46 @@
 .activity-table td:last-child {
     width: 25%;
 }
+
+p:nth-child(1) {
+    margin-top: 2rem;
+}
+
+p:nth-child(2) {
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    
+    .table {
+        grid-template-columns: repeat(1, 1fr);
+        background-color: transparent;
+    }
+
+    .table-wrapper tr {
+        padding-bottom: 1rem;
+    }
+
+    .activity-table th:first-child, .activity-table td:first-child {
+        width: 100%;
+    }
+    .activity-table th:last-child, .activity-table td:last-child{
+        width: 100%;
+    }
+}
+
+/* Responsive */
+@media (max-width: 425px) {
+.activity-card {
+        width: 80%;
+    }
+}
+
+/* Responsive */
+@media (max-width: 375px) {
+    .activity-card {
+        width: 90%;
+    }
+}

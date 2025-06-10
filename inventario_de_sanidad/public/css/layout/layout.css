@@ -355,6 +355,7 @@
     }
 
     .logout {
+        width: 200px;
         top: 50px;
     }
 
@@ -372,6 +373,6 @@
     .notifications-list {
         right: 60px;
         top: 40px;
-        width: 200px;
+        width: 170px;
     }
 }

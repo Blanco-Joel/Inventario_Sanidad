@@ -80,18 +80,18 @@
                 <!-- Hidden que contendrá el JSON de la cesta -->
                 <input type="hidden" name="materialsBasketInput" id="materialsBasketInput">
 
+                {{-- Mensajes flash --}}
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
+                {{-- Mensajes de error --}}
+                @if(session('error'))
+                    <div class="alert alert-error-uspas">{{ session('error') }}</div>
+                @endif
+
                 <input type="submit" value="Crear" class="btn btn-primary">
             </form>
-
-            {{-- Mensajes flash --}}
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-
-            {{-- Mensajes de error --}}
-            @if(session('error'))
-                <div class="alert alert-error-uspas">{{ session('error') }}</div>
-            @endif
         </div>
     </div>
 @endsection
