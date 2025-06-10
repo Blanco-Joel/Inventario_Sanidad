@@ -4,7 +4,7 @@ else if (document.attachEvent)
     window.attachEvent("onload", inicio);
 
 // Función que retorna una promesa con los datos
-function updateDataRetrieve() {
+async function updateDataRetrieve() {
     return fetch('/materials/materialsData')
         .then(response => {
             if (!response.ok) {
@@ -23,6 +23,18 @@ function updateDataRetrieve() {
 }
 
 // Función inicio que espera la promesa antes de continuar
-function inicio() {
-    return updateDataRetrieve();
+async function  inicio() {
+
+    await updateDataRetrieve();
+
+    let botonesBaja = document.querySelectorAll("[id^='btn']") 
+    console.log(botonesBaja);
+    for (let btn of botonesBaja) {
+        if (document.addEventListener){
+            btn.addEventListener("submit", mostrarDialogConfirmacion);
+        }else if (document.attachEvent){
+            btn.attachEvent("onsubmit", mostrarDialogConfirmacion);
+        }
+    }
+    
 }

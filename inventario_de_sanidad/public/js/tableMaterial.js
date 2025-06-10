@@ -45,7 +45,7 @@ function renderTable(limit,paginaActual) {
         let formAc = document.createElement("form");
         formAc.method = "GET";
         formAc.action = `/materials/${item.material_id}/edit`;
-        formAc.id = `btn-delete-${item.material_id}`;
+        formAc.id = `btn-ver-${item.material_id}`;
 
         let formToken = getHiddenToken();
         let formId = getHiddenId(item.material_id,"material_id");

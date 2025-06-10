@@ -87,6 +87,7 @@
 
 @push('scripts')
     <script src="{{ asset('js/loader.js') }}"></script>
+    <script src="{{ asset('js/dialogFunctions.js') }}"></script>
     <script src="{{ asset('js/usersManagement.js') }}"></script>
     <script src="{{ asset('js/tableFunctions.js') }}"></script>
     <script src="{{ asset('js/tableUser.js') }}"></script>

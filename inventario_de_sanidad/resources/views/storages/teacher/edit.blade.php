@@ -16,7 +16,7 @@
         <form action="{{ route('storages.subtract.teacher', [$material->material_id, $currentLocation]) }}" method="POST">
             @csrf
 
-            <h1>Editar Almacenamiento para: {{ $material->name }} / {{ $currentLocation }}</h1>
+            <h1>Editar Almacenamiento para: {{ $material->name }} / {{ $currentLocation == "CAE" ? "CAE" : "Odontología" }}</h1>
             
             @php
                 $useRecord = $material->storage->where('storage_type', 'use')->first();

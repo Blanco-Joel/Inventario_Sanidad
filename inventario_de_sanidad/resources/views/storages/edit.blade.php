@@ -15,7 +15,7 @@
 
         <div class="location-container">
             <p for="storage">Localización:</p>
-            <p>{{ $currentLocation }}</p>
+            <p>{{ $currentLocation == "CAE" ? "CAE" : "Odontología" }}</p>
         </div>
 
         <fieldset>
@@ -28,35 +28,35 @@
             <div class="form-grid">
                 <div class="">
                     <label>Cantidad</label>
-                    <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '-' }}" min="0" required>
+                    <input type="number" name="use_units" class="form-control" value="{{ $useRecord->units ?? '0' }}" min="0" required>
                     @error('use_units')
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="">
                     <label>Cantidad Mínima</label>
-                    <input type="number" name="use_min_units" class="form-control" value="{{ $useRecord->min_units ?? '-' }}" min="0" required>
+                    <input type="number" name="use_min_units" class="form-control" value="{{ $useRecord->min_units ?? '0' }}" min="0" required>
                     @error('use_min_units')
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="">
                     <label>Armario</label>
-                    <input type="number" name="use_cabinet" class="form-control" value="{{ $useRecord->cabinet ?? '-' }}" min="0" required>
+                    <input type="number" name="use_cabinet" class="form-control" value="{{ $useRecord->cabinet ?? '0' }}" min="0" required>
                     @error('use_cabinet')
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="">
                     <label>Balda</label>
-                    <input type="number" name="use_shelf" class="form-control" value="{{ $useRecord->shelf ?? '-' }}" min="0" required>
+                    <input type="number" name="use_shelf" class="form-control" value="{{ $useRecord->shelf ?? '0' }}" min="0" required>
                     @error('use_shelf')
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="">
                     <label>Cajón</label>
-                    <input type="number" name="drawer" class="form-control" value="{{ $useRecord->drawer ?? '-' }}" min="0" required>
+                    <input type="number" name="drawer" class="form-control" value="{{ $useRecord->drawer ?? '0' }}" min="0" required>
                     @error('drawer')
                         <div class="alert-error-uspas">{{ $message }}</div>
                     @enderror

@@ -16,7 +16,7 @@ class UserCreation extends Mailable
      *
      * @return void
      */
-       public function __construct( $password,$first_name, $last_name )
+    public function __construct( $password,$first_name, $last_name )
     {
         $this->password = $password;
         $this->first_name = $first_name;
