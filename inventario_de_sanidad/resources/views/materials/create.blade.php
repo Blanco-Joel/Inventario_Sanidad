@@ -42,7 +42,7 @@
             <select name="storage" id="storage">
                 <option value="">-- Seleccionar --</option>
                 <option value="CAE" {{ old('storage')=='CAE'?'selected':'' }}>CAE</option>
-                <option value="odontologia" {{ old('storage')=='odontologia'?'selected':'' }}>Odontología</option>
+                <option value="odontology" {{ old('storage')=='odontologia'?'selected':'' }}>Odontología</option>
             </select>
             @error('storage')
                 <div class="alert-error-uspas">{{ $message }}</div>
