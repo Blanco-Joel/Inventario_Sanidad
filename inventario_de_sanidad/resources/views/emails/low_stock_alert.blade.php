@@ -35,7 +35,7 @@
                 <strong>{{ $storage->units }}</strong>, que está por debajo del mínimo permitido 
                 (<strong>{{ $storage->min_units }}</strong>) en el almacenamiento de 
                 <strong>{{ $storage->storage_type === 'use' ? 'uso' : 'reserva' }}</strong>
-                en el almacen de <strong>{{ $storage->storage }}</strong>.
+                en el almacen de <strong>{{ $storage->storage === 'odontology' ? 'Odontología' : 'CAE' }}</strong>.
               </p>
               <p style="margin:0 0 12px;">
                 Por favor, toma las medidas necesarias para reponer el stock.

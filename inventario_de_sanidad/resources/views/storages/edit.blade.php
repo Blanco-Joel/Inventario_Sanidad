@@ -113,7 +113,11 @@
         </div>
 
         <br>
-        <button type="submit" class="btn btn-primary">Actualizar Almacenamiento</button>
+        <div class="form-actions">
+            <input type="submit" value="Actualizar Almacenamiento" class="btn btn-primary">
+            <a href="{{ route('storages.updateView') }}" class="btn btn-danger">Cancelar</a>
+        </div>
+        <br>
     </form>
 
     <!-- Mensajes flash -->

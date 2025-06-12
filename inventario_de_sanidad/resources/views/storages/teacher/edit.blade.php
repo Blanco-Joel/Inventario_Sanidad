@@ -34,13 +34,13 @@
                 <label for="subtract_units">Unidades a restar</label>
                 <input id="subtract_units" type="number" placeholder="Cantidad a restar" name="subtract_units" class="form-control" value="0" min="0" max="{{ $useRecord->units ?? '0' }}" required>
             </div>
-            @error('subtract_units')
-                <div class="alert-error-uspas">{{ $message }}</div>
-            @enderror
             
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Actualizar Almacenamiento</button>
+            <br>
+            <div class="form-actions">
+                <input type="submit" value="Actualizar Almacenamiento" class="btn btn-primary">
+                <a href="{{ route('storages.updateView') }}" class="btn btn-danger">Cancelar</a>
             </div>
+            <br>
         </form>
 
         <!-- Mensajes flash -->
@@ -57,6 +57,10 @@
         @if (session('info'))
             <p class="alert-error-uspas">{{ session('info') }}</p>
         @endif
+
+        @error('subtract_units')
+            <p class="alert-error-uspas">{{ $message }}</p>
+        @enderror
     </div>
 </div>
 @endsection
