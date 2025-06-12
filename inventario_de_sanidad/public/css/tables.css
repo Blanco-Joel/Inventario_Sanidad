@@ -184,6 +184,10 @@ input[type="text"], form select {
   user-select: none;
 }
 
+i {
+    color: var(--primary-200);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .table-wrapper {

@@ -33,7 +33,7 @@
         <div>
             <!-- Dialogo para confirmar eliminación de material -->
             <dialog id="confirmacion">
-                <p>¿Estás seguro de que deseas eliminar el usuario seleccionado?</p>
+                <p>¿Estás seguro de que deseas eliminar el material seleccionado?</p>
                 <input type="button" class="btn btn-success" value="Aceptar" id="aceptar">
                 <input type="button" class="btn btn-danger" value="Cancelar" id="cancelar">
             </dialog>
@@ -50,8 +50,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Tabla de materiales se insertará aquí -->
                     </tbody>
                 </table>
+            </div>
         </div>
 
         <!-- Paginación -->
