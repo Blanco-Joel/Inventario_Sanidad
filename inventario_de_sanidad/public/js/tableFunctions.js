@@ -49,12 +49,15 @@ function filtrarTabla() {
  * @returns {HTMLTableCellElement} Celda generada.
  */
 function crearTD(texto) {
+    // Verifica si la página es la de gestionnar almacenamiento
+    let url = window.location.href.split("/").pop();
+
     let isAdmin = document.querySelector(".user-role").textContent.includes("admin"); // Verifica si el usuario es admin
 
     let td = document.createElement("td");
 
     // Si es admin y la categoría coincide, aplica rowspan
-    if (isAdmin && (texto == "CAE" || texto == "Odontología")) {
+    if (isAdmin && (url == "update") && (texto == "CAE" || texto == "Odontología")) {
         td.rowSpan = 2;
     }
 
