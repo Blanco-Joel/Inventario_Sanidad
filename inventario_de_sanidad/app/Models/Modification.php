@@ -16,7 +16,7 @@ class Modification extends Model
         'action_datetime' => 'datetime',
     ];
     protected $fillable = [
-        'user_id', 'material_id', 'storage_type', 'action_datetime', 'units',
+        'user_id', 'material_id', 'storage_type', 'storage', 'action_datetime', 'units',
     ];
 
     public function user()
