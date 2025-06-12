@@ -119,7 +119,7 @@ class UsersManagementController extends Controller
         $userInfo->hashed_password = Hash::make($password);
         $userInfo->first_log = 0;
         $userInfo->save();
-        Mail::to($userInfo->email)->send(new ChangePassword($password));
+        Mail::to($userInfo->email)->send(new ChangePassword($password,$userInfo->first_name,$userInfo->last_name));
         return back()->with([
             'mensaje' => 'Contraseña modificada con exito',
         ]);

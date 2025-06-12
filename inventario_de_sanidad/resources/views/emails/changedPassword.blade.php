@@ -31,6 +31,9 @@
           <tr>
             <td style="padding:16px;color:#333333;line-height:1.5;font-size:16px;">
               <p style="margin:0 0 12px;">
+                Hola <strong>{{ $first_name }} {{ $last_name }}</strong>,
+              </p>
+              <p style="margin:0 0 12px;">
                 Tu contraseña ha sido restablecida correctamente.
               </p>
               <p style="margin:0 0 12px;">

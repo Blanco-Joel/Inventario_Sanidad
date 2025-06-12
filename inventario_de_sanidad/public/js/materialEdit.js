@@ -23,6 +23,18 @@ function updateDataRetrieve() {
 }
 
 // Función inicio que espera la promesa antes de continuar
-function inicio() {
-    return updateDataRetrieve();
+function  inicio() {
+
+    updateDataRetrieve();
+
+    let botonesBaja = document.querySelectorAll("[id^='btn-delete-']") 
+    console.log(botonesBaja);
+    for (let btn of botonesBaja) {
+        if (document.addEventListener){
+            btn.addEventListener("submit", mostrarDialogConfirmacion);
+        }else if (document.attachEvent){
+            btn.attachEvent("onsubmit", mostrarDialogConfirmacion);
+        }
+    }
+    
 }

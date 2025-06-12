@@ -8,7 +8,6 @@
 
     .table { 
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
         background-color: var(--bg-100);
         border-radius: var(--border-radius-md);
@@ -23,7 +22,9 @@
         grid-column: 1 / -1; /* Ocupar toda la fila */
         display: grid;
         grid-template-columns: 1fr;
+        margin-top: 3rem;
         margin-bottom: 0.5rem;
+        background-color: var(--primary-500);
     }
 
     .table-wrapper tr:has(.material-title) .material-title {

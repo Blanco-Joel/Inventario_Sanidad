@@ -3,8 +3,10 @@
 @section('title', 'Gestión de materiales')
 
 @push('styles')
+
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dialog.css') }}">
 @endpush
 
 @section('content')
@@ -13,6 +15,13 @@
     <div class="spinner"></div>
 </div> 
 <div>
+<!-- Dialogo para confirmar eliminación de material -->
+
+<dialog  id="confirmacion">
+    <p>¿Estás seguro de que deseas eliminar el material seleccionado?</p>
+    <input type="button" class="btn btn-success" value="Aceptar" id="aceptar">
+    <input type="button" class="btn btn-danger" value="Cancelar" id="cancelar">
+</dialog>
     <div class="content-wrapper">
         <h2>Gestión de materiales</h2>
         <form class="search-form">
@@ -31,12 +40,6 @@
         </form>
 
         <div>
-            <!-- Dialogo para confirmar eliminación de material -->
-            <dialog id="confirmacion">
-                <p>¿Estás seguro de que deseas eliminar el material seleccionado?</p>
-                <input type="button" class="btn btn-success" value="Aceptar" id="aceptar">
-                <input type="button" class="btn btn-danger" value="Cancelar" id="cancelar">
-            </dialog>
 
             <!-- Tabla de materiales -->
             <div class="table-wrapper">
@@ -90,8 +93,9 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/materialEdit.js') }}"></script>
     <script src="{{ asset('js/loader.js') }}"></script>
+    <script src="{{ asset('js/dialogFunctions.js') }}"></script>
+    <script src="{{ asset('js/materialEdit.js') }}"></script>
     <script src="{{ asset('js/tableFunctions.js') }}"></script>
     <script src="{{ asset('js/tableMaterial.js') }}"></script>
     <script src="{{ asset('js/filterToggle.js') }}"></script> 

@@ -23,14 +23,9 @@
                 <div class="dropdown-container">
                     <button type="button" id="filterToggle"><i class="fa-solid fa-filter"></i></button>
                     <div id="filterOptions" class="filter-options">
-                        <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
-                        <label><input type="radio" name="filtro" value="2">Apellidos</label>
-                        <label><input type="radio" name="filtro" value="3">Email</label>
-                        <label><input type="radio" name="filtro" value="4">Tipo de usuario</label>
-                        <label><input type="radio" name="filtro" value="5">Material</label>
-                        <label><input type="radio" name="filtro" value="6">Unidades modificadas</label>
-                        <label><input type="radio" name="filtro" value="7">Tipo de almacenamiento</label>
-                        <label><input type="radio" name="filtro" value="8">Fecha de modificación</label>
+                        <label><input type="radio" name="filtro" value="2" checked>Nombre</label>
+                        <label><input type="radio" name="filtro" value="3">Localización</label>
+                        <label><input type="radio" name="filtro" value="4">Tipo</label>
                     </div>
                 </div>
             </div>
@@ -80,6 +75,88 @@
     <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/tableFunctions.js') }}"></script>
     <script src="{{ asset('js/tableStorage.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/filterToggle.js') }}"></script>
+    <?php //<script src="{{ asset('js/filterToggle.js') }}"></script> ?>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const inputBuscar = document.getElementById("buscarId");
+  const filtroRadios = document.querySelectorAll("input[name='filtro']");
+  const toggleBtn = document.getElementById("filterToggle");
+  const filterOptions = document.getElementById("filterOptions");
+
+  let criterio = "2"; // Por defecto: Nombre
+
+  function normalizar(txt) {
+    return txt.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  const tbody = document.querySelector(".table tbody");
+  const filas = Array.from(tbody.rows);
+
+  toggleBtn.addEventListener("click", () => {
+    filterOptions.style.display = filterOptions.style.display === "none" ? "block" : "none";
+  });
+
+  filtroRadios.forEach(radio => {
+    radio.addEventListener("change", (e) => {
+      criterio = e.target.value;
+      filtrarTabla();
+    });
+  });
+
+  inputBuscar.addEventListener("input", filtrarTabla);
+
+  function filtrarTabla() {
+    const valor = normalizar(inputBuscar.value.trim());
+    let nombreActual = "";
+    let mostrarNombre = true;
+
+    for (let i = 0; i < filas.length; i++) {
+      const fila = filas[i];
+
+      // Si es fila de título (material-title)
+      if (fila.cells.length === 1 && fila.cells[0].classList.contains("material-title")) {
+        nombreActual = normalizar(fila.textContent.trim());
+        // Ver si este nombre coincide con el filtro
+        mostrarNombre = criterio === "2" && (!valor || nombreActual.includes(valor));
+        fila.style.display = mostrarNombre ? "" : "none";
+        continue;
+      }
+
+      // Fila de datos (uso o reserva)
+      const celdas = fila.cells;
+
+      // Localización = 0, Tipo = 1 (a pesar de rowspan), cuidado con columnas variables
+      const localizacion = normalizar(celdas[0]?.textContent || "");
+      const tipo = normalizar(celdas[1]?.textContent || "");
+
+      let coincide = false;
+
+      if (!valor) {
+        coincide = true;
+      } else {
+        switch (criterio) {
+          case "2": // Nombre
+            coincide = nombreActual.includes(valor);
+            break;
+          case "3": // Localización
+            coincide = localizacion.includes(valor);
+            break;
+          case "4": // Tipo
+            coincide = tipo.includes(valor);
+            break;
+        }
+      }
+
+      fila.style.display = coincide ? "" : "none";
+
+      // Mostrar también el nombre si alguna fila hija coincide
+      if (criterio !== "2" && coincide && filas[i - 1]?.classList.contains("material-title")) {
+        filas[i - 1].style.display = "";
+      }
+    }
+  }
+});
+
+</script>
 @endpush
 

@@ -49,7 +49,7 @@ class ActivityController extends Controller
             return back()->with('error', 'Usuario no encontrado.');
         }
         
-        $activities = Activity::with('materials','teacher')
+        $activities = Activity::with('materials','teacher','user')
                     ->where('teacher_id',$user->user_id)
                     ->orderBy('created_at', 'desc')
                     ->get();

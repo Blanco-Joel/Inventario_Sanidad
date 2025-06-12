@@ -65,9 +65,18 @@ function crearActivityCard(activity) {
     content.appendChild(pDesc);
     let pTeach = document.createElement("p");
     let strongTeach = document.createElement("strong");
-    strongTeach.textContent = "Profesor:";
-    pTeach.appendChild(strongTeach);
-    pTeach.appendChild(document.createTextNode(" " + (activity.teacher.first_name ?? "-") + " " + (activity.teacher.last_name ?? "-")));
+
+    let isTeacher = document.querySelector(".user-role").textContent.includes("teacher");
+    if (isTeacher) {
+        strongTeach.textContent = "Alumno/a:";
+        pTeach.appendChild(strongTeach);
+        pTeach.appendChild(document.createTextNode(" " + (activity.user.first_name ?? "-") + " " + (activity.user.last_name ?? "-")));
+
+    }else{
+        strongTeach.textContent = "Profesor/a:";
+        pTeach.appendChild(strongTeach);
+        pTeach.appendChild(document.createTextNode(" " + (activity.teacher.first_name ?? "-") + " " + (activity.teacher.last_name ?? "-")));
+    }
     content.appendChild(pTeach);
 
     if (!activity.materials || activity.materials.length === 0) {

@@ -16,10 +16,11 @@ class ChangePassword extends Mailable
      *
      * @return void
      */
-    public function __construct( $password)
+    public function __construct( $password,$first_name, $last_name )
     {
         $this->password = $password;
-    }
+        $this->first_name = $first_name;
+        $this->last_name = $last_name ;    }
 
     /**
      * Build the message.
@@ -29,8 +30,10 @@ class ChangePassword extends Mailable
     public function build()
     {
         return $this->subject('🔐 Restablecimiento de Contraseña')->view('emails.changedPassword')
-        ->with([
-                        'password' => $this->password
+                    ->with([
+                        'password' => $this->password,
+                        'first_name' => $this->first_name,
+                        'last_name' =>$this->last_name 
                     ]);
     }
 }
