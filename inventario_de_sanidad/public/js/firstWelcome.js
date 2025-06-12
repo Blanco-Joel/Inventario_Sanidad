@@ -30,8 +30,9 @@ function inicio() {
     userDataRetrieve().then(
         function (userdata) {
             let isFirstLogin = userdata && !userdata["first_log"];
-            if (isFirstLogin)
-                mostrarDialogInicio();
+            if (isFirstLogin) mostrarDialogInicio();
+
+            mostrarToastSuccess();
         });
 }
 
@@ -69,4 +70,18 @@ function newPass(e) {
 
     let dialog = document.getElementById("firstLogDialog");
     dialog.style.display = "none";
+}
+
+// Mostrar el toast si está presente en el DOM
+function mostrarToastSuccess() {
+    const toast = document.getElementById("successToast");
+    if (toast) {
+        toast.classList.remove("hidden");
+        toast.classList.add("show");
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+            setTimeout(() => toast.classList.add("hidden"), 300);
+        }, 5000);
+    }
 }

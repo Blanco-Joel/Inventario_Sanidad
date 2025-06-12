@@ -10,7 +10,7 @@
     <!-- Dialog para cambiar contraseña -->
     <dialog id="firstLogDialog" class="modal-overlay" style="display: none;">
         <div class="modal-content">
-            <h3>Cambiar Contraseña</h3>
+            <h2>Cambiar Contraseña</h2>
             <p>En el primer ingreso a la página se ha de cambiar la contraseña.</p>
             <form id="FirstLogForm" action="{{ route('changePasswordFirstLog') }}" method="POST">
                 @csrf
@@ -33,11 +33,15 @@
         </div>
     </dialog>
 
-    <h1>Bienvenido</h1>
-    <p>Has iniciado sesión correctamente.</p>
-
     @if (session('mensaje'))
-        <p>{{ session('mensaje') }}</p>
+        <div class="con">
+            <h1>Bienvenido <span>{{ Cookie::get('NAME') }}</span></h1>
+            <p>Has iniciado sesión correctamente.</p>
+        </div>
+
+        <div id="successToast" class="toast-success hidden">
+            <p>{{ session('mensaje') }}</p>
+        </div>
     @endif
 @endsection
 
