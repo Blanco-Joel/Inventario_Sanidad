@@ -229,7 +229,7 @@
     position: absolute;
     right: 20px;
     top: 60px;
-    width: 220px;
+    width: max-content;
     background-color: var(--primary-600);
     border: 2px solid var(--primary-300);
     border-radius: var(--border-radius-md);

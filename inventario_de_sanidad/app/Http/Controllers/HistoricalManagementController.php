@@ -17,7 +17,7 @@ class HistoricalManagementController extends Controller
         $modifications = DB::table('modifications')
             ->join('users', 'modifications.user_id', '=', 'users.user_id')
             ->join('materials', 'modifications.material_id', '=', 'materials.material_id')
-            ->select('users.first_name', 'users.last_name', 'users.email', 'users.user_type', 'users.created_at',
+            ->select('users.first_name', 'users.last_name', 'users.email', 'users.user_type','modifications.storage', 'users.created_at',
                     'materials.name as material_name', 'modifications.units', 'modifications.action_datetime', 'modifications.storage_type')
             ->orderBy("action_datetime",'desc')
             ->get();

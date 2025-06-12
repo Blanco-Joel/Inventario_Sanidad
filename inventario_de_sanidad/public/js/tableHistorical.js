@@ -40,7 +40,7 @@ function renderTable(limit, paginaActual) {
     // Aplica el filtro de búsqueda sobre los campos definidos
     let filtrados = aplicarFiltro([
         "first_name", "last_name", "email", "user_type",
-        "material_name", "units", "storage_type", "action_datetime"
+        "material_name", "units", "storage", "storage_type", "action_datetime"
     ]);
 
     // Calcula los índices de inicio y fin según la página actual y el límite
@@ -49,7 +49,7 @@ function renderTable(limit, paginaActual) {
 
     // Obtiene los datos correspondientes a la página actual
     let datosPagina = filtrados.slice(inicio, fin);
-
+    console.log(datosPagina);
     // Recorre los datos de la página y genera las filas de la tabla
     datosPagina.forEach(item => {
         let tr = document.createElement("tr");
@@ -61,6 +61,10 @@ function renderTable(limit, paginaActual) {
         tr.appendChild(crearDataLabel(crearTD(item.user_type ?? "-"), "Tipo de usuario"));
         tr.appendChild(crearDataLabel(crearTD(item.material_name ?? "-"), "Material"));
         tr.appendChild(crearDataLabel(crearTD(item.units ?? "-"), "Unidades modificadas"));
+        tr.appendChild(crearDataLabel(
+            crearTD(item.storage == "CAE" ? "CAE" : "Odontología"),
+            "Localización"
+        ));
         tr.appendChild(crearDataLabel(
             crearTD(item.storage_type == "reserve" ? "reserva" : "uso"),
             "Tipo de almacenamiento"

@@ -36,7 +36,7 @@ function renderTable(limit, paginaActual) {
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
     // Filtra los datos según los campos indicados
-    let filtrados = aplicarFiltro(["storage", "name", "description", "units", "min_units", "cabinet", "shelf", "drawer"]);
+    let filtrados = aplicarFiltro(["name"]);
 
     let inicio = paginaActual * limit;
     let fin = inicio + limit;

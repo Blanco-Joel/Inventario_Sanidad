@@ -29,8 +29,9 @@
                     <label><input type="radio" name="filtro" value="4">Tipo de usuario</label>
                     <label><input type="radio" name="filtro" value="5">Material</label>
                     <label><input type="radio" name="filtro" value="6">Unidades modificadas</label>
-                    <label><input type="radio" name="filtro" value="7">Tipo de almacenamiento</label>
-                    <label><input type="radio" name="filtro" value="8">Fecha de modificación</label>
+                    <label><input type="radio" name="filtro" value="7">Localización</label>
+                    <label><input type="radio" name="filtro" value="8">Tipo de almacenamiento</label>
+                    <label><input type="radio" name="filtro" value="9">Fecha de modificación</label>
                 </div>
             </div>
         </div>
@@ -46,6 +47,7 @@
                     <th>Tipo de usuario</th>
                     <th>Material</th>
                     <th>Unidades modificadas</th>
+                    <th>Localización</th>
                     <th>Tipo de almacenamiento</th>
                     <th>Fecha de modificación</th>
                 </tr>

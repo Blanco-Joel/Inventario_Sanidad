@@ -190,8 +190,9 @@
 
                     if ($user && $user->user_type === 'admin') {
                         $notifications = Storage::join('materials', 'storages.material_id', '=', 'materials.material_id')
-                            ->select('materials.name', 'storages.units', 'storage_type')
+                            ->select('materials.name','storage', 'storages.units', 'storage_type')
                             ->whereColumn('storages.units', '<', 'storages.min_units')
+                            ->orderBy('storage', "desc")
                             ->get();
                     }
                 @endphp
@@ -214,8 +215,9 @@
                             <h3>Notificaciones</h3>
                             <hr>
                             @foreach ($notifications as $warning)
-                                <p>{{$warning->name}} tiene solo {{$warning->units}} unidad/es en {{$warning->storage_type ==  "use" ? "uso" : "reserva"}}.</p>
+                                <p>- ({{$warning->storage == "CAE" ? "CAE" : "ODONTOLOGÍA"}})  <strong>{{$warning->name}}</strong> tiene solo {{$warning->units}} unidad/es en {{$warning->storage_type ==  "use" ? "uso" : "reserva"}}.</p>
                             @endforeach
+
                         @else
                             <p>No hay notificaciones</p>
                         @endif
