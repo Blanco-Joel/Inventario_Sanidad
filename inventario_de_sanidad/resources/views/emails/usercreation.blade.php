@@ -37,6 +37,10 @@
                 Su cuenta ha sido registrada correctamente en el Portal del Departamento de Sanidad.
               </p>
               <p style="margin:0 0 12px;">
+                Su usuario será este correo electrónico.
+                <strong>{{ $email }}</strong>
+              </p>
+              <p style="margin:0 0 12px;">
                 A continuación, se le proporciona una contraseña temporal para acceder al sistema:
                 <strong>{{ $password }}</strong>
               </p>
