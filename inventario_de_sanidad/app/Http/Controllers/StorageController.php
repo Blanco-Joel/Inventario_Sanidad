@@ -335,7 +335,7 @@ class StorageController extends Controller
         ->first();
 
         // Si las unidades disponibles son menores que las mínimas definidas...
-        if ($typeRecord->units < $typeRecord->min_units) {
+        if (!empty($typeRecord) && $typeRecord->units < $typeRecord->min_units) {
             // ...envía un correo de alerta al administrador notificando el bajo stock.
             Mail::to('docente@instituto.com')->send(new LowStockAlert($typeRecord, $material->name));
         }
