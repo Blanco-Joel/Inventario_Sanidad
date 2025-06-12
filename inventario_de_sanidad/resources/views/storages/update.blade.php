@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-<div id="loader-overlay">
+<div id="loader-overlay"> 
     <div class="spinner"></div>
 </div>
 <div class="">
