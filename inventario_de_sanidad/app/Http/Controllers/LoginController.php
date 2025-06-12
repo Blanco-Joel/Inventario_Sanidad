@@ -39,7 +39,7 @@ class LoginController extends Controller
         ]);
 
         // Buscar usuario por su ID (user_id)
-        $user = User::where('user_id', $credentials['user'])->first();
+        $user = User::where('email', $credentials['user'])->first();
 
         // Verificar que usuario exista y que contraseña sea correcta
         if ($user && Hash::check($credentials['password'], $user->hashed_password)) {

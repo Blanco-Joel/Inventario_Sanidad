@@ -79,7 +79,7 @@ class UsersManagementController extends Controller
             'first_log'        => false,
             'created_at'       => Carbon::now('Europe/Madrid'),
         ]);
-        Mail::to($credentials["email"])->send(new UserCreation($password,$credentials["nombre"],$credentials["apellidos"]));
+        Mail::to($credentials["email"])->send(new UserCreation($password,$credentials["nombre"],$credentials["apellidos"],$credentials["email"]));
 
         return back()->with('mensaje', 'Usuario ' . $credentials["nombre"] . ' ' . $credentials["apellidos"] . ' creado con éxito.');
     }

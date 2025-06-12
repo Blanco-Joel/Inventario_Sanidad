@@ -16,11 +16,13 @@ class UserCreation extends Mailable
      *
      * @return void
      */
-    public function __construct( $password,$first_name, $last_name )
+    public function __construct( $password,$first_name, $last_name,$email )
     {
         $this->password = $password;
         $this->first_name = $first_name;
         $this->last_name = $last_name ;
+        $this->email = $email ;   
+
     }
 
     /**
@@ -34,7 +36,8 @@ class UserCreation extends Mailable
                     ->with([
                         'password' => $this->password,
                         'first_name' => $this->first_name,
-                        'last_name' =>$this->last_name 
+                        'last_name' =>$this->last_name ,
+                        'email' => $this->email
                     ]);
     }
 }
