@@ -16,7 +16,7 @@
     {{-- Boton de agregar a la cesta --}}
     <div class="basket-toggle">
         <button id="toggleBasketBtn" class="btn btn-outline btn-notifications" type="button">
-            <i class="fa-solid fa-cart-shopping"></i>
+            <i class="fa-solid fa-basket-shopping"></i>
             {{-- <span class="basket-count">{{ count($basket) }}</span> --}}
         </button>
     </div>

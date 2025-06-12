@@ -1,3 +1,25 @@
+#theme-switch {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#theme-switch i:last-child {
+    display: none;
+}
+
+.darkmode #theme-switch i:first-child {
+    display: none;
+}
+
+.darkmode #theme-switch i:last-child {
+    display: block;
+}
+
 /* === Fondo animado === */
 .bg-login {
   background: linear-gradient(to bottom, var(--primary-400), var(--primary-300), var(--primary-200));
