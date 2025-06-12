@@ -212,13 +212,13 @@ class MaterialManagementController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:60',
             'description' => 'required|string|max:100',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ], [
             'name.required'        => 'Debe introducir el nombre del material.',
             'description.required' => 'Debe introducir la descripción del material.',
             'image.image'          => 'El fichero debe ser una imagen.',
             'image.mimes'          => 'Solo se aceptan jpeg, png, jpg, gif o svg.',
-            'image.max'            => 'La imagen no puede superar 2 MB.',
+            'image.max'            => 'La imagen no puede superar 4 MB.',
         ]);
 
         $oldPath = $material->image_path;
@@ -264,7 +264,7 @@ class MaterialManagementController extends Controller
      */
     public function uploadTemp(Request $request)
     {
-        $request->validate(['image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
+        $request->validate(['image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096']);
         $tempPath = $request->file('image')->store('temp','public');
         return response()->json(['tempPath'=>$tempPath ?? null]);
     }
