@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
                 'material_id' => 1,
                 'name'        => 'PEAN',
                 'description' => 'Pinza de sujeción',
-                'image_path'  => null,
+                'image_path'  => 'materials/pean.jpg',
             ],
             [
                 'material_id' => 2,
@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
                 'material_id' => 4,
                 'name'        => 'Pinzas de Disección c/ y s/ Dientes',
                 'description' => 'Pinzas de disección con y sin dientes',
-                'image_path'  => null,
+                'image_path'  => 'materials/pinzas_de_sujeccion.jpg',
             ],
             [
                 'material_id' => 5,
