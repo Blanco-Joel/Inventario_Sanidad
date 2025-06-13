@@ -29,7 +29,7 @@
     </dialog>
 
     @if (session('mensaje'))
-        <p>{{ session('mensaje') }}</p>
+        <p class="alert-success">{{ session('mensaje') }}</p>
     @endif
 
     <h1>Gestion de usuarios</h1>

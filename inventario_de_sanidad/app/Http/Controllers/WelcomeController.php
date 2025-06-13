@@ -50,6 +50,7 @@ class WelcomeController extends Controller
             'confirmPassword' => 'required|same:newPassword',
         ], [
             'newPassword.required' => 'La nueva contraseña es obligatoria.',
+            'confirmPassword.required' => 'La confirmación es obligatoria.',
             'newPassword.min' => 'La contraseña debe tener al menos 6 caracteres.',
             'confirmPassword.same' => 'Las contraseñas no coinciden.',
         ]);
