@@ -2,10 +2,24 @@
         window.addEventListener("load",inicio)
     else if (document.attachEvent)
         window.attachEvent("onload",inicio);
-        
+
+
     async function userDataRetrieve() {
-        const response = await fetch('/users/usersManagementData');
-        window.USERDATA = await response.json();
+        return fetch('/users/usersManagementData')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener datos');
+            }
+            return response.json();
+        })
+        .then(data => {
+            window.USERDATA = data;
+            return data;
+        })
+        .catch(error => {
+            console.error('Error en fetch:', error);
+            return null;
+        });
 
     }
     function inicio(){
