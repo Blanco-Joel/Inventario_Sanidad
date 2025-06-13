@@ -35,7 +35,7 @@
 
     @if (session('mensaje'))
         <div class="con">
-            <h1>Bienvenido <span>{{ Cookie::get('NAME') }}</span></h1>
+            <h1>Bienvenido/a <span>{{ Cookie::get('NAME') }}</span></h1>
             <p>Has iniciado sesión correctamente.</p>
         </div>
 

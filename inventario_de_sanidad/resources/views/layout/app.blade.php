@@ -123,6 +123,7 @@
 
                 <!-- Menú para Estudiantes -->
                 @if(Cookie::get('TYPE') === 'student')
+
                     <li>
                         <a href="{{ route('activities.create') }}"
                         class="{{ request()->routeIs('activities.create') ? 'active' : '' }}">
@@ -135,6 +136,13 @@
                         class="{{ request()->routeIs('activities.history') ? 'active' : '' }}">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             <span class="link-text">Historial de actividades</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('historical.type', ['type' => 'use']) }}"
+                        class="{{ request()->fullUrlIs(route('historical.type', ['type' => 'use'])) ? 'active' : '' }}">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span class="link-text">Materiales en uso</span>
                         </a>
                     </li>
                 @endif
@@ -155,7 +163,7 @@
                             <span class="link-text">Materiales en uso</span>
                         </a>
                     </li>
-                                        <li>
+                    <li>
                         <a href="{{ route('activities.history') }}"
                         class="{{ request()->routeIs('activities.history') ? 'active' : '' }}">
                             <i class="fa-solid fa-clock-rotate-left"></i>

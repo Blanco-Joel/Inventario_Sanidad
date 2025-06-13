@@ -18,7 +18,7 @@ async function inicio() {
     while (typeof window.HISTORICALDATA === 'undefined') {
         await new Promise(resolve => setTimeout(resolve, 100));
     }
-
+    
     hideLoader(); // Oculta el loader de carga
 
     allData = window.HISTORICALDATA; // Guarda los datos globalmente
@@ -35,45 +35,49 @@ async function inicio() {
  * También configura el filtro en tiempo real.
  */
 function initViewToggle() {
-    const cardViewBtn = document.getElementById('cardViewBtn');
-    const tableViewBtn = document.getElementById('tableViewBtn');
-    const cardView = document.getElementById('cardView');
-    const tableView = document.getElementById('tableView');
+    let isStudent = document.querySelector(".user-role").textContent.includes("student"); // Verifica si el usuario es admin
+    if (!isStudent)
+    {
+        let cardViewBtn = document.getElementById('cardViewBtn');
+        let tableViewBtn = document.getElementById('tableViewBtn');
+        let cardView = document.getElementById('cardView');
+        let tableView = document.getElementById('tableView');
 
-    /**
-     * Muestra la vista en tarjetas y oculta la tabla.
-     * Cambia estilos para indicar botón activo.
-     */
-    function activateCardView() {
-        cardView.style.display = 'grid';
-        tableView.style.display = 'none';
-        cardViewBtn.classList.add('active');
-        tableViewBtn.classList.remove('active');
+        /**
+         * Muestra la vista en tarjetas y oculta la tabla.
+         * Cambia estilos para indicar botón activo.
+         */
+        function activateCardView() {
+            cardView.style.display = 'grid';
+            tableView.style.display = 'none';
+            cardViewBtn.classList.add('active');
+            tableViewBtn.classList.remove('active');
+        }
+
+        /**
+         * Muestra la vista en tabla y oculta las tarjetas.
+         * Cambia estilos para indicar botón activo.
+         */
+        function activateTableView() {
+            cardView.style.display = 'none';
+            tableView.style.display = 'block';
+            tableViewBtn.classList.add('active');
+            cardViewBtn.classList.remove('active');
+        }
+
+        // Event listeners para botones de cambio de vista
+        cardViewBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            activateCardView();
+        });
+
+        tableViewBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            activateTableView();
+        });
+
+        activateCardView(); // Vista por defecto: tarjetas
     }
-
-    /**
-     * Muestra la vista en tabla y oculta las tarjetas.
-     * Cambia estilos para indicar botón activo.
-     */
-    function activateTableView() {
-        cardView.style.display = 'none';
-        tableView.style.display = 'block';
-        tableViewBtn.classList.add('active');
-        cardViewBtn.classList.remove('active');
-    }
-
-    // Event listeners para botones de cambio de vista
-    cardViewBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        activateCardView();
-    });
-
-    tableViewBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        activateTableView();
-    });
-
-    activateCardView(); // Vista por defecto: tarjetas
 }
 
 /**
@@ -87,9 +91,14 @@ function renderTableCards(limit, paginaActual) {
 
     // Limpia el contenedor de tarjetas
     while (container.firstChild) container.removeChild(container.firstChild);
+    let isStudent = document.querySelector(".user-role").textContent.includes("student"); // Verifica si el usuario es admin
 
+    let filtro =  ["name", "description", "storage", "cabinet", "shelf", "units", "min_units"];
+    if (isStudent) {
+        filtro =  ["name", "description", "storage", "cabinet", "shelf"];
+    }
     // Aplica filtro según campos relevantes
-    let filtrados = aplicarFiltro(["name", "description", "storage", "cabinet", "shelf", "units", "min_units"]);
+    let filtrados = aplicarFiltro(filtro);
 
     let inicio = paginaActual * limit;
     let fin = inicio + limit;
@@ -111,6 +120,7 @@ function renderTableCards(limit, paginaActual) {
 function crearMaterialCard(material) {
     let card = document.createElement("div");
     card.className = "material-card";
+    let isStudent = document.querySelector(".user-role").textContent.includes("student"); // Verifica si el usuario es admin
 
     let img = document.createElement("img");
     img.src = material.image_path ? `/storage/${material.image_path}` : "/storage/no_image.jpg";
@@ -132,8 +142,10 @@ function crearMaterialCard(material) {
     ul.appendChild(crearLi("Localización", material.storage == "CAE" ? "CAE" : "Odontología"));
     ul.appendChild(crearLi("Armario", material.cabinet));
     ul.appendChild(crearLi("Balda", material.shelf));
-    ul.appendChild(crearLi("Unidades", material.units));
-    ul.appendChild(crearLi("Unidades mínimas", material.min_units));
+    if (!isStudent) {
+        ul.appendChild(crearLi("Unidades", material.units));
+        ul.appendChild(crearLi("Unidades mínimas", material.min_units));
+    }
     body.appendChild(ul);
 
     card.appendChild(body);
@@ -187,6 +199,6 @@ function renderTable(limit, paginaActual) {
  * @returns {string} - URL de edición.
  */
 function getEditUrl(id) {
-    let isAdmin = document.querySelector(".user-role").textContent.includes("admin");
-    return isAdmin ? `/storages/update/${id}/edit` : `/storages/update/teacher/${id}/edit`;
+    let isStudent = document.querySelector(".user-role").textContent.includes("admin");
+    return isStudent ? `/storages/update/${id}/edit` : `/storages/update/teacher/${id}/edit`;
 }

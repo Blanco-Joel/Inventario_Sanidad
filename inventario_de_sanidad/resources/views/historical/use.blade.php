@@ -28,18 +28,23 @@
                     <label><input type="radio" name="filtro" value="3">Localización</label>
                     <label><input type="radio" name="filtro" value="4">Armario</label>
                     <label><input type="radio" name="filtro" value="5">Balda</label>
-                    <label><input type="radio" name="filtro" value="6">Unidades</label>
-                    <label><input type="radio" name="filtro" value="7">Unidades Mínimas</label>
+                    @if(Cookie::get('TYPE') != 'student')
+                        <label><input type="radio" name="filtro" value="6">Unidades</label>
+                        <label><input type="radio" name="filtro" value="7">Unidades Mínimas</label>
+                    @endif
+
                 </div>
             </div>
         </div>
     </form>
-
+        @if(Cookie::get('TYPE') != 'student')
             <div class="view-toggle">
                 <button id="cardViewBtn" class="btn btn-outline btn-notifications active"><i class="fa-solid fa-list-ul"></i> </button>
                 <button id="tableViewBtn" class="btn btn-outline btn-notifications"><i class="fa-solid fa-table"></i> </button>
             </div>
-        </div>
+        @endif
+    </div>
+    
 <div id="cardView"  class="card-grid"></div>
        
 

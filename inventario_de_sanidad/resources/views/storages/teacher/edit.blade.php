@@ -10,7 +10,9 @@
 <div class="">
     <div class="edit-container">
         @php
-            $useRecord = $material->storage->where('storage_type', 'use')->first();
+            $segments = explode("/", trim(url()->full(), "/"));
+            $type = $segments[count($segments) - 3];
+            $useRecord = $material->storage->where('storage_type', 'use')->where('storage',$type)->first();
             $currentLocation = $useRecord->storage ?? ''; // 'CAE' o 'odontologia'
         @endphp
         <form action="{{ route('storages.subtract.teacher', [$material->material_id, $currentLocation]) }}" method="POST">
