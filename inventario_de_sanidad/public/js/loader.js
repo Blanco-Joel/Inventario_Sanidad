@@ -11,5 +11,5 @@ function hideLoader() {
             // Cuando termina la animación, oculta el loader por completo
             loader.style.display = "none";
         }, { once: true }); // Elimina el listener automáticamente tras ejecutarse una vez
-    });
+    },1000);
 }

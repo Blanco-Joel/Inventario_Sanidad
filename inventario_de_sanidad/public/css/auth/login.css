@@ -91,3 +91,7 @@ svg {
   left: 0;
   width: 100%;
 }
+
+button i {
+  color: var(--bg-100);
+}
