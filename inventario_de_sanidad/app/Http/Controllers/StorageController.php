@@ -40,9 +40,9 @@ class StorageController extends Controller
      * @param \App\Models\Material $material
      * @return mixed|\Illuminate\Contracts\View\View
      */
-    public function teacherEditView(Material $material)
+    public function teacherEditView(Material $material, $currentLocation)
     {
-        return view('storages.teacher.edit')->with('material', $material);
+        return view('storages.teacher.edit')->with('material', $material)->with('currentLocation', $currentLocation);
     }
 
     /**
