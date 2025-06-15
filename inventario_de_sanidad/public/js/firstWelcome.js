@@ -82,6 +82,6 @@ function mostrarToastSuccess() {
         setTimeout(() => {
             toast.classList.remove("show");
             setTimeout(() => toast.classList.add("hidden"), 300);
-        }, 5000);
+        }, 3000);
     }
 }

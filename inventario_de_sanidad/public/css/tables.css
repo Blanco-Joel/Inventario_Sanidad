@@ -1,8 +1,3 @@
-input[type="text"], form select {
-    padding: 0.5rem 1rem;
-    width: 300px;
-}
-
 .search-form {
     width: 100%;
     display: flex;
@@ -15,6 +10,11 @@ input[type="text"], form select {
     justify-content: center;
     gap: 0.5rem;
     position: relative;
+}
+
+input[type="text"], form select {
+    padding: 0.5rem 1rem;
+    width: 300px;
 }
 
 .dropdown-container {
@@ -59,11 +59,8 @@ input[type="text"], form select {
     width: 100%;
     border-collapse: collapse;
     background-color: var(--bg-200);
-    /* overflow: hidden; */
-    /* table-layout: fixed; */
 }
 
-/* Encabezados */
 .table thead th {
     background-color: var(--primary-400);
     color: var(--text-300);
@@ -73,11 +70,6 @@ input[type="text"], form select {
     border-bottom: 2px solid var(--primary-200);
     text-align: center;
 }
-
-/* .table tbody tr:hover {
-    background-color: var(--bg-100);
-    transition: background-color 0.2s ease-in-out;
-} */
 
 .table td {
     vertical-align: middle;
@@ -92,8 +84,6 @@ input[type="text"], form select {
 
 /* Descripción o celdas amplias */
 .table .cell-description {
-    /* display: block;  */
-    /* text-align: left; */
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -116,68 +106,84 @@ input[type="text"], form select {
 }
 
 .pagination-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  margin: 1rem;
-  font-size: 0.9rem;
-  color: var(--text-100);
-  background-color: var(--bg-100);
-  padding: 1rem;
-  gap: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 1rem;
+    margin: 1rem;
+
+    font-size: 0.9rem;
+    color: var(--text-100);
+    background-color: var(--bg-100);
 }
 
 .pagination-select select {
-  padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem;
 }
 
 .pagination-select select:hover,
 .pagination-select select:focus {
-  border-color: var(--primary-400);
-  outline: none;
+    border-color: var(--primary-400);
+    outline: none;
 }
 
 .pagination-buttons {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .pagination-buttons button {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid var(--primary-300);
-  background-color: var(--bg-200);
-  color: var(--primary-100);
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-  user-select: none;
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+    border: 1.5px solid var(--primary-300);
+
+    background-color: var(--bg-200);
+    color: var(--primary-100);
+    font-weight: 700;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    -moz-transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    -webkit-transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    -o-transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 
 .pagination-buttons button:hover:not(:disabled) {
-  background-color: var(--primary-300);
-  color: var(--text-300);
-  border-color: var(--primary-400);
+    background-color: var(--primary-300);
+    color: var(--text-300);
+    border-color: var(--primary-400);
 }
 
 .pagination-buttons button:disabled {
-  border-color: var(--bg-300);
-  color: var(--bg-300);
-  cursor: default;
+    border-color: var(--bg-300);
+    color: var(--bg-300);
+    cursor: default;
 }
 
 .pagination-summary {
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-left: 0.5rem;
-  color: var(--primary-100);
-  user-select: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+    color: var(--primary-100);
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
 
 i {
@@ -188,7 +194,6 @@ i:hover{
     transform: scale(1.1);
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .table-wrapper {
         box-shadow: none;
@@ -224,6 +229,10 @@ i:hover{
 
     .table-wrapper tr:hover{
         transition: border 0.5s ease-in;
+        -moz-transition: border 0.5s ease-in;
+        -webkit-transition: border 0.5s ease-in;
+        -o-transition: border 0.5s ease-in;
+
         border: 1px solid #007bff;
     }
 
@@ -253,23 +262,23 @@ i:hover{
     }
 
     .table-wrapper tr td:nth-last-child(2):has(i.fa),
-.table-wrapper tr td:last-child:has(i.fa) {
-    position: absolute;
-    bottom: 1rem;
-}
+    .table-wrapper tr td:last-child:has(i.fa) {
+        position: absolute;
+        bottom: 1rem;
+    }
 
-.table-wrapper tr td:nth-last-child(2):has(i.fa) {
-    right: 4rem; /* botón editar */
-}
+    .table-wrapper tr td:nth-last-child(2):has(i.fa) {
+        right: 4rem; /* botón editar */
+    }
 
-.table-wrapper tr td:last-child:has(i.fa) {
-    right: 1rem; /* botón eliminar */
-}
+    .table-wrapper tr td:last-child:has(i.fa) {
+        right: 1rem; /* botón eliminar */
+    }
 
-.table-wrapper tr td:has(i.fa) button {
-    font-size: 1.2rem;
-    cursor: pointer;
-}
+    .table-wrapper tr td:has(i.fa) button {
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
 }
 
 @media (max-width: 768px) {

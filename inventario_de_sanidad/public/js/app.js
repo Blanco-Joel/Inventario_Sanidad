@@ -6,7 +6,6 @@ function addEvent(element, eventName, handler) {
             handler.call(element, window.event);
         });
     }
-    return;
 }
 
 addEvent(document, "DOMContentLoaded", function () {
@@ -22,8 +21,6 @@ addEvent(document, "DOMContentLoaded", function () {
     initNotifications(btnNotifications, notificationsList);
     initLogoutToggle(userInfoToggle, logoutSection);
     initActiveLinks();
-
-    return;
 });
 
 // Controla la apertura y cierre del sidebar
@@ -42,7 +39,7 @@ function initSidebarToggle(sidebar, linkTexts) {
             let i = 0;
             while (i < linkTexts.length) {
                 linkTexts[i].classList.remove('show');
-                i++;
+                i+=1;
             }
 
             sidebar.classList.remove('expanded');
@@ -52,7 +49,7 @@ function initSidebarToggle(sidebar, linkTexts) {
             let j = 0;
             while (j < openItems.length) {
                 openItems[j].classList.remove('open');
-                j++;
+                j+=1;
             }
         }
     }
@@ -63,15 +60,13 @@ function initSidebarToggle(sidebar, linkTexts) {
             let i = 0;
             while (i < linkTexts.length) {
                 linkTexts[i].classList.add('show');
-                i++;
+                i+=1;
             }
         }
     }
 
-    // Asocia los eventos de click y transitionend
     addEvent(document, 'click', handleDocumentClick);
     addEvent(sidebar, 'transitionend', handleTransitionEnd);
-
 }
 
 // Inicializa la apertura/cierre de submenús dentro del sidebar
@@ -82,7 +77,6 @@ function initSubmenus() {
     while (i < submenuParents.length) {
         let parent = submenuParents[i];
         let toggleLink = parent.querySelector("a");
-
         if (toggleLink) {
             // Al hacer click en el enlace del submenú, evita la navegación y alterna la clase 'open'
             addEvent(toggleLink, "click", function (e) {
@@ -91,7 +85,7 @@ function initSubmenus() {
             });
         }
 
-        i++;
+        i+=1;
     }
 }
 
@@ -158,12 +152,12 @@ function initActiveLinks() {
                 let j = 0;
                 while (j < links.length) {
                     links[j].classList.remove('active');
-                    j++;
+                    j+=1;
                 }
                 this.classList.add('active');
             });
         }
 
-        i++;
+        i+=1;
     }
 }

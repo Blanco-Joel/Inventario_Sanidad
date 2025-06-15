@@ -1,11 +1,9 @@
-/* === Layout general de la página === */
 .activity-container {
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem;
 }
 
-/* === Formulario === */
 form {
     background-color: var(--primary-500);
     padding: 1.5rem;
@@ -105,7 +103,6 @@ input[list]:focus {
 
 @media (max-width: 768px) {
     .activity-container {
-
         padding: 1rem;
     }
 

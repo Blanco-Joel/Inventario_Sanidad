@@ -32,8 +32,8 @@
             
             <br>
             <div class="form-actions">
-                <input type="submit" value="Actualizar Almacenamiento" class="btn btn-primary">
-                <a href="{{ route('storages.updateView') }}" class="btn btn-danger">Cancelar</a>
+                <input type="submit" value="Actualizar" class="btn btn-success">
+                <a href="{{ route('storages.updateView') }}" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Volver al listado </a>
             </div>
             <br>
         </form>
