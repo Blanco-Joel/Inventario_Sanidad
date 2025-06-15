@@ -19,10 +19,6 @@
             @csrf
 
             <h1>Editar Almacenamiento para: {{ $material->name }} / {{ $currentLocation == "CAE" ? "CAE" : "Odontología" }}</h1>
-            
-            @php
-                $useRecord = $material->storage->where('storage_type', 'use')->first();
-            @endphp
 
             <div class="form-group">
                 <label for="use_units">Unidades en Uso</label>
