@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Modification;
 use App\Models\Storage;
 use App\Models\Material;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -40,9 +41,9 @@ class StorageController extends Controller
      * @param \App\Models\Material $material
      * @return mixed|\Illuminate\Contracts\View\View
      */
-    public function teacherEditView(Material $material)
+    public function teacherEditView(Material $material, $currentLocation)
     {
-        return view('storages.teacher.edit')->with('material', $material);
+        return view('storages.teacher.edit')->with('material', $material)->with('currentLocation', $currentLocation);
     }
 
     /**
@@ -328,6 +329,11 @@ class StorageController extends Controller
      */
     private function comprobateUnits(Material $material, $storage_type, $currentLocation)
     {
+        // Obtiene solo los correos electrónicos de los usuarios administradores.
+        $adminEmails = User::where('user_type', 'admin')
+        ->pluck('email') // Devuelve una colección de strings (emails).
+        ->toArray();     // Convierte la colección a un array plano.
+
         // Busca el registro de almacenamiento según el material, tipo de almacenamiento y ubicación.
         $typeRecord = Storage::where('material_id', $material->material_id)
         ->where('storage_type', $storage_type)
@@ -336,8 +342,8 @@ class StorageController extends Controller
 
         // Si las unidades disponibles son menores que las mínimas definidas...
         if (!empty($typeRecord) && $typeRecord->units < $typeRecord->min_units) {
-            // ...envía un correo de alerta al administrador notificando el bajo stock.
-            Mail::to('docente@instituto.com')->send(new LowStockAlert($typeRecord, $material->name));
+            // ...envía un correo de alerta a todos los administradores
+            Mail::to($adminEmails)->send(new LowStockAlert($typeRecord, $material->name));
         }
     }
 

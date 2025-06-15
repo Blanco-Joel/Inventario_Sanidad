@@ -140,11 +140,12 @@ function renderBasket() {
 
             // Botón de eliminación.
             let buttonTd = document.createElement("td");
-            let newButton = document.createElement("input");
-            newButton.type = "button";
-            newButton.className = "btn btn-primary delete-btn";
-            newButton.setAttribute("data-id", basket[i].id);
-            newButton.value = "Eliminar";
+            let newButton = document.createElement("button");
+            newButton.style.cssText = "background: none; border: none; cursor: pointer;";
+            let iconTrash = document.createElement("i");
+            iconTrash.classList.add("fa", "fa-trash");
+            iconTrash.setAttribute("data-id", basket[i].id);
+            newButton.appendChild(iconTrash);
 
             // Asignar evento al botón.
             if (document.addEventListener) {

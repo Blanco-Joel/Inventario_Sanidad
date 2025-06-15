@@ -43,6 +43,9 @@
             <p>{{ session('mensaje') }}</p>
         </div>
     @endif
+
+    <div class="watermark">Portal de Sanidad</div>
+    <img src="{{ asset('img/logo.png') }}" alt="" class="watermarkImg">
 @endsection
 
 @push('scripts')

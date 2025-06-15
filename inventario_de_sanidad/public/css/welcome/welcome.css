@@ -1,3 +1,7 @@
+.container {
+  position: relative;
+}
+
 .con {
   display: flex;
   flex-direction: column;
@@ -79,4 +83,44 @@ li {
   text-decoration: none;
   list-style: none;
 }
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 7rem;
+  color: rgba(0, 0, 0, 0.3); /* Muy tenue */
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+  user-select: none;
+}
 
+@media (max-width: 1024px) {
+  .watermark {
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .watermark {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .watermark {
+    font-size: 2rem;
+  }
+}
+
+
+.watermarkImg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: auto;
+  opacity: 0.2;
+}
