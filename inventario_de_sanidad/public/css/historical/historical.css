@@ -1,17 +1,17 @@
 .historical-container {
-  position: relative;
+    position: relative;
 }
 
 .btn-outline.active {
-  background-color: var(--primary-500);
+    background-color: var(--primary-500);
 }
 
 .view-toggle {
-  margin-bottom: 1rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 10;
+    margin-bottom: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
 }
 
 .card-grid {
@@ -23,15 +23,19 @@
 .material-card {
     border: 1px solid var(--bg-300);
     border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
     background-color: var(--primary-500);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: box-shadow 0.2s;
+    -moz-transition: box-shadow 0.2s;
+    -webkit-transition: box-shadow 0.2s;
+    -o-transition: box-shadow 0.2s;
 }
 
 .material-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-lg);
 }
 
 .material-card img {

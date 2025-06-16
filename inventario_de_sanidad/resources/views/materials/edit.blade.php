@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group file-upload">
-            <label for="image" class="btn btn-primary">Cambiar Imagen</label>
+            <label for="image" class="btn btn-primary">Cambiar Imagen <i class="fa-solid fa-image"></i></label>
             <input type="file" name="image" id="image" class="file-upload-input" onchange="previewImage(event, '#imgPreview')">
             <img id="imgPreview"
                  src="{{ asset('storage/' . ($material->image_path ?? 'no_image.jpg')) }}"
@@ -47,13 +47,16 @@
             <p class="alert-success">{{ session('success') }}</p>
         @endif
 
+        {{-- Mensajes de error --}}
         @if (session('error'))
             <p class="alert-error-uspas">{{ session('error') }}</p>
         @endif
 
+
         <div class="form-actions">
             <input type="submit" value="Actualizar" class="btn btn-success">
-            <a href="{{ route('materials.index') }}" class="btn btn-danger">Cancelar</a>
+            <br><br><br>
+            <a href="{{ route('materials.index') }}" class="btn btn-outline">Volver al listado</a>
         </div>
     </form>
 </div>

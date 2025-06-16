@@ -30,7 +30,7 @@
                 <input type="text" id="buscarId" placeholder="Buscar..." autocomplete="off">
                 <div class="dropdown-container">
                     <button type="button" id="filterToggle"><i class="fa-solid fa-filter"></i></button>
-                    <div id="filterOptions" class="filter-options">
+                    <div id="filterOptions" class="filter-options fade-in">
                         <label><input type="radio" name="filtro" value="1" checked>Nombre</label>
                         <label><input type="radio" name="filtro" value="2">Descripción</label>
                         <label><input type="radio" name="filtro" value="3">Imagen</label>

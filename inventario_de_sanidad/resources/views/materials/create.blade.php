@@ -52,6 +52,7 @@
             @enderror
         </div>
 
+        {{-- Uso --}}
         <fieldset class="fieldset">
             <legend>Uso</legend>
             <div class="form-grid-5">
@@ -68,6 +69,7 @@
             @endforeach
         </fieldset>
 
+        {{-- Reserva --}}
         <fieldset class="fieldset">
             <legend>Reserva</legend>
             <div class="form-grid-4">
@@ -93,14 +95,17 @@
             <span id="file-name" class="file-name-display">Ningún archivo seleccionado</span>
         </div>
 
+        {{-- Botón de añadir --}}
         <div class="form-actions">
             <input type="button" value="Añadir" class="btn btn-primary" name="add">
         </div>
 
+        {{-- Mensaje de éxito --}}
         <div id="success-message" class="success hidden"></div>
 
         <input type="hidden" name="materialsAddBasket" id="materialsAddBasket">
 
+        {{-- Botón de alta --}}
         <input type="submit" value="Alta" class="btn btn-success">
     </form>
 
@@ -118,10 +123,6 @@
     @php
         $basket = json_decode(Cookie::get('materialsAddBasket','[]'), true);
     @endphp
-
-    @if ($basket)
-        
-    @endif
 
     <div class="basket-section hidden">
             <h4 class="basket-title">Cesta de Materiales</h4>
@@ -142,29 +143,8 @@
                             <th>Cant.</th><th>Mín</th><th>Armario</th><th>Balda</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        @php
-                        /*
-                        
-                        @foreach ($basket as $item)
-                            <tr>
-                                <td>{{ $item['name'] }}</td>
-                                <td class="cell-description custom-scroll">{{ $item['description'] }}</td>
-                                <td>{{ $item['use']['units'] }}</td>
-                                <td>{{ $item['use']['min_units'] }}</td>
-                                <td>{{ $item['use']['cabinet'] }}</td>
-                                <td>{{ $item['use']['shelf'] }}</td>
-                                <td>{{ $item['use']['drawer'] }}</td>
-                                <td>{{ $item['reserve']['units'] }}</td>
-                                <td>{{ $item['reserve']['min_units'] }}</td>
-                                <td>{{ $item['reserve']['cabinet'] }}</td>
-                                <td>{{ $item['reserve']['shelf'] }}</td>
-                                <td><img class="cell-img" src="{{ asset('storage/' . ($item['image_temp'] ?? 'no_image.jpg')) }}" class="basket-img" alt=""></td>
-                            </tr>
-                        @endforeach
-                        */
-                        @endphp
+
                     </tbody>
                 </table>
             </div>

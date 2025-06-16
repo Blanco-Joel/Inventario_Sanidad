@@ -1,6 +1,3 @@
-/**
- * Detecta cuando el DOM está listo y ejecuta la función inicio
- */
 if (document.addEventListener)
     window.addEventListener("DOMContentLoaded", inicio);
 else if (document.attachEvent)
@@ -22,6 +19,7 @@ async function inicio () {
 
     currentLimit = 5; // Número de filas por página
     paginaActual = 0; // Página actual
+
     allData = window.USERDATA; // Datos cargados
 
     initLoad();

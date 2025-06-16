@@ -46,12 +46,17 @@ class WelcomeController extends Controller
     public function changePasswordFirstLog(Request $request)
     {
         $request->validate([
-            'newPassword' => 'required|min:6',
+            'newPassword' => [
+                'required',
+                'min:6',
+                'regex:/[!@#$%^&*(),.?":{}|<>]/'
+            ],
             'confirmPassword' => 'required|same:newPassword',
         ], [
             'newPassword.required' => 'La nueva contraseña es obligatoria.',
-            'confirmPassword.required' => 'La confirmación es obligatoria.',
             'newPassword.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'newPassword.regex' => 'La contraseña debe contener al menos un carácter especial.',
+            'confirmPassword.required' => 'La confirmación es obligatoria.',
             'confirmPassword.same' => 'Las contraseñas no coinciden.',
         ]);
 

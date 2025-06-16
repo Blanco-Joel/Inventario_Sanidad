@@ -3,53 +3,52 @@
 @section('title', 'Historial de actividades')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/tables.css') }}">    
-<link rel="stylesheet" href="{{ asset('css/activities/activityHistory.css') }}">
-    
+    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">    
+    <link rel="stylesheet" href="{{ asset('css/activities/activityHistory.css') }}">   
 @endpush
 
 @section('content')
 <div id="loader-overlay">
     <div class="spinner"></div>
 </div> 
-    <div class="">
-        <h1 class="activities-title">Historial de actividades</h1>
-        <div class="activities-section">
-            <div id="activityCardContainer" class="activity-cards-grid"></div>
+    <h1 class="activities-title">Historial de actividades</h1>
+    <div class="activities-section">
+        <div id="activityCardContainer" class="activity-cards-grid"></div>
 
-                <!-- Paginación -->
-            <div id="paginacion" class="pagination-controls">
-                <div class="pagination-select">
-                    <label for="regsPorPagina"></label>
-                    <select id="regsPorPagina">
-                        <option value="5" selected>5</option>
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
-
-                <div class="pagination-buttons">
-                    <!-- Botones de paginación se insertarán aquí -->
-                </div>
+        <!-- Paginación -->
+        <div id="paginacion" class="pagination-controls">
+            <div class="pagination-select">
+                <label for="regsPorPagina"></label>
+                <select id="regsPorPagina">
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
             </div>
 
-                {{-- Mensajes flash --}}
-                @if(session('success'))
-                    <div class="alert alert-success">
-                    {{ session('success') }}
-                    </div>
-                @endif
-
-                {{-- Mensajes de error --}}
-                @if(session('error'))
-                    <div class="alert alert-error-uspas">
-                    {{ session('error') }}
-                    </div>
-                @endif
+            <div class="pagination-buttons">
+                <!-- Botones de paginación se insertarán aquí -->
             </div>
         </div>
+
+        {{-- Mensajes flash --}}
+        @if(session('success'))
+            <div class="alert alert-success">
+            {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Mensajes de error --}}
+        @if(session('error'))
+            <div class="alert alert-error-uspas">
+            {{ session('error') }}
+            </div>
+        @endif
+
+        </div>
     </div>
+</div>
 @endsection
 
 @push('scripts')
