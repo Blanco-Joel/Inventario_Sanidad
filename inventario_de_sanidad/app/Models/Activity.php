@@ -14,7 +14,7 @@ class Activity extends Model
     public $incrementing = true;
     protected $keyType = 'int';
     protected $casts = [
-        'created_at' => 'datetime',
+        'created_at' => 'datetime:Y-m-d H:i:s',
     ];
     protected $fillable = [
         'user_id', 'title', 'created_at',"teacher_id"
